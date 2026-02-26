@@ -1,6 +1,6 @@
 ﻿# Phase 01 Progress
 
-> updated_at: 2026-02-26T20:13:15+08:00
+> updated_at: 2026-02-26T20:23:52+08:00
 > phase: Phase 01 - Foundation
 > csv_path: phases/phase-01-foundation/todolist.csv
 > plan_source: phases/phase-01-foundation/plan.md
@@ -23,19 +23,19 @@
 | Metric | Value |
 |---|---|
 | total_tasks | 24 |
-| done | 15 |
+| done | 16 |
 | in_progress | 0 |
-| pending | 9 |
+| pending | 8 |
 | blocked | 0 |
-| completion_rate | 62.50% |
-| compaction_count | 15 |
+| completion_rate | 66.67% |
+| compaction_count | 16 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: PH01-220
+- Current task: PH01-230
 - Current agent: codex
-- Last update: 2026-02-26T20:13:15+08:00
+- Last update: 2026-02-26T20:23:52+08:00
 
 ---
 
@@ -58,6 +58,7 @@
 | 13 | PH01-200 | Add audit aspect unit tests | codex | 2026-02-26T20:07:05+08:00 | pending-commit |
 | 14 | PH01-170 | Add RBAC API integration tests | codex | 2026-02-26T20:10:10+08:00 | pending-commit |
 | 15 | PH01-180 | Update RBAC API contract docs | codex | 2026-02-26T20:13:15+08:00 | pending-commit |
+| 16 | PH01-220 | Add audit API integration tests | codex | 2026-02-26T20:23:52+08:00 | pending-commit |
 
 ## In Progress Tasks
 
@@ -94,6 +95,7 @@
 20:07 [codex] Completed PH01-200 audit aspect unit tests and passed AuditAspectTest.
 20:10 [codex] Completed PH01-170 RBAC API integration tests and passed RbacApiIntegrationTest.
 20:13 [codex] Completed PH01-180 RBAC API contract docs update and passed rg validation.
+20:23 [codex] Completed PH01-220 audit API integration tests and passed AuditApiIntegrationTest.
 ```
 
 ---
