@@ -8,6 +8,9 @@ Thumbs.db
 src/frontend/node_modules/
 src/frontend/dist/
 src/frontend/.cache/
+src/frontend/coverage/
+src/frontend/test-results/
+src/frontend/playwright-report/
 
 # Java / Backend
 src/backend/target/
@@ -21,4 +24,3 @@ src/backend/target/
 # Env
 .env
 .env.local
-
