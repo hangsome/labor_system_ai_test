@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="page-shell">
     <el-header class="top-bar">
       <div class="title-group">
@@ -66,4 +66,3 @@
   margin-bottom: 16px;
 }
 </style>
-
