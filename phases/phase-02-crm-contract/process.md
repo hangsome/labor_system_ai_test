@@ -1,6 +1,6 @@
 ﻿# Phase 02 Progress
 
-> updated_at: 2026-02-27T07:39:27+08:00
+> updated_at: 2026-02-27T07:44:04+08:00
 > phase: Phase 02 - CRM Contract
 > csv_path: phases/phase-02-crm-contract/todolist.csv
 > plan_source: phases/phase-02-crm-contract/plan.md
@@ -23,19 +23,19 @@
 | Metric | Value |
 |---|---|
 | total_tasks | 24 |
-| done | 20 |
+| done | 21 |
 | in_progress | 0 |
-| pending | 4 |
+| pending | 3 |
 | blocked | 0 |
-| completion_rate | 83.33% |
-| compaction_count | 20 |
+| completion_rate | 87.50% |
+| compaction_count | 21 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: PH02-160 contract detail lifecycle frontend
+- Current task: PH02-180 contract/rule frontend unit tests
 - Current agent: codex
-- Last update: 2026-02-27T07:39:27+08:00
+- Last update: 2026-02-27T07:44:04+08:00
 
 ---
 
@@ -63,6 +63,7 @@
 | 18 | PH02-080 | 补充线索前端单元测试 | codex | 2026-02-27T07:29:12+08:00 | pending-commit |
 | 19 | PH02-100 | 线索流转端到端测试 | codex | 2026-02-27T07:34:07+08:00 | pending-commit |
 | 20 | PH02-150 | 实现用工单位与合同列表页面骨架 | codex | 2026-02-27T07:39:27+08:00 | pending-commit |
+| 21 | PH02-160 | 实现合同详情与生命周期操作页面 | codex | 2026-02-27T07:44:04+08:00 | pending-commit |
 
 ## In Progress Tasks
 
@@ -105,6 +106,7 @@
 07:29 [codex] Completed PH02-080: executed lead frontend unit coverage command, all lead-list/lead-detail tests passed (4 tests), and gemini review returned BLOCKERS=NONE.
 07:34 [codex] Completed PH02-100: added lead-flow e2e for unauth redirect + login list/detail follow-up chain and passed playwright (2 tests).
 07:39 [codex] Completed PH02-150: added employer-unit and contract-list shell pages/routes/dashboard entries, unit tests passed (2 tests), and gemini review returned BLOCKERS=NONE.
+07:44 [codex] Completed PH02-160: added contract detail lifecycle page and route (`sign/renew/terminate`), unit tests passed (2 tests), and gemini review returned BLOCKERS=NONE.
 ```
 
 ---
@@ -114,4 +116,4 @@
 - Phase 02 Stage 3 artifacts are ready.
 - CSV remains the single source of Phase 02 task truth.
 - Frontend tasks are assigned to gemini route with codex fallback when unavailable.
-- Stage 4 has started; PH02-010, PH02-020, PH02-030, PH02-040, PH02-050, PH02-060, PH02-070, PH02-080, PH02-090, PH02-100, PH02-110, PH02-120, PH02-130, PH02-140, PH02-150, PH02-170, PH02-190, PH02-200, PH02-210, and PH02-220 are settled.
+- Stage 4 has started; PH02-010, PH02-020, PH02-030, PH02-040, PH02-050, PH02-060, PH02-070, PH02-080, PH02-090, PH02-100, PH02-110, PH02-120, PH02-130, PH02-140, PH02-150, PH02-160, PH02-170, PH02-190, PH02-200, PH02-210, and PH02-220 are settled.
