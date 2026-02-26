@@ -13,8 +13,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.labor.system.common.api.AppException;
 import com.labor.system.common.api.GlobalExceptionHandler;
 import com.labor.system.config.SecurityConfig;
+import com.labor.system.crm.lead.service.LeadFlowService;
 import com.labor.system.crm.lead.service.LeadService;
 import com.labor.system.crm.lead.web.dto.LeadPageResponse;
+import com.labor.system.crm.lead.web.dto.LeadFollowUpResponse;
 import com.labor.system.crm.lead.web.dto.LeadResponse;
 import java.time.LocalDate;
 import java.util.List;
@@ -33,6 +35,7 @@ class LeadControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean private LeadService leadService;
+  @MockBean private LeadFlowService leadFlowService;
 
   @Test
   void createLeadShouldReturnSuccess() throws Exception {
@@ -197,5 +200,69 @@ class LeadControllerTest {
         .perform(delete("/api/admin/v1/crm/leads/1"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.code").value("0"));
+  }
+
+  @Test
+  void transitionStatusShouldReturnSuccess() throws Exception {
+    when(leadFlowService.transitionStatus(eq(1L), org.mockito.ArgumentMatchers.any()))
+        .thenReturn(
+            new LeadResponse(
+                1L,
+                "LEAD-001",
+                "酒店外包项目",
+                "张三",
+                "cipher",
+                "HOTEL",
+                1001L,
+                "FOLLOWING",
+                null,
+                "UNPAID",
+                "2026-02-26T22:20:00",
+                "2026-02-26T22:30:00"));
+
+    mockMvc
+        .perform(
+            put("/api/admin/v1/crm/leads/1/status")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"toStatus\":\"FOLLOWING\",\"comment\":\"首次跟进\"}"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.code").value("0"))
+        .andExpect(jsonPath("$.data.cooperationStatus").value("FOLLOWING"));
+  }
+
+  @Test
+  void createFollowUpShouldReturnSuccess() throws Exception {
+    doNothing().when(leadFlowService).createFollowUp(eq(1L), org.mockito.ArgumentMatchers.any());
+
+    mockMvc
+        .perform(
+            post("/api/admin/v1/crm/leads/1/follow-ups")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"content\":\"客户确认下周沟通\"}"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.code").value("0"));
+  }
+
+  @Test
+  void listFollowUpsShouldReturnSuccess() throws Exception {
+    when(leadFlowService.listFollowUps(eq(1L)))
+        .thenReturn(
+            List.of(
+                new LeadFollowUpResponse(
+                    100L,
+                    "FOLLOW_UP",
+                    "客户确认下周沟通",
+                    "FOLLOWING",
+                    null,
+                    null,
+                    null,
+                    0L,
+                    "2026-02-26T22:30:00")));
+
+    mockMvc
+        .perform(get("/api/admin/v1/crm/leads/1/follow-ups"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.code").value("0"))
+        .andExpect(jsonPath("$.data[0].action").value("FOLLOW_UP"));
   }
 }
