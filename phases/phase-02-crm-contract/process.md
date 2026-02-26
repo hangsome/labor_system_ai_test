@@ -1,6 +1,6 @@
 ﻿# Phase 02 Progress
 
-> updated_at: 2026-02-27T06:33:01+08:00
+> updated_at: 2026-02-27T06:34:12+08:00
 > phase: Phase 02 - CRM Contract
 > csv_path: phases/phase-02-crm-contract/todolist.csv
 > plan_source: phases/phase-02-crm-contract/plan.md
@@ -23,19 +23,19 @@
 | Metric | Value |
 |---|---|
 | total_tasks | 24 |
-| done | 12 |
+| done | 14 |
 | in_progress | 0 |
-| pending | 12 |
+| pending | 10 |
 | blocked | 0 |
-| completion_rate | 50.00% |
-| compaction_count | 12 |
+| completion_rate | 58.33% |
+| compaction_count | 14 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: PH02-210 contract/rule API docs sync
+- Current task: PH02-110 lead API docs sync
 - Current agent: codex
-- Last update: 2026-02-27T06:33:01+08:00
+- Last update: 2026-02-27T06:34:12+08:00
 
 ---
 
@@ -55,6 +55,8 @@
 | 10 | PH02-170 | 补充合同与规则服务单元测试 | codex | 2026-02-27T06:26:07+08:00 | pending-commit |
 | 11 | PH02-190 | 合同生命周期接口集成测试 | codex | 2026-02-27T06:30:03+08:00 | pending-commit |
 | 12 | PH02-200 | 结算规则接口集成测试 | codex | 2026-02-27T06:33:01+08:00 | pending-commit |
+| 13 | PH02-210 | 更新合同与结算规则 API 合约文档 | codex | 2026-02-27T06:34:12+08:00 | pending-commit |
+| 14 | PH02-220 | 更新 CRM/合同模块架构文档 | codex | 2026-02-27T06:34:12+08:00 | pending-commit |
 
 ## In Progress Tasks
 
@@ -90,6 +92,7 @@
 06:26 [codex] Completed PH02-170: added ContractRuleServiceTest for contract state-machine and settlement rule boundary branches, passed (9 tests).
 06:30 [codex] Completed PH02-190: added ContractApiIntegrationTest for create/sign/renew/terminate/get lifecycle flow, passed (2 tests).
 06:33 [codex] Completed PH02-200: added SettlementRuleApiIntegrationTest for publish/deactivate/version-query flow, passed (2 tests).
+06:34 [codex] Completed PH02-210/220: synced contract-settlement API routes and CRM-contract architecture boundaries, rg validations passed.
 ```
 
 ---
@@ -99,4 +102,4 @@
 - Phase 02 Stage 3 artifacts are ready.
 - CSV remains the single source of Phase 02 task truth.
 - Frontend tasks are assigned to gemini route with codex fallback when unavailable.
-- Stage 4 has started; PH02-010, PH02-020, PH02-030, PH02-040, PH02-050, PH02-090, PH02-120, PH02-130, PH02-140, PH02-170, PH02-190, and PH02-200 are settled.
+- Stage 4 has started; PH02-010, PH02-020, PH02-030, PH02-040, PH02-050, PH02-090, PH02-120, PH02-130, PH02-140, PH02-170, PH02-190, PH02-200, PH02-210, and PH02-220 are settled.
