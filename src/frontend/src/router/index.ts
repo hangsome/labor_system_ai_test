@@ -53,6 +53,14 @@ const routes = [
     },
   },
   {
+    path: '/contracts/labor-contracts/:contractId',
+    name: 'contract-labor-detail',
+    component: () => import('../views/contract/ContractDetailView.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/system/roles',
     name: 'system-roles',
     component: () => import('../views/system/SystemRoleShellView.vue'),

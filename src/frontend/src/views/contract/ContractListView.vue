@@ -29,6 +29,17 @@
         <el-table-column prop="leadCode" label="Lead Code" min-width="130" />
         <el-table-column prop="employerUnit" label="Employer Unit" min-width="220" />
         <el-table-column prop="status" label="Status" min-width="120" />
+        <el-table-column label="Action" width="140">
+          <template #default="{ row }">
+            <router-link
+              class="detail-link"
+              :to="`/contracts/labor-contracts/${row.contractNo}`"
+              data-testid="contract-detail-entry"
+            >
+              View Detail
+            </router-link>
+          </template>
+        </el-table-column>
       </el-table>
     </el-card>
   </div>
@@ -97,5 +108,11 @@ const filteredRows = computed(() => {
 
 .filter-form {
   margin-bottom: 12px;
+}
+
+.detail-link {
+  color: #1d4ed8;
+  text-decoration: none;
+  font-weight: 600;
 }
 </style>
