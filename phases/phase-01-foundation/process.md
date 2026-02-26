@@ -1,6 +1,6 @@
 ﻿# Phase 01 Progress
 
-> updated_at: 2026-02-26T20:26:31+08:00
+> updated_at: 2026-02-26T20:29:33+08:00
 > phase: Phase 01 - Foundation
 > csv_path: phases/phase-01-foundation/todolist.csv
 > plan_source: phases/phase-01-foundation/plan.md
@@ -23,19 +23,19 @@
 | Metric | Value |
 |---|---|
 | total_tasks | 24 |
-| done | 17 |
+| done | 18 |
 | in_progress | 0 |
-| pending | 7 |
+| pending | 6 |
 | blocked | 0 |
-| completion_rate | 70.83% |
-| compaction_count | 17 |
+| completion_rate | 75.00% |
+| compaction_count | 18 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: PH01-110
+- Current task: PH01-080
 - Current agent: codex
-- Last update: 2026-02-26T20:26:31+08:00
+- Last update: 2026-02-26T20:29:33+08:00
 
 ---
 
@@ -60,6 +60,7 @@
 | 15 | PH01-180 | Update RBAC API contract docs | codex | 2026-02-26T20:13:15+08:00 | pending-commit |
 | 16 | PH01-220 | Add audit API integration tests | codex | 2026-02-26T20:23:52+08:00 | pending-commit |
 | 17 | PH01-230 | Update architecture security boundary docs | codex | 2026-02-26T20:26:31+08:00 | pending-commit |
+| 18 | PH01-110 | Update auth API contract docs | codex | 2026-02-26T20:29:33+08:00 | pending-commit |
 
 ## In Progress Tasks
 
@@ -98,6 +99,7 @@
 20:13 [codex] Completed PH01-180 RBAC API contract docs update and passed rg validation.
 20:23 [codex] Completed PH01-220 audit API integration tests and passed AuditApiIntegrationTest.
 20:26 [codex] Completed PH01-230 architecture security boundary docs update and passed rg validation.
+20:29 [codex] Completed PH01-110 auth API contract docs update and passed rg validation.
 ```
 
 ---
