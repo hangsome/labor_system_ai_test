@@ -1,6 +1,6 @@
 ﻿# Phase 01 Progress
 
-> updated_at: 2026-02-26T19:22:44+08:00
+> updated_at: 2026-02-26T20:40:52+08:00
 > phase: Phase 01 - Foundation
 > csv_path: phases/phase-01-foundation/todolist.csv
 > plan_source: phases/phase-01-foundation/plan.md
@@ -23,19 +23,19 @@
 | Metric | Value |
 |---|---|
 | total_tasks | 24 |
-| done | 7 |
+| done | 19 |
 | in_progress | 0 |
-| pending | 17 |
+| pending | 5 |
 | blocked | 0 |
-| completion_rate | 29.17% |
-| compaction_count | 7 |
+| completion_rate | 79.17% |
+| compaction_count | 19 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: PH01-090
+- Current task: PH01-100
 - Current agent: codex
-- Last update: 2026-02-26T19:22:44+08:00
+- Last update: 2026-02-26T20:40:52+08:00
 
 ---
 
@@ -49,7 +49,19 @@
 | 4 | PH01-040 | Implement JWT refresh/invalidation controls | codex | 2026-02-26T18:26:57+08:00 | 2a95545 |
 | 5 | PH01-050 | Add auth service unit tests | codex | 2026-02-26T19:05:33+08:00 | cbfa0a5 |
 | 6 | PH01-060 | Implement login page and interaction | gemini->codex | 2026-02-26T19:16:42+08:00 | fe4ab3b |
-| 7 | PH01-070 | Implement authStore and router guard | gemini->codex | 2026-02-26T19:22:44+08:00 | pending-commit |
+| 7 | PH01-070 | Implement authStore and router guard | gemini->codex | 2026-02-26T19:22:44+08:00 | 4b729b9 |
+| 8 | PH01-090 | Add auth API integration tests | codex | 2026-02-26T19:38:08+08:00 | pending-commit |
+| 9 | PH01-120 | Implement role permission and data scope APIs | codex | 2026-02-26T19:45:31+08:00 | pending-commit |
+| 10 | PH01-130 | Implement data scope injection mechanism | codex | 2026-02-26T19:54:27+08:00 | pending-commit |
+| 11 | PH01-190 | Implement audit log aspect and query APIs | codex | 2026-02-26T20:00:14+08:00 | pending-commit |
+| 12 | PH01-140 | Add data scope unit tests | codex | 2026-02-26T20:03:16+08:00 | pending-commit |
+| 13 | PH01-200 | Add audit aspect unit tests | codex | 2026-02-26T20:07:05+08:00 | pending-commit |
+| 14 | PH01-170 | Add RBAC API integration tests | codex | 2026-02-26T20:10:10+08:00 | pending-commit |
+| 15 | PH01-180 | Update RBAC API contract docs | codex | 2026-02-26T20:13:15+08:00 | pending-commit |
+| 16 | PH01-220 | Add audit API integration tests | codex | 2026-02-26T20:23:52+08:00 | pending-commit |
+| 17 | PH01-230 | Update architecture security boundary docs | codex | 2026-02-26T20:26:31+08:00 | pending-commit |
+| 18 | PH01-110 | Update auth API contract docs | codex | 2026-02-26T20:29:33+08:00 | pending-commit |
+| 19 | PH01-080 | Add login component coverage tests | gemini->codex | 2026-02-26T20:40:52+08:00 | pending-commit |
 
 ## In Progress Tasks
 
@@ -78,6 +90,18 @@
 19:05 [codex] Completed PH01-050 auth service unit tests and passed AuthServiceTest.
 19:16 [codex] Completed PH01-060 login page task; Gemini bridge timed out and fallback to codex.
 19:22 [codex] Completed PH01-070 auth store + route guard; Gemini fallback remained in effect.
+19:38 [codex] Completed PH01-090 auth API integration tests and passed verify command.
+19:45 [codex] Completed PH01-120 role permission/data-scope APIs and passed RolePermissionControllerTest.
+19:54 [codex] Completed PH01-130 data-scope injection and passed DataScopeInterceptorTest.
+20:00 [codex] Completed PH01-190 audit log aspect/query API and passed AuditLogControllerTest.
+20:03 [codex] Completed PH01-140 data-scope unit tests and passed DataScopeServiceTest.
+20:07 [codex] Completed PH01-200 audit aspect unit tests and passed AuditAspectTest.
+20:10 [codex] Completed PH01-170 RBAC API integration tests and passed RbacApiIntegrationTest.
+20:13 [codex] Completed PH01-180 RBAC API contract docs update and passed rg validation.
+20:23 [codex] Completed PH01-220 audit API integration tests and passed AuditApiIntegrationTest.
+20:26 [codex] Completed PH01-230 architecture security boundary docs update and passed rg validation.
+20:29 [codex] Completed PH01-110 auth API contract docs update and passed rg validation.
+20:40 [codex] Completed PH01-080 login component coverage tests; gemini no-output timeout fallback to codex; coverage validation passed.
 ```
 
 ---
