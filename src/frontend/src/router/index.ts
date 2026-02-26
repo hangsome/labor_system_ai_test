@@ -28,6 +28,14 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/system/audit-logs',
+    name: 'system-audit-logs',
+    component: () => import('../views/system/AuditLogView.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ]
 
 export const router = createRouter({

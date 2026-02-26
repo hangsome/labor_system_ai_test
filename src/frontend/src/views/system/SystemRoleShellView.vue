@@ -6,7 +6,9 @@
         <el-menu default-active="roles" class="system-menu">
           <el-menu-item index="roles" data-testid="system-menu-item">Role Management</el-menu-item>
           <el-menu-item index="menus" data-testid="system-menu-item">Menu Permissions</el-menu-item>
-          <el-menu-item index="scope" data-testid="system-menu-item">Data Scope Policy</el-menu-item>
+          <el-menu-item index="scope" data-testid="system-menu-item">
+            <router-link class="menu-link" to="/system/audit-logs">Audit Logs</router-link>
+          </el-menu-item>
         </el-menu>
       </el-aside>
 
@@ -56,6 +58,11 @@
 .system-menu {
   border-right: none;
   background: transparent;
+}
+
+.menu-link {
+  color: inherit;
+  text-decoration: none;
 }
 
 .content-panel {
