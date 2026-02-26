@@ -1,6 +1,6 @@
 ﻿# Phase 01 Progress
 
-> updated_at: 2026-02-26T20:40:52+08:00
+> updated_at: 2026-02-26T20:54:29+08:00
 > phase: Phase 01 - Foundation
 > csv_path: phases/phase-01-foundation/todolist.csv
 > plan_source: phases/phase-01-foundation/plan.md
@@ -23,19 +23,19 @@
 | Metric | Value |
 |---|---|
 | total_tasks | 24 |
-| done | 19 |
+| done | 20 |
 | in_progress | 0 |
-| pending | 5 |
+| pending | 4 |
 | blocked | 0 |
-| completion_rate | 79.17% |
-| compaction_count | 19 |
+| completion_rate | 83.33% |
+| compaction_count | 20 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: PH01-100
+- Current task: PH01-150
 - Current agent: codex
-- Last update: 2026-02-26T20:40:52+08:00
+- Last update: 2026-02-26T20:54:29+08:00
 
 ---
 
@@ -62,6 +62,7 @@
 | 17 | PH01-230 | Update architecture security boundary docs | codex | 2026-02-26T20:26:31+08:00 | pending-commit |
 | 18 | PH01-110 | Update auth API contract docs | codex | 2026-02-26T20:29:33+08:00 | pending-commit |
 | 19 | PH01-080 | Add login component coverage tests | gemini->codex | 2026-02-26T20:40:52+08:00 | pending-commit |
+| 20 | PH01-100 | Add login to protected menu E2E tests | gemini->codex | 2026-02-26T20:54:29+08:00 | pending-commit |
 
 ## In Progress Tasks
 
@@ -102,6 +103,8 @@
 20:26 [codex] Completed PH01-230 architecture security boundary docs update and passed rg validation.
 20:29 [codex] Completed PH01-110 auth API contract docs update and passed rg validation.
 20:40 [codex] Completed PH01-080 login component coverage tests; gemini no-output timeout fallback to codex; coverage validation passed.
+20:45 [codex] Claimed PH01-100 e2e task with started_at_commit f18d4ac.
+20:54 [codex] Completed PH01-100 login-to-protected-menu e2e tests; gemini no-output timeout fallback to codex; playwright validation passed.
 ```
 
 ---
