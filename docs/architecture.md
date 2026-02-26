@@ -102,6 +102,21 @@
   - 附件访问 URL 签名并设置时效
 - 审计与追溯：关键业务动作写入 `audit_log`，支持按对象和操作人检索。
 
+### 4.1 Phase 1 已落地安全边界（2026-02-26）
+
+- 认证边界：
+  - `/api/admin/v1/auth/login`、`/refresh`、`/me` 已落地。
+  - token 机制支持 access/refresh 与主动失效。
+- 授权边界：
+  - 角色权限接口已落地：`/api/admin/v1/iam/roles`、`/roles/{roleId}/permissions`。
+  - 文档兼容路由补齐：`/api/admin/v1/system/roles`、`/system/permissions`。
+- 数据权限边界：
+  - 数据权限拦截器已注入 `/api/admin/v1/system/**` 链路。
+  - 支持 `ALL/DEPT/SELF/NONE` 策略，默认拒绝越权访问。
+- 审计边界：
+  - 关键写操作通过 `@AuditAction` 记录审计日志。
+  - 查询接口 `/api/admin/v1/platform/audit-logs` 已支持按 `bizType/bizId/operatorId` 筛选。
+
 ## 5. 非功能需求落地
 
 - 性能目标：
