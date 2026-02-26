@@ -1,0 +1,19 @@
+:root {
+  font-family: "Source Han Sans SC", "Noto Sans SC", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #f5f7fb;
+  color: #1f2d3d;
+}
+
+#app {
+  min-height: 100vh;
+}
+

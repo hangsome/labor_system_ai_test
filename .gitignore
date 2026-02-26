@@ -1,0 +1,24 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Node / Frontend
+src/frontend/node_modules/
+src/frontend/dist/
+src/frontend/.cache/
+
+# Java / Backend
+src/backend/target/
+*.class
+
+# Build / Temp
+*.log
+*.tmp
+*.swp
+
+# Env
+.env
+.env.local
+
