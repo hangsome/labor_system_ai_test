@@ -1,6 +1,6 @@
 ﻿# Phase 02 Progress
 
-> updated_at: 2026-02-26T22:37:10+08:00
+> updated_at: 2026-02-26T22:39:34+08:00
 > phase: Phase 02 - CRM Contract
 > csv_path: phases/phase-02-crm-contract/todolist.csv
 > plan_source: phases/phase-02-crm-contract/plan.md
@@ -23,19 +23,19 @@
 | Metric | Value |
 |---|---|
 | total_tasks | 24 |
-| done | 5 |
+| done | 6 |
 | in_progress | 0 |
-| pending | 19 |
+| pending | 18 |
 | blocked | 0 |
-| completion_rate | 20.83% |
-| compaction_count | 5 |
+| completion_rate | 25.00% |
+| compaction_count | 6 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: PH02-090 lead integration test execution
+- Current task: PH02-120 employer unit management API implementation
 - Current agent: codex
-- Last update: 2026-02-26T22:37:10+08:00
+- Last update: 2026-02-26T22:39:34+08:00
 
 ---
 
@@ -48,6 +48,7 @@
 | 3 | PH02-030 | 实现客户线索管理 API | codex | 2026-02-26T22:22:06+08:00 | pending-commit |
 | 4 | PH02-040 | 实现线索状态流转与跟进记录能力 | codex | 2026-02-26T22:34:58+08:00 | pending-commit |
 | 5 | PH02-050 | 补充线索服务单元测试 | codex | 2026-02-26T22:37:10+08:00 | pending-commit |
+| 6 | PH02-090 | 线索接口集成测试 | codex | 2026-02-26T22:39:34+08:00 | pending-commit |
 
 ## In Progress Tasks
 
@@ -76,6 +77,7 @@
 22:22 [codex] Completed PH02-030: implemented lead CRUD/list API and passed LeadControllerTest (7 tests).
 22:34 [codex] Completed PH02-040: implemented lead status transition/follow-up API and passed LeadFlowServiceTest (4 tests).
 22:37 [codex] Completed PH02-050: added lead service unit tests and passed LeadServiceTest (6 tests).
+22:39 [codex] Completed PH02-090: added lead API integration flow tests and passed LeadApiIntegrationTest (2 tests).
 ```
 
 ---
@@ -85,4 +87,4 @@
 - Phase 02 Stage 3 artifacts are ready.
 - CSV remains the single source of Phase 02 task truth.
 - Frontend tasks are assigned to gemini route with codex fallback when unavailable.
-- Stage 4 has started; PH02-010, PH02-020, PH02-030, PH02-040, and PH02-050 are settled.
+- Stage 4 has started; PH02-010, PH02-020, PH02-030, PH02-040, PH02-050, and PH02-090 are settled.
