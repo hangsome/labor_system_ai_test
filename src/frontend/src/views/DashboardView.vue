@@ -13,6 +13,9 @@
           <el-card shadow="hover" data-testid="dashboard-card">
             <template #header>客户线索</template>
             <p>支持多维筛选、跟进记录、转化分析。</p>
+            <router-link class="quick-link" to="/system/roles" data-testid="go-system-roles">
+              Open role console
+            </router-link>
           </el-card>
         </el-col>
         <el-col :xs="24" :md="8">
@@ -64,5 +67,13 @@
 
 .el-col {
   margin-bottom: 16px;
+}
+
+.quick-link {
+  display: inline-flex;
+  margin-top: 12px;
+  font-weight: 600;
+  color: #1d4ed8;
+  text-decoration: none;
 }
 </style>

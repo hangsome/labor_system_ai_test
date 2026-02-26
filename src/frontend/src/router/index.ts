@@ -20,6 +20,14 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/system/roles',
+    name: 'system-roles',
+    component: () => import('../views/system/SystemRoleShellView.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ]
 
 export const router = createRouter({
