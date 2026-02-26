@@ -81,6 +81,17 @@
             </el-timeline-item>
           </el-timeline>
         </el-card>
+
+        <el-card shadow="hover" class="rule-card" data-testid="contract-rule-card">
+          <template #header>
+            <h3>Settlement Rule Versions</h3>
+          </template>
+          <el-table :data="ruleVersions" border stripe data-testid="contract-rule-table">
+            <el-table-column prop="versionNo" label="Version" min-width="120" />
+            <el-table-column prop="effectiveDate" label="Effective Date" min-width="140" />
+            <el-table-column prop="status" label="Status" min-width="120" />
+          </el-table>
+        </el-card>
       </el-col>
     </el-row>
   </div>
@@ -96,6 +107,11 @@ type HistoryItem = {
   title: string
   desc: string
   time: string
+}
+type RuleVersionRow = {
+  versionNo: string
+  effectiveDate: string
+  status: 'ACTIVE' | 'DRAFT' | 'INACTIVE'
 }
 
 const route = useRoute()
@@ -117,6 +133,18 @@ const history = ref<HistoryItem[]>([
     title: 'Draft Created',
     desc: 'Contract draft initialized from lead conversion.',
     time: '2026-02-27 10:00',
+  },
+])
+const ruleVersions = ref<RuleVersionRow[]>([
+  {
+    versionNo: 'RV-2026-01',
+    effectiveDate: '2026-03-01',
+    status: 'ACTIVE',
+  },
+  {
+    versionNo: 'RV-2026-00',
+    effectiveDate: '2026-01-01',
+    status: 'INACTIVE',
   },
 ])
 
@@ -221,6 +249,10 @@ function goBack() {
 }
 
 .feedback-tip {
+  margin-top: 12px;
+}
+
+.rule-card {
   margin-top: 12px;
 }
 </style>

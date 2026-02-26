@@ -1,6 +1,6 @@
 ﻿# Workflow Progress
 
-> updated_at: 2026-02-27T07:44:04+08:00
+> updated_at: 2026-02-27T07:48:56+08:00
 > current_stage: Stage 4
 > task_source: plan2026-02-26.md
 > tracker: todolist.csv
@@ -15,7 +15,7 @@
 | Stage 1: Architecture Design | Completed | 2026-02-26T17:05:00+08:00 | Claude review gate passed, no blockers |
 | Stage 2: Phase Planning | Completed | 2026-02-26T17:12:00+08:00 | phase-plan generated and phase skeleton created |
 | Stage 3: Task Decomposition | Completed | 2026-02-26T21:51:26+08:00 | phase-02 feature tasks + task csv + phase process generated |
-| Stage 4: Execution | In Progress | - | phase-02 execution started (PH02-010/020/030/040/050/060/070/080/090/100/110/120/130/140/150/160/170/190/200/210/220 settled) |
+| Stage 4: Execution | In Progress | - | phase-02 execution started (PH02-010/020/030/040/050/060/070/080/090/100/110/120/130/140/150/160/170/180/190/200/210/220 settled) |
 | Stage 5: Review Handoff | Completed | 2026-02-26T21:46:52+08:00 | phase-01 accepted, merged to main, release tag created |
 | Stage 6: Deployment Ready | Not Started | - | waiting for all phases to pass Stage 5 |
 
@@ -29,12 +29,12 @@
 | pending | 0 |
 | blocked | 0 |
 | completion_rate | 100.00% |
-| compaction_count | 41 |
+| compaction_count | 42 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: Continue Phase 02 Stage 4 execution from PH02-180
+- Current task: Continue Phase 02 Stage 4 execution from PH02-230
 - Current branch: feature/phase-02-crm-contract
 
 ## Execution Log
@@ -69,12 +69,13 @@
 07:34 [codex] Completed PH02-100 transaction (lead-flow e2e added and playwright run PASS with 2 tests).
 07:39 [codex] Completed PH02-150 transaction (employer/contract shell pages + routes + dashboard entries + unit tests PASS; gemini review BLOCKERS=NONE).
 07:44 [codex] Completed PH02-160 transaction (contract detail lifecycle page + route + unit tests PASS; gemini review BLOCKERS=NONE).
+07:48 [codex] Completed PH02-180 transaction (contract-rule frontend unit coverage PASS; gemini review BLOCKERS=NONE).
 ```
 
 ## Stage 4 Progress
 
-- Completed: PH01-010, PH01-020, PH01-030, PH01-040, PH01-050, PH01-060, PH01-070, PH01-080, PH01-090, PH01-100, PH01-110, PH01-120, PH01-130, PH01-140, PH01-150, PH01-160, PH01-170, PH01-180, PH01-190, PH01-200, PH01-210, PH01-220, PH01-230, PH01-240, PH02-010, PH02-020, PH02-030, PH02-040, PH02-050, PH02-060, PH02-070, PH02-080, PH02-090, PH02-100, PH02-110, PH02-120, PH02-130, PH02-140, PH02-150, PH02-160, PH02-170, PH02-190, PH02-200, PH02-210, PH02-220
-- Next: Execute dependency-ready PH02-180 (contract/rule frontend unit coverage)
+- Completed: PH01-010, PH01-020, PH01-030, PH01-040, PH01-050, PH01-060, PH01-070, PH01-080, PH01-090, PH01-100, PH01-110, PH01-120, PH01-130, PH01-140, PH01-150, PH01-160, PH01-170, PH01-180, PH01-190, PH01-200, PH01-210, PH01-220, PH01-230, PH01-240, PH02-010, PH02-020, PH02-030, PH02-040, PH02-050, PH02-060, PH02-070, PH02-080, PH02-090, PH02-100, PH02-110, PH02-120, PH02-130, PH02-140, PH02-150, PH02-160, PH02-170, PH02-180, PH02-190, PH02-200, PH02-210, PH02-220
+- Next: Execute dependency-ready PH02-230 (lead-to-contract e2e)
 - Phase CSV: phases/phase-02-crm-contract/todolist.csv
 
 ## Risks
