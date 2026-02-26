@@ -5,6 +5,5 @@
 "S0-004","P0","Stage 0","技术栈","文档","docs","生成技术栈文档","输出前后端与中间件选型","docs/tech-stack.md 存在","test -f docs/tech-stack.md","S0-001","1","codex","1","","done","passed","pending","none","docs/tech-stack.md","完成"
 "S0-005","P0","Stage 0","前端骨架","frontend","scaffold","初始化 Vue 项目","创建 Vite Vue TS 并接入 Router/Pinia/ElementPlus","npm run build 成功","cd src/frontend && npm run build","S0-004","2","codex","1","","done","passed","pending","staged","src/frontend","完成"
 "S0-006","P0","Stage 0","后端骨架","backend","scaffold","初始化 Spring Boot 项目","创建 Maven 项目与基础配置","mvn test 成功","cd src/backend && mvn test","S0-004","2","codex","1","","done","passed","pending","staged","src/backend","完成"
-"S0-007","P1","Stage 0","基础设施","infra","config","创建 docker-compose 与 CI","创建本地依赖编排和 CI baseline","docker compose config 通过","docker compose -f docker-compose.dev.yml config","S0-005,S0-006","1","codex","1","","done","passed","pending","staged","docker-compose.dev.yml,.github/workflows/ci-baseline.yml","完成"
-"S0-008","P1","Stage 0","仓库初始化","git","ops","初始化 Git","初始化主分支并准备首个 skeleton commit","git 状态可追踪","git status --short","S0-001..S0-007","0.5","codex","1","","in_progress","pending","pending","dirty","-","执行中"
-
+"S0-007","P1","Stage 0","基础设施","infra","config","创建 docker-compose 与 CI","创建本地依赖编排和 CI baseline","docker compose config 通过；docker daemon 可连接","docker compose -f docker-compose.dev.yml config","S0-005,S0-006","1","codex","1","","done","blocked","pending","staged","docker-compose.dev.yml,.github/workflows/ci-baseline.yml","docker daemon 未运行，up -d 阻塞"
+"S0-008","P1","Stage 0","仓库初始化","git","ops","初始化 Git","初始化主分支并提交 skeleton 基线","git 主分支初始化并提交成功","git log --oneline -n 1","S0-001..S0-007","0.5","codex","1","","done","passed","pending","committed","9937e8b","完成"
