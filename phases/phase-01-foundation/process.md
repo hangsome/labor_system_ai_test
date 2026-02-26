@@ -1,6 +1,6 @@
 ﻿# Phase 01 Progress
 
-> updated_at: 2026-02-26T20:29:33+08:00
+> updated_at: 2026-02-26T20:40:52+08:00
 > phase: Phase 01 - Foundation
 > csv_path: phases/phase-01-foundation/todolist.csv
 > plan_source: phases/phase-01-foundation/plan.md
@@ -23,19 +23,19 @@
 | Metric | Value |
 |---|---|
 | total_tasks | 24 |
-| done | 18 |
+| done | 19 |
 | in_progress | 0 |
-| pending | 6 |
+| pending | 5 |
 | blocked | 0 |
-| completion_rate | 75.00% |
-| compaction_count | 18 |
+| completion_rate | 79.17% |
+| compaction_count | 19 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: PH01-080
+- Current task: PH01-100
 - Current agent: codex
-- Last update: 2026-02-26T20:29:33+08:00
+- Last update: 2026-02-26T20:40:52+08:00
 
 ---
 
@@ -61,6 +61,7 @@
 | 16 | PH01-220 | Add audit API integration tests | codex | 2026-02-26T20:23:52+08:00 | pending-commit |
 | 17 | PH01-230 | Update architecture security boundary docs | codex | 2026-02-26T20:26:31+08:00 | pending-commit |
 | 18 | PH01-110 | Update auth API contract docs | codex | 2026-02-26T20:29:33+08:00 | pending-commit |
+| 19 | PH01-080 | Add login component coverage tests | gemini->codex | 2026-02-26T20:40:52+08:00 | pending-commit |
 
 ## In Progress Tasks
 
@@ -100,6 +101,7 @@
 20:23 [codex] Completed PH01-220 audit API integration tests and passed AuditApiIntegrationTest.
 20:26 [codex] Completed PH01-230 architecture security boundary docs update and passed rg validation.
 20:29 [codex] Completed PH01-110 auth API contract docs update and passed rg validation.
+20:40 [codex] Completed PH01-080 login component coverage tests; gemini no-output timeout fallback to codex; coverage validation passed.
 ```
 
 ---
