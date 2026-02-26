@@ -1,89 +1,80 @@
-﻿# Phase 01 进度跟踪
+﻿# Phase 01 Progress
 
-> 生成时间: 2026-02-26T17:30:00+08:00
-> 阶段名称: Phase 01 - 基础底座与安全基线
-> CSV 路径: phases/phase-01-foundation/todolist.csv
-> Plan 来源: phases/phase-01-foundation/plan.md
+> updated_at: 2026-02-26T18:20:17+08:00
+> phase: Phase 01 - Foundation
+> csv_path: phases/phase-01-foundation/todolist.csv
+> plan_source: phases/phase-01-foundation/plan.md
 
 ---
 
-## Stage 完成标记
+## Stage Status
 
-| Stage | 状态 | 完成时间 |
-|-------|------|----------|
-| Stage 0: 项目初始化 | 已完成 | 2026-02-26T17:03:00+08:00 |
-| Stage 1: 架构设计 | 已完成 | 2026-02-26T17:05:00+08:00 |
-| Stage 2: 阶段规划 | 已完成 | 2026-02-26T17:12:00+08:00 |
-| Stage 3: 任务分解 | 已完成 | 2026-02-26T17:30:00+08:00 |
-| Stage 4: 阶段执行 | 进行中 | — |
-| Stage 5: 审查交接 | 未完成 | — |
+| Stage | Status | Completed At |
+|---|---|---|
+| Stage 0: Project Init | Completed | 2026-02-26T17:03:00+08:00 |
+| Stage 1: Architecture Design | Completed | 2026-02-26T17:05:00+08:00 |
+| Stage 2: Phase Planning | Completed | 2026-02-26T17:12:00+08:00 |
+| Stage 3: Task Decomposition | Completed | 2026-02-26T17:30:00+08:00 |
+| Stage 4: Execution | In Progress | - |
+| Stage 5: Review Handoff | Not Started | - |
 
-## 当前状态
+## Metrics
 
-| 指标 | 数值 |
-|------|------|
-| 总任务数 | 24 |
-| 已完成 | 2 |
-| 进行中 | 0 |
-| 未开始 | 22 |
-| 阻塞 | 0 |
-| 完成率 | 8.33% |
-| compaction_count | 2 |
+| Metric | Value |
+|---|---|
+| total_tasks | 24 |
+| done | 3 |
+| in_progress | 0 |
+| pending | 21 |
+| blocked | 0 |
+| completion_rate | 12.50% |
+| compaction_count | 3 |
 | compaction_threshold | 10 |
 
-## 当前执行
+## Current Focus
 
-- **当前任务**: PH01-030
-- **当前 Agent**: codex
-- **开始时间**: —
-- **最后更新**: 2026-02-26T18:02:45+08:00
-
----
-
-## 已完成任务
-
-| 序号 | 任务 ID | 标题 | Agent | 完成时间 | Commit |
-|------|---------|------|-------|---------|--------|
-| 1 | PH01-010 | IAM/Platform 基础表迁移 | codex | 2026-02-26T17:50:46+08:00 | 3be8414 |
-| 2 | PH01-020 | 同步数据库设计文档 | codex | 2026-02-26T18:02:27+08:00 | pending-commit |
-
-## 进行中任务
-
-| 任务 ID | 标题 | Agent | 开始时间 | 备注 |
-|---------|------|-------|---------|------|
-| — | — | — | — | — |
-
-## 阻塞任务
-
-| 任务 ID | 标题 | 阻塞原因 | 需要的操作 |
-|---------|------|---------|-----------|
-| — | — | — | — |
+- Current task: PH01-040
+- Current agent: codex
+- Last update: 2026-02-26T18:20:17+08:00
 
 ---
 
-## 执行日志
+## Completed Tasks
+
+| No. | Task ID | Title | Agent | Completed At | Commit |
+|---|---|---|---|---|---|
+| 1 | PH01-010 | IAM/Platform baseline migration | codex | 2026-02-26T17:50:46+08:00 | 3be8414 |
+| 2 | PH01-020 | Sync DB schema doc for IAM/Platform | codex | 2026-02-26T18:02:27+08:00 | 7ea9928 |
+| 3 | PH01-030 | Implement auth core APIs | codex | 2026-02-26T18:20:17+08:00 | pending-commit |
+
+## In Progress Tasks
+
+| Task ID | Title | Agent | Started At | Notes |
+|---|---|---|---|---|
+| - | - | - | - | - |
+
+## Blocked Tasks
+
+| Task ID | Title | Reason | Required Action |
+|---|---|---|---|
+| - | - | - | - |
+
+---
+
+## Execution Log
 
 ### 2026-02-26
 
 ```text
-17:30 [codex] 完成 Stage 3 任务分解，生成 Feature Tasks 与 phase todolist.csv
-17:50 [codex] 完成 PH01-010：IAM/Platform 基础表迁移（校验脚本通过）
-18:02 [codex] 完成 PH01-020：数据库设计文档同步（本地数据库校验通过）
+17:30 [codex] Completed Stage 3 task decomposition and generated phase trackers.
+17:50 [codex] Completed PH01-010 migration and validation script.
+18:02 [codex] Completed PH01-020 docs sync and local DB validation.
+18:20 [codex] Completed PH01-030 auth core APIs and passed AuthControllerTest.
 ```
 
 ---
 
-## 覆盖率追踪
+## Notes
 
-| Phase | 后端覆盖率 | 前端覆盖率 | 变化趋势 |
-|-------|-----------|-----------|---------|
-| 01 | — | — | — |
-
----
-
-## 阶段总结
-
-- 阶段状态: Stage 4 执行中。
-- 验收结果: 进行中。
-- 验收时间: —
-- 备注: CSV 为唯一状态源。
+- Stage 4 is active. CSV remains the single source of task truth.
+- Local MySQL validation uses provided root credential in this session.
