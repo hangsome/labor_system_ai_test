@@ -1,6 +1,6 @@
 ﻿# Phase 01 Progress
 
-> updated_at: 2026-02-26T20:07:05+08:00
+> updated_at: 2026-02-26T20:10:10+08:00
 > phase: Phase 01 - Foundation
 > csv_path: phases/phase-01-foundation/todolist.csv
 > plan_source: phases/phase-01-foundation/plan.md
@@ -23,19 +23,19 @@
 | Metric | Value |
 |---|---|
 | total_tasks | 24 |
-| done | 13 |
+| done | 14 |
 | in_progress | 0 |
-| pending | 11 |
+| pending | 10 |
 | blocked | 0 |
-| completion_rate | 54.17% |
-| compaction_count | 13 |
+| completion_rate | 58.33% |
+| compaction_count | 14 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: PH01-170
+- Current task: PH01-180
 - Current agent: codex
-- Last update: 2026-02-26T20:07:05+08:00
+- Last update: 2026-02-26T20:10:10+08:00
 
 ---
 
@@ -56,6 +56,7 @@
 | 11 | PH01-190 | Implement audit log aspect and query APIs | codex | 2026-02-26T20:00:14+08:00 | pending-commit |
 | 12 | PH01-140 | Add data scope unit tests | codex | 2026-02-26T20:03:16+08:00 | pending-commit |
 | 13 | PH01-200 | Add audit aspect unit tests | codex | 2026-02-26T20:07:05+08:00 | pending-commit |
+| 14 | PH01-170 | Add RBAC API integration tests | codex | 2026-02-26T20:10:10+08:00 | pending-commit |
 
 ## In Progress Tasks
 
@@ -90,6 +91,7 @@
 20:00 [codex] Completed PH01-190 audit log aspect/query API and passed AuditLogControllerTest.
 20:03 [codex] Completed PH01-140 data-scope unit tests and passed DataScopeServiceTest.
 20:07 [codex] Completed PH01-200 audit aspect unit tests and passed AuditAspectTest.
+20:10 [codex] Completed PH01-170 RBAC API integration tests and passed RbacApiIntegrationTest.
 ```
 
 ---
