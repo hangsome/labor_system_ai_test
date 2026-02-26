@@ -1,6 +1,6 @@
 ﻿# Phase 01 Progress
 
-> updated_at: 2026-02-26T19:45:31+08:00
+> updated_at: 2026-02-26T19:54:27+08:00
 > phase: Phase 01 - Foundation
 > csv_path: phases/phase-01-foundation/todolist.csv
 > plan_source: phases/phase-01-foundation/plan.md
@@ -23,19 +23,19 @@
 | Metric | Value |
 |---|---|
 | total_tasks | 24 |
-| done | 9 |
+| done | 10 |
 | in_progress | 0 |
-| pending | 15 |
+| pending | 14 |
 | blocked | 0 |
-| completion_rate | 37.50% |
-| compaction_count | 9 |
+| completion_rate | 41.67% |
+| compaction_count | 10 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: PH01-130
+- Current task: PH01-190
 - Current agent: codex
-- Last update: 2026-02-26T19:45:31+08:00
+- Last update: 2026-02-26T19:54:27+08:00
 
 ---
 
@@ -52,6 +52,7 @@
 | 7 | PH01-070 | Implement authStore and router guard | gemini->codex | 2026-02-26T19:22:44+08:00 | 4b729b9 |
 | 8 | PH01-090 | Add auth API integration tests | codex | 2026-02-26T19:38:08+08:00 | pending-commit |
 | 9 | PH01-120 | Implement role permission and data scope APIs | codex | 2026-02-26T19:45:31+08:00 | pending-commit |
+| 10 | PH01-130 | Implement data scope injection mechanism | codex | 2026-02-26T19:54:27+08:00 | pending-commit |
 
 ## In Progress Tasks
 
@@ -82,6 +83,7 @@
 19:22 [codex] Completed PH01-070 auth store + route guard; Gemini fallback remained in effect.
 19:38 [codex] Completed PH01-090 auth API integration tests and passed verify command.
 19:45 [codex] Completed PH01-120 role permission/data-scope APIs and passed RolePermissionControllerTest.
+19:54 [codex] Completed PH01-130 data-scope injection and passed DataScopeInterceptorTest.
 ```
 
 ---

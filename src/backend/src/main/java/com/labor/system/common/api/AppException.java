@@ -25,8 +25,11 @@ public class AppException extends RuntimeException {
     return new AppException(HttpStatus.UNAUTHORIZED, ErrorCodes.AUTH_UNAUTHORIZED, message);
   }
 
+  public static AppException forbidden(String message) {
+    return new AppException(HttpStatus.FORBIDDEN, ErrorCodes.AUTH_FORBIDDEN, message);
+  }
+
   public static AppException badRequest(String message) {
     return new AppException(HttpStatus.BAD_REQUEST, ErrorCodes.REQUEST_INVALID, message);
   }
 }
-
