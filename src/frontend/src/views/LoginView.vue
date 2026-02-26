@@ -1,10 +1,10 @@
-<template>
+﻿<template>
   <div class="login-page">
     <section class="brand-panel">
       <p class="brand-kicker">Labor System</p>
-      <h1>劳务系统管理后台</h1>
+      <h1>Labor Management Console</h1>
       <p class="brand-desc">
-        覆盖线索、合同、考勤、结算全链路。请使用平台账号登录后继续操作。
+        Manage leads, contracts, attendance, and settlement in one workflow.
       </p>
     </section>
 
@@ -12,8 +12,8 @@
       <el-card class="login-card" shadow="always">
         <template #header>
           <div class="card-header">
-            <h2>账号登录</h2>
-            <p>支持用户名 + 密码认证</p>
+            <h2>Sign In</h2>
+            <p>Username and password authentication</p>
           </div>
         </template>
 
@@ -28,20 +28,20 @@
         />
 
         <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
-          <el-form-item label="用户名" prop="username">
+          <el-form-item label="Username" prop="username">
             <el-input
               v-model.trim="form.username"
-              placeholder="请输入用户名"
+              placeholder="Enter username"
               autocomplete="username"
               data-testid="username-input"
             />
           </el-form-item>
 
-          <el-form-item label="密码" prop="password">
+          <el-form-item label="Password" prop="password">
             <el-input
               v-model="form.password"
               type="password"
-              placeholder="请输入密码"
+              placeholder="Enter password"
               autocomplete="current-password"
               show-password
               data-testid="password-input"
@@ -56,7 +56,7 @@
             data-testid="login-submit"
             @click="submit"
           >
-            登录
+            Sign In
           </el-button>
         </el-form>
       </el-card>
@@ -67,8 +67,9 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
 import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { loginByPassword } from '../api/auth'
+import { useAuthStore } from '../store/auth'
 
 interface LoginFormModel {
   username: string
@@ -76,6 +77,10 @@ interface LoginFormModel {
 }
 
 const router = useRouter()
+const route = useRoute()
+const authStore = useAuthStore()
+authStore.hydrate()
+
 const formRef = ref<FormInstance>()
 const submitting = ref(false)
 const loginError = ref('')
@@ -86,10 +91,10 @@ const form = reactive<LoginFormModel>({
 })
 
 const rules: FormRules<LoginFormModel> = {
-  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+  username: [{ required: true, message: 'Username is required', trigger: 'blur' }],
   password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 64, message: '密码长度需在 6 到 64 位之间', trigger: 'blur' },
+    { required: true, message: 'Password is required', trigger: 'blur' },
+    { min: 6, max: 64, message: 'Password must be 6-64 chars', trigger: 'blur' },
   ],
 }
 
@@ -100,7 +105,7 @@ async function submit() {
   }
 
   if (!form.username.trim() || !form.password) {
-    loginError.value = '请输入用户名和密码'
+    loginError.value = 'Please enter username and password'
     return
   }
 
@@ -112,10 +117,12 @@ async function submit() {
 
   submitting.value = true
   try {
-    await loginByPassword({ username: form.username, password: form.password })
-    await router.push('/dashboard')
+    const token = await loginByPassword({ username: form.username, password: form.password })
+    authStore.setSession(token)
+    const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/dashboard'
+    await router.push(redirect)
   } catch (error) {
-    loginError.value = error instanceof Error ? error.message : '登录失败，请稍后重试'
+    loginError.value = error instanceof Error ? error.message : 'Login failed'
   } finally {
     submitting.value = false
   }
