@@ -105,9 +105,15 @@
 #### 鏇存柊绾跨储
 - 璺緞锛歚PUT /api/admin/v1/crm/leads/{leadId}`
 - 鎻忚堪锛氭洿鏂扮嚎绱俊鎭?
-#### 绾跨储璺熻繘璁板綍
-- 璺緞锛歚POST /api/admin/v1/crm/leads/{leadId}/tracks`
-- 鎻忚堪锛氳拷鍔犺窡杩涙棩蹇?
+#### 绾跨储鐘舵€佹祦杞?
+- 璺緞锛歚PUT /api/admin/v1/crm/leads/{leadId}/status`
+- 鎻忚堪锛氭寜鐘舵€佹満瑙勫垯鎵ц绾跨储流转锛堝 NEW -> FOLLOWING/WON/LOST锛?
+#### 绾跨储璺熻繘璁板綍鏂板
+- 璺緞锛歚POST /api/admin/v1/crm/leads/{leadId}/follow-ups`
+- 鎻忚堪锛氭柊澧?lead-follow-up 璺熻繘璁板綍锛屾敮鎸佷笅娆¤仈绯绘椂闂翠笌澶囨敞
+#### 绾跨储璺熻繘璁板綍鏌ヨ
+- 璺緞锛歚GET /api/admin/v1/crm/leads/{leadId}/follow-ups`
+- 鎻忚堪锛氭寜绾跨储鏌ヨ lead-follow-up 鍘嗗彶璁板綍
 #### 鐢ㄥ伐鍗曚綅鍒嗛〉鏌ヨ
 - 璺緞锛歚GET /api/admin/v1/crm/employer-units`
 - 鎻忚堪锛氭煡璇㈠凡杞寲鐨勭敤宸ュ崟浣?

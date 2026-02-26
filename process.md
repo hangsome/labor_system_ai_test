@@ -1,6 +1,6 @@
 ﻿# Workflow Progress
 
-> updated_at: 2026-02-27T06:34:12+08:00
+> updated_at: 2026-02-27T06:35:08+08:00
 > current_stage: Stage 4
 > task_source: plan2026-02-26.md
 > tracker: todolist.csv
@@ -23,18 +23,18 @@
 
 | Metric | Value |
 |---|---|
-| total_tasks | 81 |
-| done | 81 |
+| total_tasks | 82 |
+| done | 82 |
 | in_progress | 0 |
 | pending | 0 |
 | blocked | 0 |
 | completion_rate | 100.00% |
-| compaction_count | 34 |
+| compaction_count | 35 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: Continue Phase 02 Stage 4 execution from PH02-110
+- Current task: Continue Phase 02 Stage 4 execution from PH02-060
 - Current branch: feature/phase-02-crm-contract
 
 ## Execution Log
@@ -62,12 +62,13 @@
 06:30 [codex] Completed PH02-190 transaction (ContractApiIntegrationTest lifecycle flow PASS).
 06:33 [codex] Completed PH02-200 transaction (SettlementRuleApiIntegrationTest publish/deactivate/query flow PASS).
 06:34 [codex] Completed PH02-210/220 transaction (contract-settlement API docs + CRM/contract architecture boundaries sync PASS).
+06:35 [codex] Completed PH02-110 transaction (lead status/follow-up API contracts sync PASS).
 ```
 
 ## Stage 4 Progress
 
-- Completed: PH01-010, PH01-020, PH01-030, PH01-040, PH01-050, PH01-060, PH01-070, PH01-080, PH01-090, PH01-100, PH01-110, PH01-120, PH01-130, PH01-140, PH01-150, PH01-160, PH01-170, PH01-180, PH01-190, PH01-200, PH01-210, PH01-220, PH01-230, PH01-240, PH02-010, PH02-020, PH02-030, PH02-040, PH02-050, PH02-090, PH02-120, PH02-130, PH02-140, PH02-170, PH02-190, PH02-200, PH02-210, PH02-220
-- Next: Execute dependency-ready PH02-110 (lead API docs sync)
+- Completed: PH01-010, PH01-020, PH01-030, PH01-040, PH01-050, PH01-060, PH01-070, PH01-080, PH01-090, PH01-100, PH01-110, PH01-120, PH01-130, PH01-140, PH01-150, PH01-160, PH01-170, PH01-180, PH01-190, PH01-200, PH01-210, PH01-220, PH01-230, PH01-240, PH02-010, PH02-020, PH02-030, PH02-040, PH02-050, PH02-090, PH02-110, PH02-120, PH02-130, PH02-140, PH02-170, PH02-190, PH02-200, PH02-210, PH02-220
+- Next: Execute dependency-ready PH02-060 (frontend lead list via gemini-primary/codex-fallback)
 - Phase CSV: phases/phase-02-crm-contract/todolist.csv
 
 ## Risks
