@@ -1,6 +1,6 @@
 ﻿# Phase 01 Progress
 
-> updated_at: 2026-02-26T19:16:42+08:00
+> updated_at: 2026-02-26T19:22:44+08:00
 > phase: Phase 01 - Foundation
 > csv_path: phases/phase-01-foundation/todolist.csv
 > plan_source: phases/phase-01-foundation/plan.md
@@ -23,19 +23,19 @@
 | Metric | Value |
 |---|---|
 | total_tasks | 24 |
-| done | 6 |
+| done | 7 |
 | in_progress | 0 |
-| pending | 18 |
+| pending | 17 |
 | blocked | 0 |
-| completion_rate | 25.00% |
-| compaction_count | 6 |
+| completion_rate | 29.17% |
+| compaction_count | 7 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: PH01-070
+- Current task: PH01-090
 - Current agent: codex
-- Last update: 2026-02-26T19:16:42+08:00
+- Last update: 2026-02-26T19:22:44+08:00
 
 ---
 
@@ -48,7 +48,8 @@
 | 3 | PH01-030 | Implement auth core APIs | codex | 2026-02-26T18:20:17+08:00 | a4f856e |
 | 4 | PH01-040 | Implement JWT refresh/invalidation controls | codex | 2026-02-26T18:26:57+08:00 | 2a95545 |
 | 5 | PH01-050 | Add auth service unit tests | codex | 2026-02-26T19:05:33+08:00 | cbfa0a5 |
-| 6 | PH01-060 | Implement login page and interaction | gemini->codex | 2026-02-26T19:16:42+08:00 | pending-commit |
+| 6 | PH01-060 | Implement login page and interaction | gemini->codex | 2026-02-26T19:16:42+08:00 | fe4ab3b |
+| 7 | PH01-070 | Implement authStore and router guard | gemini->codex | 2026-02-26T19:22:44+08:00 | pending-commit |
 
 ## In Progress Tasks
 
@@ -76,6 +77,7 @@
 18:26 [codex] Completed PH01-040 JWT refresh/invalidation controls and passed JwtTokenServiceTest.
 19:05 [codex] Completed PH01-050 auth service unit tests and passed AuthServiceTest.
 19:16 [codex] Completed PH01-060 login page task; Gemini bridge timed out and fallback to codex.
+19:22 [codex] Completed PH01-070 auth store + route guard; Gemini fallback remained in effect.
 ```
 
 ---

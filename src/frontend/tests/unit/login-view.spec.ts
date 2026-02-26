@@ -1,5 +1,6 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import ElementPlus from 'element-plus'
+import { createPinia } from 'pinia'
 import LoginView from '../../src/views/LoginView.vue'
 import { loginByPassword } from '../../src/api/auth'
 
@@ -8,6 +9,9 @@ const pushMock = vi.fn()
 vi.mock('vue-router', () => ({
   useRouter: () => ({
     push: pushMock,
+  }),
+  useRoute: () => ({
+    query: {},
   }),
 }))
 
@@ -23,7 +27,7 @@ describe('login-view', () => {
   it('should block submit when form validation failed', async () => {
     const wrapper = mount(LoginView, {
       global: {
-        plugins: [ElementPlus],
+        plugins: [ElementPlus, createPinia()],
       },
     })
 
@@ -43,7 +47,7 @@ describe('login-view', () => {
 
     const wrapper = mount(LoginView, {
       global: {
-        plugins: [ElementPlus],
+        plugins: [ElementPlus, createPinia()],
       },
     })
 
@@ -65,7 +69,7 @@ describe('login-view', () => {
 
     const wrapper = mount(LoginView, {
       global: {
-        plugins: [ElementPlus],
+        plugins: [ElementPlus, createPinia()],
       },
     })
 
@@ -80,4 +84,3 @@ describe('login-view', () => {
     expect(wrapper.text()).toContain('用户名或密码错误')
   })
 })
-
