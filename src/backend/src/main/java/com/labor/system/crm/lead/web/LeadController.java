@@ -1,14 +1,19 @@
 package com.labor.system.crm.lead.web;
 
 import com.labor.system.common.api.ApiResponse;
+import com.labor.system.crm.lead.service.LeadFlowService;
 import com.labor.system.crm.lead.service.LeadService;
+import com.labor.system.crm.lead.web.dto.CreateLeadFollowUpRequest;
 import com.labor.system.crm.lead.web.dto.CreateLeadRequest;
+import com.labor.system.crm.lead.web.dto.LeadFollowUpResponse;
 import com.labor.system.crm.lead.web.dto.LeadPageResponse;
 import com.labor.system.crm.lead.web.dto.LeadResponse;
+import com.labor.system.crm.lead.web.dto.LeadStatusTransitionRequest;
 import com.labor.system.crm.lead.web.dto.UpdateLeadRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +31,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class LeadController {
 
   private final LeadService leadService;
+  private final LeadFlowService leadFlowService;
 
-  public LeadController(LeadService leadService) {
+  public LeadController(LeadService leadService, LeadFlowService leadFlowService) {
     this.leadService = leadService;
+    this.leadFlowService = leadFlowService;
   }
 
   @PostMapping
@@ -58,6 +65,25 @@ public class LeadController {
   public ApiResponse<LeadResponse> updateLead(
       @PathVariable("leadId") Long leadId, @Valid @RequestBody UpdateLeadRequest request) {
     return ApiResponse.success(leadService.updateLead(leadId, request));
+  }
+
+  @PutMapping("/{leadId}/status")
+  public ApiResponse<LeadResponse> transitionStatus(
+      @PathVariable("leadId") Long leadId,
+      @Valid @RequestBody LeadStatusTransitionRequest request) {
+    return ApiResponse.success(leadFlowService.transitionStatus(leadId, request));
+  }
+
+  @PostMapping("/{leadId}/follow-ups")
+  public ApiResponse<Void> createFollowUp(
+      @PathVariable("leadId") Long leadId, @Valid @RequestBody CreateLeadFollowUpRequest request) {
+    leadFlowService.createFollowUp(leadId, request);
+    return ApiResponse.success(null);
+  }
+
+  @GetMapping("/{leadId}/follow-ups")
+  public ApiResponse<List<LeadFollowUpResponse>> listFollowUps(@PathVariable("leadId") Long leadId) {
+    return ApiResponse.success(leadFlowService.listFollowUps(leadId));
   }
 
   @DeleteMapping("/{leadId}")
