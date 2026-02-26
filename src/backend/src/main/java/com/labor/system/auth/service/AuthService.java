@@ -18,13 +18,13 @@ public class AuthService {
 
   private final UserAccountRepository userAccountRepository;
   private final AuthQueryRepository authQueryRepository;
-  private final InMemoryTokenService tokenService;
+  private final JwtTokenService tokenService;
   private final PasswordEncoder passwordEncoder;
 
   public AuthService(
       UserAccountRepository userAccountRepository,
       AuthQueryRepository authQueryRepository,
-      InMemoryTokenService tokenService,
+      JwtTokenService tokenService,
       PasswordEncoder passwordEncoder) {
     this.userAccountRepository = userAccountRepository;
     this.authQueryRepository = authQueryRepository;
@@ -80,4 +80,3 @@ public class AuthService {
     return value.startsWith("$2a$") || value.startsWith("$2b$") || value.startsWith("$2y$");
   }
 }
-
