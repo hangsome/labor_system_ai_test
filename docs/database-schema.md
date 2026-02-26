@@ -295,6 +295,13 @@
 
 ## 3. DDL 语句（可执行）
 
+### 3.0 Phase 01 迁移对齐说明
+
+1. `V1__baseline.sql` 提供最小可运行基线（仅 `user_account` 核心字段）。  
+2. `V2__phase01_iam_platform_baseline.sql` 对齐 Phase 01 任务，补齐 `role/permission/role_permission/user_role/data_scope_policy/audit_log`。  
+3. `V2` 同时对 `user_account` 执行幂等补列（`display_name`、`updated_at`），兼容已初始化环境。  
+4. 迁移已在本地 MySQL (`root`) 与开发容器环境完成可执行验证。  
+
 ```sql
 CREATE DATABASE IF NOT EXISTS labor_system
   DEFAULT CHARACTER SET utf8mb4

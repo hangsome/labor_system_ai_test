@@ -1,14 +1,12 @@
-# API 合约（Stage 1）
-
-## 1. 全局约定
+﻿# API 鍚堢害锛圫tage 1锛?
+## 1. 鍏ㄥ眬绾﹀畾
 
 - Base URL: `/api/admin/v1`
-- 认证：`Authorization: Bearer <JWT>`
-- 幂等头（关键写操作）：`X-Idempotency-Key: <uuid>`
+- 璁よ瘉锛歚Authorization: Bearer <JWT>`
+- 骞傜瓑澶达紙鍏抽敭鍐欐搷浣滐級锛歚X-Idempotency-Key: <uuid>`
 - Content-Type: `application/json; charset=utf-8`
-- 时间格式：ISO8601（UTC+8）
-
-### 1.1 统一响应
+- 鏃堕棿鏍煎紡锛欼SO8601锛圲TC+8锛?
+### 1.1 缁熶竴鍝嶅簲
 
 ```json
 {
@@ -20,7 +18,7 @@
 }
 ```
 
-### 1.2 分页响应
+### 1.2 鍒嗛〉鍝嶅簲
 
 ```json
 {
@@ -37,30 +35,27 @@
 }
 ```
 
-### 1.3 错误码（摘要）
-
-| 错误码 | 含义 |
+### 1.3 閿欒鐮侊紙鎽樿锛?
+| 閿欒鐮?| 鍚箟 |
 |---|---|
-| `AUTH-401` | 未认证或令牌失效 |
-| `AUTH-403` | 无权限访问 |
-| `REQ-400` | 参数校验失败 |
-| `BUS-409` | 状态冲突（如重复提交、非法状态流转） |
-| `SYS-500` | 系统异常 |
+| `AUTH-401` | 鏈璇佹垨浠ょ墝澶辨晥 |
+| `AUTH-403` | 鏃犳潈闄愯闂?|
+| `REQ-400` | 鍙傛暟鏍￠獙澶辫触 |
+| `BUS-409` | 鐘舵€佸啿绐侊紙濡傞噸澶嶆彁浜ゃ€侀潪娉曠姸鎬佹祦杞級 |
+| `SYS-500` | 绯荤粺寮傚父 |
 
-## 2. 接口分组
+## 2. 鎺ュ彛鍒嗙粍
 
 ### 2.1 Auth / IAM
 
-#### 登录
-- 路径：`POST /api/admin/v1/auth/login`
-- 描述：用户名密码登录
-- 请求参数：
-  | 参数 | 类型 | 必填 | 说明 |
+#### 鐧诲綍
+- 璺緞锛歚POST /api/admin/v1/auth/login`
+- 鎻忚堪锛氱敤鎴峰悕瀵嗙爜鐧诲綍
+- 璇锋眰鍙傛暟锛?  | 鍙傛暟 | 绫诲瀷 | 蹇呭～ | 璇存槑 |
   |---|---|---|---|
-  | username | string | 是 | 登录名 |
-  | password | string | 是 | 密码 |
-- 响应示例：
-```json
+  | username | string | 鏄?| 鐧诲綍鍚?|
+  | password | string | 鏄?| 瀵嗙爜 |
+- 鍝嶅簲绀轰緥锛?```json
 {
   "code": "0",
   "message": "success",
@@ -72,185 +67,164 @@
 }
 ```
 
-#### 刷新令牌
-- 路径：`POST /api/admin/v1/auth/refresh`
-- 描述：使用 refresh token 换新 access token
+#### 鍒锋柊浠ょ墝
+- 璺緞锛歚POST /api/admin/v1/auth/refresh`
+- 鎻忚堪锛氫娇鐢?refresh token 鎹㈡柊 access token
 
-#### 获取当前用户
-- 路径：`GET /api/admin/v1/auth/me`
-- 描述：返回用户信息、角色和权限点列表
+#### 鑾峰彇褰撳墠鐢ㄦ埛
+- 璺緞锛歚GET /api/admin/v1/auth/me`
+- 鎻忚堪锛氳繑鍥炵敤鎴蜂俊鎭€佽鑹插拰鏉冮檺鐐瑰垪琛?
+#### 瑙掕壊鍒楄〃
+- 璺緞锛歚GET /api/admin/v1/iam/roles`
+- 鎻忚堪锛氭煡璇㈣鑹蹭笌鏁版嵁鏉冮檺閰嶇疆
 
-#### 角色列表
-- 路径：`GET /api/admin/v1/iam/roles`
-- 描述：查询角色与数据权限配置
+#### RBAC 鍏煎璺敱锛坰ystem锛?- 璺緞锛歚GET /api/admin/v1/system/roles`
+- 鎻忚堪锛氬吋瀹硅矾鐢憋紝璇箟涓?`GET /api/admin/v1/iam/roles` 涓€鑷?
+#### 瑙掕壊鏉冮檺鏇存柊锛坰ystem锛?- 璺緞锛歚PUT /api/admin/v1/system/roles/{roleId}/permissions`
+- 鎻忚堪锛氭洿鏂拌鑹叉潈闄愰泦鍚堬紝瀛楁 `permissionCodes: string[]`
 
-### 2.2 CRM / 客户线索
+#### 鏉冮檺鐐瑰垪琛紙system锛?- 璺緞锛歚GET /api/admin/v1/system/permissions`
+- 鎻忚堪锛氳繑鍥炲彲鍒嗛厤鏉冮檺鐐瑰垪琛紙鐢ㄤ簬瑙掕壊鎺堟潈闈㈡澘锛?
+#### 瑙掕壊鏁版嵁鑼冨洿鏌ヨ锛坰ystem锛?- 璺緞锛歚GET /api/admin/v1/system/roles/{roleId}/data-scope`
+- 鎻忚堪锛氭煡璇㈣鑹?`data-scope` 绛栫暐锛坄scopeType`/`scopeRef`锛?
+### 2.2 CRM / 瀹㈡埛绾跨储
 
-#### 线索分页查询
-- 路径：`GET /api/admin/v1/crm/leads`
-- 描述：按筛选条件查询线索
-- 请求参数：
-  | 参数 | 类型 | 必填 | 说明 |
+#### 绾跨储鍒嗛〉鏌ヨ
+- 璺緞锛歚GET /api/admin/v1/crm/leads`
+- 鎻忚堪锛氭寜绛涢€夋潯浠舵煡璇㈢嚎绱?- 璇锋眰鍙傛暟锛?  | 鍙傛暟 | 绫诲瀷 | 蹇呭～ | 璇存槑 |
   |---|---|---|---|
-  | projectName | string | 否 | 项目名称模糊匹配 |
-  | bizOwnerId | long | 否 | 业务开发人 |
-  | cooperationStatus | string | 否 | 合作状态 |
-  | pageNo | int | 是 | 页码 |
-  | pageSize | int | 是 | 每页条数 |
+  | projectName | string | 鍚?| 椤圭洰鍚嶇О妯＄硦鍖归厤 |
+  | bizOwnerId | long | 鍚?| 涓氬姟寮€鍙戜汉 |
+  | cooperationStatus | string | 鍚?| 鍚堜綔鐘舵€?|
+  | pageNo | int | 鏄?| 椤电爜 |
+  | pageSize | int | 鏄?| 姣忛〉鏉℃暟 |
 
-#### 新增线索
-- 路径：`POST /api/admin/v1/crm/leads`
-- 描述：创建客户线索
+#### 鏂板绾跨储
+- 璺緞锛歚POST /api/admin/v1/crm/leads`
+- 鎻忚堪锛氬垱寤哄鎴风嚎绱?
+#### 鏇存柊绾跨储
+- 璺緞锛歚PUT /api/admin/v1/crm/leads/{leadId}`
+- 鎻忚堪锛氭洿鏂扮嚎绱俊鎭?
+#### 绾跨储璺熻繘璁板綍
+- 璺緞锛歚POST /api/admin/v1/crm/leads/{leadId}/tracks`
+- 鎻忚堪锛氳拷鍔犺窡杩涙棩蹇?
+#### 鐢ㄥ伐鍗曚綅鍒嗛〉鏌ヨ
+- 璺緞锛歚GET /api/admin/v1/crm/employer-units`
+- 鎻忚堪锛氭煡璇㈠凡杞寲鐨勭敤宸ュ崟浣?
+#### 鏂板鐢ㄥ伐鍗曚綅
+- 璺緞锛歚POST /api/admin/v1/crm/employer-units`
+- 鎻忚堪锛氭柊澧炵敤宸ュ崟浣嶄富鏁版嵁
 
-#### 更新线索
-- 路径：`PUT /api/admin/v1/crm/leads/{leadId}`
-- 描述：更新线索信息
+#### 鏇存柊鐢ㄥ伐鍗曚綅
+- 璺緞锛歚PUT /api/admin/v1/crm/employer-units/{unitId}`
+- 鎻忚堪锛氭洿鏂板崟浣嶄俊鎭€佸紑绁ㄤ俊鎭拰瀹㈡埛绛夌骇
 
-#### 线索跟进记录
-- 路径：`POST /api/admin/v1/crm/leads/{leadId}/tracks`
-- 描述：追加跟进日志
+### 2.3 Contract / 鍚堝悓
 
-#### 用工单位分页查询
-- 路径：`GET /api/admin/v1/crm/employer-units`
-- 描述：查询已转化的用工单位
-
-#### 新增用工单位
-- 路径：`POST /api/admin/v1/crm/employer-units`
-- 描述：新增用工单位主数据
-
-#### 更新用工单位
-- 路径：`PUT /api/admin/v1/crm/employer-units/{unitId}`
-- 描述：更新单位信息、开票信息和客户等级
-
-### 2.3 Contract / 合同
-
-#### 合同分页查询
-- 路径：`GET /api/admin/v1/contracts`
-- 描述：按状态、单位、周期筛选合同
-
-#### 创建合同
-- 路径：`POST /api/admin/v1/contracts`
-- 描述：创建 A/B 类合同
-- 请求参数（摘要）：
-  | 参数 | 类型 | 必填 | 说明 |
+#### 鍚堝悓鍒嗛〉鏌ヨ
+- 璺緞锛歚GET /api/admin/v1/contracts`
+- 鎻忚堪锛氭寜鐘舵€併€佸崟浣嶃€佸懆鏈熺瓫閫夊悎鍚?
+#### 鍒涘缓鍚堝悓
+- 璺緞锛歚POST /api/admin/v1/contracts`
+- 鎻忚堪锛氬垱寤?A/B 绫诲悎鍚?- 璇锋眰鍙傛暟锛堟憳瑕侊級锛?  | 鍙傛暟 | 绫诲瀷 | 蹇呭～ | 璇存槑 |
   |---|---|---|---|
-  | employerUnitId | long | 是 | 用工单位ID |
-  | contractType | string | 是 | A/B |
-  | startDate | date | 是 | 开始日期 |
-  | endDate | date | 是 | 结束日期 |
-  | settlementCycle | string | 是 | 结算周期 |
+  | employerUnitId | long | 鏄?| 鐢ㄥ伐鍗曚綅ID |
+  | contractType | string | 鏄?| A/B |
+  | startDate | date | 鏄?| 寮€濮嬫棩鏈?|
+  | endDate | date | 鏄?| 缁撴潫鏃ユ湡 |
+  | settlementCycle | string | 鏄?| 缁撶畻鍛ㄦ湡 |
 
-#### 配置结算规则
-- 路径：`POST /api/admin/v1/contracts/{contractId}/settlement-rules`
-- 描述：新增结算规则版本
-- 头：`X-Idempotency-Key` 必填
+#### 閰嶇疆缁撶畻瑙勫垯
+- 璺緞锛歚POST /api/admin/v1/contracts/{contractId}/settlement-rules`
+- 鎻忚堪锛氭柊澧炵粨绠楄鍒欑増鏈?- 澶达細`X-Idempotency-Key` 蹇呭～
 
-#### 合同续签
-- 路径：`POST /api/admin/v1/contracts/{contractId}/renew`
-- 描述：基于旧合同快速创建新合同
+#### 鍚堝悓缁
+- 璺緞锛歚POST /api/admin/v1/contracts/{contractId}/renew`
+- 鎻忚堪锛氬熀浜庢棫鍚堝悓蹇€熷垱寤烘柊鍚堝悓
 
-#### 合同终止
-- 路径：`POST /api/admin/v1/contracts/{contractId}/terminate`
-- 描述：提前终止并生成终止结算清单
+#### 鍚堝悓缁堟
+- 璺緞锛歚POST /api/admin/v1/contracts/{contractId}/terminate`
+- 鎻忚堪锛氭彁鍓嶇粓姝㈠苟鐢熸垚缁堟缁撶畻娓呭崟
 
-### 2.4 Workforce / 员工
+### 2.4 Workforce / 鍛樺伐
 
-#### 员工分页查询
-- 路径：`GET /api/admin/v1/workforce/employees`
-- 描述：按状态、部门、岗位查询员工
+#### 鍛樺伐鍒嗛〉鏌ヨ
+- 璺緞锛歚GET /api/admin/v1/workforce/employees`
+- 鎻忚堪锛氭寜鐘舵€併€侀儴闂ㄣ€佸矖浣嶆煡璇㈠憳宸?
+#### 鍛樺伐鍏ヨ亴
+- 璺緞锛歚POST /api/admin/v1/workforce/employees/onboard`
+- 鎻忚堪锛氬垱寤哄憳宸ユ。妗堝苟鍒濆鍖栬处鎴蜂俊鎭?
+#### 鍛樺伐绂昏亴
+- 璺緞锛歚POST /api/admin/v1/workforce/employees/{employeeId}/offboard`
+- 鎻忚堪锛氭墽琛岀鑱屾祦绋嬪苟璁板綍杞ㄨ抗
 
-#### 员工入职
-- 路径：`POST /api/admin/v1/workforce/employees/onboard`
-- 描述：创建员工档案并初始化账户信息
+#### 鍛樺伐鍚堝悓娲鹃仯
+- 璺緞锛歚POST /api/admin/v1/workforce/assignments`
+- 鎻忚堪锛氬垱寤哄憳宸?鍚堝悓娲鹃仯鍏崇郴锛堣繘鍦?宀椾綅/鑱岀骇锛?
+### 2.5 Attendance / 鑰冨嫟
 
-#### 员工离职
-- 路径：`POST /api/admin/v1/workforce/employees/{employeeId}/offboard`
-- 描述：执行离职流程并记录轨迹
+#### 鎺掔彮瀵煎叆
+- 璺緞锛歚POST /api/admin/v1/attendance/schedules/import`
+- 鎻忚堪锛氭壒閲忓鍏ユ帓鐝?
+#### 鑰冨嫟鏌ヨ
+- 璺緞锛歚GET /api/admin/v1/attendance/records`
+- 鎻忚堪锛氭寜鍚堝悓銆佸憳宸ャ€佹棩鏈熸煡璇㈣€冨嫟
 
-#### 员工合同派遣
-- 路径：`POST /api/admin/v1/workforce/assignments`
-- 描述：创建员工-合同派遣关系（进场/岗位/职级）
+#### 鎻愪氦琛ュ崱
+- 璺緞锛歚POST /api/admin/v1/attendance/corrections`
+- 鎻忚堪锛氭彁浜よˉ鍗＄敵璇?
+#### 瀹℃壒琛ュ崱
+- 璺緞锛歚POST /api/admin/v1/attendance/corrections/{correctionId}/approve`
+- 鎻忚堪锛氬鎵归€氳繃鍚庤Е鍙戦噸绠?
+### 2.6 Settlement / 缁撶畻
 
-### 2.5 Attendance / 考勤
+#### 瑙﹀彂缁撶畻浠诲姟
+- 璺緞锛歚POST /api/admin/v1/settlements/jobs/run`
+- 鎻忚堪锛氭寜鍚堝悓鎴栧懆鏈熻Е鍙戠粨绠?- 澶达細`X-Idempotency-Key` 蹇呭～
 
-#### 排班导入
-- 路径：`POST /api/admin/v1/attendance/schedules/import`
-- 描述：批量导入排班
+#### 缁撶畻鍗曞垪琛?- 璺緞锛歚GET /api/admin/v1/settlements/orders`
+- 鎻忚堪锛氭煡璇㈢粨绠楀崟
 
-#### 考勤查询
-- 路径：`GET /api/admin/v1/attendance/records`
-- 描述：按合同、员工、日期查询考勤
+#### 缁撶畻鍗曞鎵?- 璺緞锛歚POST /api/admin/v1/settlements/orders/{orderId}/approve`
+- 鎻忚堪锛氬鎵圭粨绠楀崟
 
-#### 提交补卡
-- 路径：`POST /api/admin/v1/attendance/corrections`
-- 描述：提交补卡申请
+#### 鍒涘缓璋冩暣鍗?- 璺緞锛歚POST /api/admin/v1/settlements/orders/{orderId}/adjustments`
+- 鎻忚堪锛氬皝鏉垮悗璋冩暣閲戦/宸ユ椂
+- 澶达細`X-Idempotency-Key` 蹇呭～
 
-#### 审批补卡
-- 路径：`POST /api/admin/v1/attendance/corrections/{correctionId}/approve`
-- 描述：审批通过后触发重算
+### 2.7 Billing / 鏀粯
 
-### 2.6 Settlement / 结算
+#### 鍒涘缓鏀粯鎵规
+- 璺緞锛歚POST /api/admin/v1/billing/payment-batches`
+- 鎻忚堪锛氬垱寤烘敮浠樻壒娆?- 澶达細`X-Idempotency-Key` 蹇呭～
 
-#### 触发结算任务
-- 路径：`POST /api/admin/v1/settlements/jobs/run`
-- 描述：按合同或周期触发结算
-- 头：`X-Idempotency-Key` 必填
+#### 鎵ц鏀粯
+- 璺緞锛歚POST /api/admin/v1/billing/payment-batches/{batchId}/pay`
+- 鎻忚堪锛氭墽琛屾墦娆?- 澶达細`X-Idempotency-Key` 蹇呭～
 
-#### 结算单列表
-- 路径：`GET /api/admin/v1/settlements/orders`
-- 描述：查询结算单
+#### 鏀粯缁撴灉鏌ヨ
+- 璺緞锛歚GET /api/admin/v1/billing/payment-batches/{batchId}`
+- 鎻忚堪锛氭煡璇㈡壒娆″拰璁板綍鐘舵€?
+### 2.8 Finance / 鍙戠エ涓庡簲鏀?
+#### 鍙戠エ鐢宠
+- 璺緞锛歚POST /api/admin/v1/finance/invoices/applications`
+- 鎻忚堪锛氭彁浜ゅ紑绁ㄧ敵璇?- 澶达細`X-Idempotency-Key` 蹇呭～
 
-#### 结算单审批
-- 路径：`POST /api/admin/v1/settlements/orders/{orderId}/approve`
-- 描述：审批结算单
+#### 鍙戠エ瀹℃壒
+- 璺緞锛歚POST /api/admin/v1/finance/invoices/applications/{applyId}/approve`
+- 鎻忚堪锛氬鎵瑰紑绁ㄧ敵璇?
+#### 搴旀敹鍙拌处鏌ヨ
+- 璺緞锛歚GET /api/admin/v1/finance/receivables`
+- 鎻忚堪锛氬垎椤垫煡璇㈠簲鏀朵笌鍥炴鐘舵€?
+#### 搴旀敹鏍搁攢
+- 璺緞锛歚POST /api/admin/v1/finance/receivables/{ledgerId}/reconcile`
+- 鎻忚堪锛氭墽琛屾牳閿€
+- 澶达細`X-Idempotency-Key` 蹇呭～
 
-#### 创建调整单
-- 路径：`POST /api/admin/v1/settlements/orders/{orderId}/adjustments`
-- 描述：封板后调整金额/工时
-- 头：`X-Idempotency-Key` 必填
-
-### 2.7 Billing / 支付
-
-#### 创建支付批次
-- 路径：`POST /api/admin/v1/billing/payment-batches`
-- 描述：创建支付批次
-- 头：`X-Idempotency-Key` 必填
-
-#### 执行支付
-- 路径：`POST /api/admin/v1/billing/payment-batches/{batchId}/pay`
-- 描述：执行打款
-- 头：`X-Idempotency-Key` 必填
-
-#### 支付结果查询
-- 路径：`GET /api/admin/v1/billing/payment-batches/{batchId}`
-- 描述：查询批次和记录状态
-
-### 2.8 Finance / 发票与应收
-
-#### 发票申请
-- 路径：`POST /api/admin/v1/finance/invoices/applications`
-- 描述：提交开票申请
-- 头：`X-Idempotency-Key` 必填
-
-#### 发票审批
-- 路径：`POST /api/admin/v1/finance/invoices/applications/{applyId}/approve`
-- 描述：审批开票申请
-
-#### 应收台账查询
-- 路径：`GET /api/admin/v1/finance/receivables`
-- 描述：分页查询应收与回款状态
-
-#### 应收核销
-- 路径：`POST /api/admin/v1/finance/receivables/{ledgerId}/reconcile`
-- 描述：执行核销
-- 头：`X-Idempotency-Key` 必填
-
-### 2.9 Out of Scope（Stage 1）
-
-1. `training/*`、`performance/*`、`points/*` 接口在 Stage 1 仅定义模块边界，不在本版本 API 契约内。  
-2. 这些模块将在 Stage 2 的 Phase 规划后补充详细接口。
-
-## 3. 事件契约（异步）
+### 2.9 Out of Scope锛圫tage 1锛?
+1. `training/*`銆乣performance/*`銆乣points/*` 鎺ュ彛鍦?Stage 1 浠呭畾涔夋ā鍧楄竟鐣岋紝涓嶅湪鏈増鏈?API 濂戠害鍐呫€? 
+2. 杩欎簺妯″潡灏嗗湪 Stage 2 鐨?Phase 瑙勫垝鍚庤ˉ鍏呰缁嗘帴鍙ｃ€?
+## 3. 浜嬩欢濂戠害锛堝紓姝ワ級
 
 ### `settlement.completed`
 ```json
@@ -310,9 +284,26 @@
 }
 ```
 
-## 4. 版本策略
+## 4. 鐗堟湰绛栫暐
 
-1. 当前主版本：`v1`。  
-2. 新增字段：向后兼容，默认可选。  
-3. 字段语义变更或删除：必须升次版本（`v2`）。  
-4. 所有变更需同步更新 `docs/api-contracts.md` 与对应测试用例。
+1. 褰撳墠涓荤増鏈細`v1`銆? 
+2. 鏂板瀛楁锛氬悜鍚庡吋瀹癸紝榛樿鍙€夈€? 
+3. 瀛楁璇箟鍙樻洿鎴栧垹闄わ細蹇呴』鍗囨鐗堟湰锛坄v2`锛夈€? 
+4. 鎵€鏈夊彉鏇撮渶鍚屾鏇存柊 `docs/api-contracts.md` 涓庡搴旀祴璇曠敤渚嬨€?
+
+## 4. Auth 字段补充（Phase 1）
+
+### 4.1 `/api/admin/v1/auth/login`
+- 请求字段：`username`、`password`
+- 响应字段：`accessToken`、`refreshToken`、`expiresIn`
+- 失败响应：`AUTH-401`（用户名或密码错误）
+
+### 4.2 `/api/admin/v1/auth/refresh`
+- 请求字段：`refreshToken`
+- 响应字段：`accessToken`、`refreshToken`、`expiresIn`
+- 失败响应：`AUTH-401`（refresh token 非法或失效）
+
+### 4.3 `/api/admin/v1/auth/me`
+- 请求头：`Authorization: Bearer <accessToken>`
+- 响应字段：`id`、`username`、`displayName`、`roles[]`、`permissions[]`
+- 失败响应：`AUTH-401`（未认证或令牌失效）
