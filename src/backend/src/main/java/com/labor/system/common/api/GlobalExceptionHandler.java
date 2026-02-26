@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -36,6 +37,18 @@ public class GlobalExceptionHandler {
         .body(ApiResponse.error(ErrorCodes.REQUEST_INVALID, "参数校验失败"));
   }
 
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<ApiResponse<Void>> handleConstraintViolationException(
+      ConstraintViolationException ex) {
+    String message =
+        ex.getConstraintViolations().stream()
+            .findFirst()
+            .map(violation -> violation.getMessage())
+            .orElse("参数校验失败");
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(ApiResponse.error(ErrorCodes.REQUEST_INVALID, message));
+  }
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ApiResponse<Void>> handleOtherExceptions(Exception ex) {
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -49,4 +62,3 @@ public class GlobalExceptionHandler {
         .orElse("参数校验失败");
   }
 }
-

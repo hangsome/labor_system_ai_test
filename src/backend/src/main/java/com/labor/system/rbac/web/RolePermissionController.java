@@ -1,6 +1,7 @@
 package com.labor.system.rbac.web;
 
 import com.labor.system.common.api.ApiResponse;
+import com.labor.system.platform.audit.AuditAction;
 import com.labor.system.rbac.service.RolePermissionService;
 import com.labor.system.rbac.web.dto.DataScopePolicyResponse;
 import com.labor.system.rbac.web.dto.RoleSummaryResponse;
@@ -30,6 +31,7 @@ public class RolePermissionController {
   }
 
   @PutMapping("/roles/{roleId}/permissions")
+  @AuditAction(bizType = "ROLE_PERMISSION", action = "UPDATE", bizIdArg = "roleId")
   public ApiResponse<Void> updateRolePermissions(
       @PathVariable("roleId") Long roleId,
       @Valid @RequestBody UpdateRolePermissionsRequest request) {
@@ -42,4 +44,3 @@ public class RolePermissionController {
     return ApiResponse.success(rolePermissionService.getDataScopePolicy(roleId));
   }
 }
-
