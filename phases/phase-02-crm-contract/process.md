@@ -1,6 +1,6 @@
 ﻿# Phase 02 Progress
 
-> updated_at: 2026-02-26T23:04:34+08:00
+> updated_at: 2026-02-27T06:26:07+08:00
 > phase: Phase 02 - CRM Contract
 > csv_path: phases/phase-02-crm-contract/todolist.csv
 > plan_source: phases/phase-02-crm-contract/plan.md
@@ -23,19 +23,19 @@
 | Metric | Value |
 |---|---|
 | total_tasks | 24 |
-| done | 9 |
+| done | 10 |
 | in_progress | 0 |
-| pending | 15 |
+| pending | 14 |
 | blocked | 0 |
-| completion_rate | 37.50% |
-| compaction_count | 9 |
+| completion_rate | 41.67% |
+| compaction_count | 10 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: PH02-170 contract/rule service unit tests
+- Current task: PH02-190 contract lifecycle integration tests
 - Current agent: codex
-- Last update: 2026-02-26T23:04:34+08:00
+- Last update: 2026-02-27T06:26:07+08:00
 
 ---
 
@@ -52,6 +52,7 @@
 | 7 | PH02-120 | 实现用工单位管理 API | codex | 2026-02-26T22:43:53+08:00 | pending-commit |
 | 8 | PH02-130 | 实现合同生命周期 API | codex | 2026-02-26T22:48:34+08:00 | pending-commit |
 | 9 | PH02-140 | 实现结算规则版本管理 API | codex | 2026-02-26T23:04:34+08:00 | pending-commit |
+| 10 | PH02-170 | 补充合同与规则服务单元测试 | codex | 2026-02-27T06:26:07+08:00 | pending-commit |
 
 ## In Progress Tasks
 
@@ -84,6 +85,7 @@
 22:43 [codex] Completed PH02-120: implemented employer unit CRUD/deactivate APIs and passed EmployerUnitControllerTest (7 tests).
 22:48 [codex] Completed PH02-130: implemented contract lifecycle APIs and passed LaborContractControllerTest (7 tests).
 23:04 [codex] Completed PH02-140: implemented settlement rule create/publish/deactivate/version APIs and passed SettlementRuleControllerTest (7 tests).
+06:26 [codex] Completed PH02-170: added ContractRuleServiceTest for contract state-machine and settlement rule boundary branches, passed (9 tests).
 ```
 
 ---
@@ -93,4 +95,4 @@
 - Phase 02 Stage 3 artifacts are ready.
 - CSV remains the single source of Phase 02 task truth.
 - Frontend tasks are assigned to gemini route with codex fallback when unavailable.
-- Stage 4 has started; PH02-010, PH02-020, PH02-030, PH02-040, PH02-050, PH02-090, PH02-120, PH02-130, and PH02-140 are settled.
+- Stage 4 has started; PH02-010, PH02-020, PH02-030, PH02-040, PH02-050, PH02-090, PH02-120, PH02-130, PH02-140, and PH02-170 are settled.
