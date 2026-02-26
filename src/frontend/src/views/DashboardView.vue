@@ -13,6 +13,10 @@
           <el-card shadow="hover" data-testid="dashboard-card">
             <template #header>客户线索</template>
             <p>支持多维筛选、跟进记录、转化分析。</p>
+            <router-link class="quick-link" to="/crm/leads" data-testid="go-crm-leads">
+              Open lead list
+            </router-link>
+            <br />
             <router-link class="quick-link" to="/system/roles" data-testid="go-system-roles">
               Open role console
             </router-link>
