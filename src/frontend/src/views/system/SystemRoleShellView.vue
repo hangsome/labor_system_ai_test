@@ -4,10 +4,18 @@
       <el-aside class="menu-panel" width="240px">
         <h2 class="menu-title">System Management</h2>
         <el-menu default-active="roles" class="system-menu">
-          <el-menu-item index="roles" data-testid="system-menu-item">Role Management</el-menu-item>
-          <el-menu-item index="menus" data-testid="system-menu-item">Menu Permissions</el-menu-item>
-          <el-menu-item index="scope" data-testid="system-menu-item">
-            <router-link class="menu-link" to="/system/audit-logs">Audit Logs</router-link>
+          <el-menu-item
+            v-for="item in menuItems"
+            :key="item.index"
+            :index="item.index"
+            :disabled="!item.enabled"
+            :class="{ 'menu-item-disabled': !item.enabled }"
+            data-testid="system-menu-item"
+          >
+            <router-link v-if="item.enabled" class="menu-link" :to="item.route">{{ item.label }}</router-link>
+            <span v-else class="menu-disabled-text" data-testid="system-menu-disabled">
+              {{ item.label }} (coming soon)
+            </span>
           </el-menu-item>
         </el-menu>
       </el-aside>
@@ -26,6 +34,21 @@
     </el-container>
   </div>
 </template>
+
+<script setup lang="ts">
+interface SystemMenuItem {
+  index: string
+  label: string
+  route: string
+  enabled: boolean
+}
+
+const menuItems: SystemMenuItem[] = [
+  { index: 'roles', label: 'Role Management', route: '/system/roles', enabled: true },
+  { index: 'audit', label: 'Audit Logs', route: '/system/audit-logs', enabled: true },
+  { index: 'scope', label: 'Data Scope Policy', route: '/system/roles', enabled: false },
+]
+</script>
 
 <style scoped>
 .system-role-shell {
@@ -61,8 +84,18 @@
 }
 
 .menu-link {
+  display: inline-flex;
+  width: 100%;
   color: inherit;
   text-decoration: none;
+}
+
+.menu-item-disabled {
+  color: #94a3b8;
+}
+
+.menu-disabled-text {
+  color: #94a3b8;
 }
 
 .content-panel {
