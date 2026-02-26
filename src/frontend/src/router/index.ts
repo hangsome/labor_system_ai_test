@@ -29,6 +29,14 @@ const routes = [
     },
   },
   {
+    path: '/crm/leads/:leadId',
+    name: 'crm-lead-detail',
+    component: () => import('../views/crm/LeadDetailView.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/system/roles',
     name: 'system-roles',
     component: () => import('../views/system/SystemRoleShellView.vue'),
