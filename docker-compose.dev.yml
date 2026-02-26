@@ -1,7 +1,8 @@
+name: labor-system
+
 services:
   mysql:
     image: mysql:8.4
-    container_name: labor-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: labor_system
@@ -20,7 +21,6 @@ services:
 
   redis:
     image: redis:7
-    container_name: labor-redis
     ports:
       - "6379:6379"
     volumes:
@@ -33,7 +33,6 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.13-management
-    container_name: labor-rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -50,7 +49,6 @@ services:
 
   minio:
     image: minio/minio:latest
-    container_name: labor-minio
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: minioadmin
