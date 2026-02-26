@@ -84,6 +84,22 @@
 - 路径：`GET /api/admin/v1/iam/roles`
 - 描述：查询角色与数据权限配置
 
+#### RBAC 兼容路由（system）
+- 路径：`GET /api/admin/v1/system/roles`
+- 描述：兼容路由，语义与 `GET /api/admin/v1/iam/roles` 一致
+
+#### 角色权限更新（system）
+- 路径：`PUT /api/admin/v1/system/roles/{roleId}/permissions`
+- 描述：更新角色权限集合，字段 `permissionCodes: string[]`
+
+#### 权限点列表（system）
+- 路径：`GET /api/admin/v1/system/permissions`
+- 描述：返回可分配权限点列表（用于角色授权面板）
+
+#### 角色数据范围查询（system）
+- 路径：`GET /api/admin/v1/system/roles/{roleId}/data-scope`
+- 描述：查询角色 `data-scope` 策略（`scopeType`/`scopeRef`）
+
 ### 2.2 CRM / 客户线索
 
 #### 线索分页查询
