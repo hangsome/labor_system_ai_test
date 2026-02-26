@@ -295,12 +295,13 @@
 
 ## 3. DDL 语句（可执行）
 
-### 3.0 Phase 01 迁移对齐说明
+### 3.0 Phase 01-02 迁移对齐说明
 
 1. `V1__baseline.sql` 提供最小可运行基线（仅 `user_account` 核心字段）。  
 2. `V2__phase01_iam_platform_baseline.sql` 对齐 Phase 01 任务，补齐 `role/permission/role_permission/user_role/data_scope_policy/audit_log`。  
 3. `V2` 同时对 `user_account` 执行幂等补列（`display_name`、`updated_at`），兼容已初始化环境。  
-4. 迁移已在本地 MySQL (`root`) 与开发容器环境完成可执行验证。  
+4. `V3__phase02_crm_contract_baseline.sql` 对齐 Phase 02 任务，新增 `customer_lead/employer_unit/labor_contract/settlement_rule` 及其索引、唯一约束、外键。  
+5. 迁移已在本地 MySQL (`root`) 与开发容器环境完成可执行验证。  
 
 ```sql
 CREATE DATABASE IF NOT EXISTS labor_system
@@ -371,7 +372,10 @@ CREATE TABLE IF NOT EXISTS customer_lead (
   tender_at DATE NULL,
   deposit_status VARCHAR(32) NOT NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY idx_customer_lead_status (cooperation_status),
+  KEY idx_customer_lead_owner (biz_owner_id),
+  KEY idx_customer_lead_updated_at (updated_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS employer_unit (
@@ -385,6 +389,8 @@ CREATE TABLE IF NOT EXISTS employer_unit (
   is_outsource TINYINT NOT NULL DEFAULT 0,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY idx_employer_unit_lead_id (lead_id),
+  KEY idx_employer_unit_name (unit_name),
   CONSTRAINT fk_employer_unit_lead FOREIGN KEY (lead_id) REFERENCES customer_lead(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -401,6 +407,9 @@ CREATE TABLE IF NOT EXISTS labor_contract (
   tax_rate DECIMAL(6,4) NOT NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY idx_labor_contract_employer_id (employer_unit_id),
+  KEY idx_labor_contract_status (status),
+  KEY idx_labor_contract_date_range (start_date, end_date),
   CONSTRAINT fk_labor_contract_employer_unit FOREIGN KEY (employer_unit_id) REFERENCES employer_unit(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -413,6 +422,7 @@ CREATE TABLE IF NOT EXISTS settlement_rule (
   rule_payload JSON NOT NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY uk_rule_contract_version (contract_id, version_no),
+  KEY idx_settlement_rule_effective_from (effective_from),
   CONSTRAINT fk_settlement_rule_contract FOREIGN KEY (contract_id) REFERENCES labor_contract(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
