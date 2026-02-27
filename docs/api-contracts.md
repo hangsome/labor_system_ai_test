@@ -105,9 +105,15 @@
 #### 鏇存柊绾跨储
 - 璺緞锛歚PUT /api/admin/v1/crm/leads/{leadId}`
 - 鎻忚堪锛氭洿鏂扮嚎绱俊鎭?
-#### 绾跨储璺熻繘璁板綍
-- 璺緞锛歚POST /api/admin/v1/crm/leads/{leadId}/tracks`
-- 鎻忚堪锛氳拷鍔犺窡杩涙棩蹇?
+#### 绾跨储鐘舵€佹祦杞?
+- 璺緞锛歚PUT /api/admin/v1/crm/leads/{leadId}/status`
+- 鎻忚堪锛氭寜鐘舵€佹満瑙勫垯鎵ц绾跨储流转锛堝 NEW -> FOLLOWING/WON/LOST锛?
+#### 绾跨储璺熻繘璁板綍鏂板
+- 璺緞锛歚POST /api/admin/v1/crm/leads/{leadId}/follow-ups`
+- 鎻忚堪锛氭柊澧?lead-follow-up 璺熻繘璁板綍锛屾敮鎸佷笅娆¤仈绯绘椂闂翠笌澶囨敞
+#### 绾跨储璺熻繘璁板綍鏌ヨ
+- 璺緞锛歚GET /api/admin/v1/crm/leads/{leadId}/follow-ups`
+- 鎻忚堪锛氭寜绾跨储鏌ヨ lead-follow-up 鍘嗗彶璁板綍
 #### 鐢ㄥ伐鍗曚綅鍒嗛〉鏌ヨ
 - 璺緞锛歚GET /api/admin/v1/crm/employer-units`
 - 鎻忚堪锛氭煡璇㈠凡杞寲鐨勭敤宸ュ崟浣?
@@ -121,30 +127,52 @@
 
 ### 2.3 Contract / 鍚堝悓
 
-#### 鍚堝悓鍒嗛〉鏌ヨ
-- 璺緞锛歚GET /api/admin/v1/contracts`
-- 鎻忚堪锛氭寜鐘舵€併€佸崟浣嶃€佸懆鏈熺瓫閫夊悎鍚?
+#### 鍚堝悓璇︽儏鏌ヨ
+- 璺緞锛歚GET /api/admin/v1/contracts/labor-contracts/{contractId}`
+- 鎻忚堪锛氭寜鍚堝悓ID鏌ヨ鍚堝悓璇︽儏涓庡綋鍓嶇姸鎬?
 #### 鍒涘缓鍚堝悓
-- 璺緞锛歚POST /api/admin/v1/contracts`
+- 璺緞锛歚POST /api/admin/v1/contracts/labor-contracts`
 - 鎻忚堪锛氬垱寤?A/B 绫诲悎鍚?- 璇锋眰鍙傛暟锛堟憳瑕侊級锛?  | 鍙傛暟 | 绫诲瀷 | 蹇呭～ | 璇存槑 |
   |---|---|---|---|
+  | contractNo | string | 鏄?| 鍚堝悓鍙?|
   | employerUnitId | long | 鏄?| 鐢ㄥ伐鍗曚綅ID |
   | contractType | string | 鏄?| A/B |
   | startDate | date | 鏄?| 寮€濮嬫棩鏈?|
   | endDate | date | 鏄?| 缁撴潫鏃ユ湡 |
   | settlementCycle | string | 鏄?| 缁撶畻鍛ㄦ湡 |
+  | taxRate | decimal | 鏄?| 绋庣巼 |
 
-#### 閰嶇疆缁撶畻瑙勫垯
-- 璺緞锛歚POST /api/admin/v1/contracts/{contractId}/settlement-rules`
-- 鎻忚堪锛氭柊澧炵粨绠楄鍒欑増鏈?- 澶达細`X-Idempotency-Key` 蹇呭～
+#### 鍚堝悓绛剧讲
+- 璺緞锛歚PUT /api/admin/v1/contracts/labor-contracts/{contractId}/sign`
+- 鎻忚堪锛氬皢鍚堝悓浠?DRAFT 绛剧讲涓?SIGNED
 
 #### 鍚堝悓缁
-- 璺緞锛歚POST /api/admin/v1/contracts/{contractId}/renew`
-- 鎻忚堪锛氬熀浜庢棫鍚堝悓蹇€熷垱寤烘柊鍚堝悓
+- 璺緞锛歚PUT /api/admin/v1/contracts/labor-contracts/{contractId}/renew`
+- 鎻忚堪锛氭牴鎹?newEndDate 鏇存柊鍚堝悓鍒版湡鏃?
 
 #### 鍚堝悓缁堟
-- 璺緞锛歚POST /api/admin/v1/contracts/{contractId}/terminate`
-- 鎻忚堪锛氭彁鍓嶇粓姝㈠苟鐢熸垚缁堟缁撶畻娓呭崟
+- 璺緞锛歚PUT /api/admin/v1/contracts/labor-contracts/{contractId}/terminate`
+- 鎻忚堪锛氭寜 terminateDate 鎻愬墠缁堟鍚堝悓锛屽苟灏嗙姸鎬佹洿鏂颁负 TERMINATED
+
+#### 缁撶畻瑙勫垯鍒涘缓
+- 璺緞锛歚POST /api/admin/v1/contracts/settlement-rules`
+- 鎻忚堪锛氭柊澧炵粨绠楄鍒欑増鏈紝鍚屽悎鍚屼笅 versionNo 蹇呴』鍞竴
+
+#### 缁撶畻瑙勫垯鍙戝竷
+- 璺緞锛歚PUT /api/admin/v1/contracts/settlement-rules/{ruleId}/publish`
+- 鎻忚堪锛氬皢瑙勫垯鐗堟湰鏍囪涓?PUBLISHED锛屽苟杩涜鐢熸晥鏃ュ敮涓€鏍￠獙
+
+#### 缁撶畻瑙勫垯鍋滅敤
+- 璺緞锛歚PUT /api/admin/v1/contracts/settlement-rules/{ruleId}/deactivate`
+- 鎻忚堪锛氬皢宸插彂甯冭鍒欐洿鏂颁负 DISABLED锛屼繚鐣欏巻鍙茬増鏈?
+
+#### 缁撶畻瑙勫垯鐗堟湰鍒楄〃
+- 璺緞锛歚GET /api/admin/v1/contracts/{contractId}/settlement-rules/versions`
+- 鎻忚堪锛氭寜鍚堝悓鏌ヨ璇ヨ鍒欏巻鍙茬増鏈垪琛?
+
+#### 缁撶畻瑙勫垯鏈夋晥鐗堟湰鏌ヨ
+- 璺緞锛歚GET /api/admin/v1/contracts/{contractId}/settlement-rules/active?onDate=YYYY-MM-DD`
+- 鎻忚堪锛氭寜鏃ユ湡鏌ヨ鍚堝悓涓嬪綋鍓嶆湁鏁堢殑宸插彂甯冭鍒?
 
 ### 2.4 Workforce / 鍛樺伐
 

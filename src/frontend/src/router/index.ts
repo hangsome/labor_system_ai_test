@@ -21,6 +21,46 @@ const routes = [
     },
   },
   {
+    path: '/crm/leads',
+    name: 'crm-leads',
+    component: () => import('../views/crm/LeadListView.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/crm/leads/:leadId',
+    name: 'crm-lead-detail',
+    component: () => import('../views/crm/LeadDetailView.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/crm/employer-units',
+    name: 'crm-employer-units',
+    component: () => import('../views/crm/EmployerUnitListView.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/contracts/labor-contracts',
+    name: 'contract-labor-list',
+    component: () => import('../views/contract/ContractListView.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/contracts/labor-contracts/:contractId',
+    name: 'contract-labor-detail',
+    component: () => import('../views/contract/ContractDetailView.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/system/roles',
     name: 'system-roles',
     component: () => import('../views/system/SystemRoleShellView.vue'),
