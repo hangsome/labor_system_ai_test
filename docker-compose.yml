@@ -78,7 +78,7 @@ services:
       SPRING_RABBITMQ_PORT: 5672
       SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER}
       SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
-      SPRING_FLYWAY_LOCATIONS: classpath:db/migration,filesystem:/opt/app/database/migrations
+      SPRING_FLYWAY_LOCATIONS: filesystem:/opt/app/database/migrations
       SERVER_PORT: 8080
     volumes:
       - ./database/migrations:/opt/app/database/migrations:ro

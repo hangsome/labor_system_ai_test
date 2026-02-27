@@ -18,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,7 @@ public class JwtTokenService {
   private final ConcurrentMap<String, RefreshTokenState> refreshTokenStore = new ConcurrentHashMap<>();
   private final ConcurrentMap<String, Boolean> revokedAccessTokenStore = new ConcurrentHashMap<>();
 
+  @Autowired
   public JwtTokenService(
       ObjectMapper objectMapper,
       @Value("${app.auth.jwt.secret:labor-system-dev-jwt-secret-please-change-this-value}") String secret,
