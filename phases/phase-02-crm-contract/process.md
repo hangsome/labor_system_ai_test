@@ -1,6 +1,6 @@
 ﻿# Phase 02 Progress
 
-> updated_at: 2026-02-27T08:44:30+08:00
+> updated_at: 2026-02-27T12:14:15+08:00
 > phase: Phase 02 - CRM Contract
 > csv_path: phases/phase-02-crm-contract/todolist.csv
 > plan_source: phases/phase-02-crm-contract/plan.md
@@ -33,7 +33,7 @@
 
 ## Current Focus
 
-- Current task: Await Phase 02 Stage 5 acceptance decision
+- Current task: Local deployment verification complete, waiting manual acceptance decision
 - Current agent: codex
 - Last update: 2026-02-27T08:44:30+08:00
 
@@ -116,6 +116,9 @@
 08:42 [codex] Stage 5 blocker recheck: frontend full unit suite passed (10 files / 22 tests), e2e suite passed (5 tests).
 08:43 [codex] Stage 5 backend regression passed (mvn test: 99 run, 0 fail, 0 error, 1 skipped).
 08:44 [codex] Generated Phase 02 handoff docs (review-summary + retrospective) and closed blocker reproducibility check.
+11:39 [codex] Fixed deployment healthcheck path by enabling actuator; backend `/actuator/health` now available.
+12:06 [codex] Accepted user decision: prioritize local deployment/manual verification; postpone server deployment to full-project completion.
+12:13 [codex] Local verification passed: backend container healthy, frontend vite reachable, and `/api/admin/v1/iam/roles` returns 200 through proxy.
 ```
 
 ---
@@ -128,3 +131,4 @@
 - Stage 4 execution is complete; all PH02-010..PH02-240 tasks are settled.
 - PH02-240 blocker list was rechecked in Stage 5 and is not reproducible in current workspace.
 - Stage 5 handoff docs: `phases/phase-02-crm-contract/review/review-summary.md` and `phases/phase-02-crm-contract/review/retrospective.md`.
+- Local deployment baseline is ready for manual acceptance; server deployment will be executed after full project completion.

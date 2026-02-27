@@ -1,6 +1,6 @@
 ﻿# Workflow Progress
 
-> updated_at: 2026-02-27T08:44:30+08:00
+> updated_at: 2026-02-27T12:14:15+08:00
 > current_stage: Stage 5
 > task_source: plan2026-02-26.md
 > tracker: todolist.csv
@@ -34,7 +34,7 @@
 
 ## Current Focus
 
-- Current task: Await Phase 02 Stage 5 acceptance (PH02-240 blockers recheck passed)
+- Current task: Phase 02 local deployment for manual verification (server deployment deferred)
 - Current branch: feature/phase-02-crm-contract
 
 ## Execution Log
@@ -75,6 +75,9 @@
 08:42 [codex] Stage5 recheck: frontend unit suite PASS (10 files / 22 tests), frontend e2e PASS (5 tests).
 08:43 [codex] Stage5 regression: backend mvn test PASS (99 run, 0 fail, 0 error, 1 skipped).
 08:44 [codex] Stage5 docs generated: phase-02 review-summary and retrospective completed.
+11:39 [codex] Deployment healthcheck root-cause fixed by adding backend actuator dependency (`/actuator/health` available).
+12:06 [codex] Strategy switched: local deployment first for manual validation; server rollout deferred until project completion.
+12:13 [codex] Local stack verified: docker backend health UP, Vite frontend reachable, `/api/admin/v1/iam/roles` via proxy returns 200.
 ```
 
 ## Stage 4 Progress

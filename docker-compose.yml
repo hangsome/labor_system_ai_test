@@ -82,6 +82,8 @@ services:
       SERVER_PORT: 8080
     volumes:
       - ./database/migrations:/opt/app/database/migrations:ro
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://localhost:8080/actuator/health | grep -q '\"status\":\"UP\"'"]
       interval: 15s
