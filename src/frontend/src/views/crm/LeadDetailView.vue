@@ -220,9 +220,7 @@ function submitFollowUp() {
 
 <style scoped>
 .lead-detail-page {
-  min-height: 100vh;
   padding: 20px;
-  background: #f3f5f9;
 }
 
 .page-actions {

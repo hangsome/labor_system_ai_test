@@ -215,9 +215,7 @@ function getAuditResultTag(result: string) {
 
 <style scoped>
 .audit-log-view {
-  min-height: 100vh;
   padding: 22px;
-  background: #f3f5f9;
 }
 
 .page-header {

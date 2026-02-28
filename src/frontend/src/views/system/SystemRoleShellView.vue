@@ -1,120 +1,81 @@
 ﻿<template>
-  <div class="system-role-shell" data-testid="system-role-shell">
-    <aside class="side-nav">
-      <div class="brand-block">
-        <span class="brand-logo" />
-        <span>零工发薪平台</span>
+  <div class="system-role-page" data-testid="system-role-shell">
+    <section class="page-head">
+      <div>
+        <h1>角色权限管理</h1>
+        <p>统一管理系统角色、菜单权限与数据访问范围</p>
       </div>
+      <div class="head-actions">
+        <el-button @click="toggleOnlyEnabled">{{ showOnlyEnabled ? '查看全部' : '仅看启用' }}</el-button>
+        <el-button type="primary" @click="openCreateDialog">添加角色</el-button>
+      </div>
+    </section>
 
-      <p class="section-title">系统设置</p>
-      <ul class="menu-list">
-        <li
-          v-for="item in menuItems"
-          :key="item.index"
-          class="menu-item"
-          data-testid="system-menu-item"
-        >
-          <router-link v-if="item.enabled" class="menu-link" :to="item.route">
-            {{ item.label }}
-          </router-link>
-          <span v-else class="menu-disabled-text" data-testid="system-menu-disabled">
-            {{ item.label }}（即将上线）
-          </span>
-        </li>
-      </ul>
-    </aside>
+    <section class="stats-grid">
+      <el-card shadow="never" class="stat-card">
+        <h4>全部角色</h4>
+        <p>{{ roleRows.length }}</p>
+        <small>↑ 12.5% 较上月</small>
+      </el-card>
+      <el-card shadow="never" class="stat-card">
+        <h4>启用角色</h4>
+        <p>{{ enabledCount }}</p>
+        <small>↑ 9.3% 较上月</small>
+      </el-card>
+      <el-card shadow="never" class="stat-card">
+        <h4>只读角色</h4>
+        <p>{{ readOnlyCount }}</p>
+        <small>↑ 3.2% 较上月</small>
+      </el-card>
+      <el-card shadow="never" class="stat-card stat-card-alert">
+        <h4>待审核角色</h4>
+        <p>{{ pendingCount }}</p>
+        <small>↑ 1 较昨日</small>
+      </el-card>
+    </section>
 
-    <div class="main-panel">
-      <header class="top-bar">
-        <div class="search-wrap">
-          <el-input
-            v-model.trim="keyword"
-            placeholder="搜索角色名称或ID"
-            clearable
-            @keyup.enter="queryRoles"
-            @clear="queryRoles"
-          />
-        </div>
-        <div class="user-wrap">
-          <span class="notify-badge">3</span>
-          <span class="user-avatar">管</span>
-          <div class="user-meta">
-            <strong>管理员</strong>
-            <span>系统管理员</span>
+    <el-card shadow="never" class="role-table-card" data-testid="role-page-card">
+      <template #header>
+        <div class="card-title-row">
+          <h3>角色列表</h3>
+          <div class="header-tools">
+            <el-input
+              v-model.trim="keyword"
+              placeholder="搜索角色名称或ID"
+              clearable
+              style="width: 260px"
+              @keyup.enter="queryRoles"
+              @clear="queryRoles"
+            />
           </div>
         </div>
-      </header>
+      </template>
 
-      <main class="content-area">
-        <section class="page-head">
-          <div>
-            <h1>角色权限管理</h1>
-            <p>统一管理系统角色、菜单权限与数据访问范围</p>
-          </div>
-          <div class="head-actions">
-            <el-button @click="toggleOnlyEnabled">{{ showOnlyEnabled ? '查看全部' : '仅看启用' }}</el-button>
-            <el-button type="primary" @click="openCreateDialog">添加角色</el-button>
-          </div>
-        </section>
-
-        <section class="stats-grid">
-          <el-card shadow="never" class="stat-card">
-            <h4>全部角色</h4>
-            <p>{{ roleRows.length }}</p>
-            <small>↑ 12.5% 较上月</small>
-          </el-card>
-          <el-card shadow="never" class="stat-card">
-            <h4>启用角色</h4>
-            <p>{{ enabledCount }}</p>
-            <small>↑ 9.3% 较上月</small>
-          </el-card>
-          <el-card shadow="never" class="stat-card">
-            <h4>只读角色</h4>
-            <p>{{ readOnlyCount }}</p>
-            <small>↑ 3.2% 较上月</small>
-          </el-card>
-          <el-card shadow="never" class="stat-card stat-card-alert">
-            <h4>待审核角色</h4>
-            <p>{{ pendingCount }}</p>
-            <small>↑ 1 较昨日</small>
-          </el-card>
-        </section>
-
-        <el-card shadow="never" class="role-table-card" data-testid="role-page-card">
-          <template #header>
-            <div class="card-title-row">
-              <h3>角色列表</h3>
-              <span>显示 1-{{ filteredRows.length }} 条，共 {{ filteredRows.length }} 条</span>
-            </div>
+      <el-table :data="filteredRows" stripe border>
+        <el-table-column prop="roleId" label="角色ID" min-width="120" />
+        <el-table-column prop="roleName" label="角色名称" min-width="180" />
+        <el-table-column label="数据范围" min-width="160">
+          <template #default="{ row }">
+            {{ getScopeText(row.scope) }}
           </template>
-
-          <el-table :data="filteredRows" stripe border>
-            <el-table-column prop="roleId" label="角色ID" min-width="120" />
-            <el-table-column prop="roleName" label="角色名称" min-width="180" />
-            <el-table-column label="数据范围" min-width="160">
-              <template #default="{ row }">
-                {{ getScopeText(row.scope) }}
-              </template>
-            </el-table-column>
-            <el-table-column label="状态" min-width="120">
-              <template #default="{ row }">
-                <el-tag :type="getRoleStatusTag(row.status)" effect="light">
-                  {{ getRoleStatusText(row.status) }}
-                </el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column prop="updatedAt" label="更新时间" min-width="180" />
-            <el-table-column label="操作" width="220">
-              <template #default="{ row }">
-                <el-button link type="primary" @click="viewRole(row)">查看</el-button>
-                <el-button link type="primary" @click="openEditDialog(row)">编辑</el-button>
-                <el-button link type="danger" @click="deleteRole(row.roleId)">删除</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-card>
-      </main>
-    </div>
+        </el-table-column>
+        <el-table-column label="状态" min-width="120">
+          <template #default="{ row }">
+            <el-tag :type="getRoleStatusTag(row.status)" effect="light">
+              {{ getRoleStatusText(row.status) }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="updatedAt" label="更新时间" min-width="180" />
+        <el-table-column label="操作" width="220">
+          <template #default="{ row }">
+            <el-button link type="primary" @click="viewRole(row)">查看</el-button>
+            <el-button link type="primary" @click="openEditDialog(row)">编辑</el-button>
+            <el-button link type="danger" @click="deleteRole(row.roleId)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
 
     <el-dialog
       v-model="dialogVisible"
@@ -166,13 +127,6 @@ type ScopeCode = keyof typeof scopeTextMap
 
 type RoleStatusCode = 'ENABLED' | 'PENDING' | 'DISABLED'
 
-interface SystemMenuItem {
-  index: string
-  label: string
-  route: string
-  enabled: boolean
-}
-
 interface RoleRow {
   roleId: string
   roleName: string
@@ -192,12 +146,6 @@ const roleStatusTagMap: Record<RoleStatusCode, 'success' | 'warning' | 'info'> =
   PENDING: 'warning',
   DISABLED: 'info',
 }
-
-const menuItems: SystemMenuItem[] = [
-  { index: 'roles', label: '角色权限', route: '/system/roles', enabled: true },
-  { index: 'audit', label: '审计日志', route: '/system/audit-logs', enabled: true },
-  { index: 'scope', label: '数据权限策略', route: '/system/roles', enabled: false },
-]
 
 const roleRows = ref<RoleRow[]>([
   {
@@ -367,143 +315,7 @@ function getRoleStatusTag(status: string) {
 </script>
 
 <style scoped>
-.system-role-shell {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  background: #f3f5f9;
-}
-
-.side-nav {
-  border-right: 1px solid #e5e7eb;
-  background: #ffffff;
-  padding: 18px 12px;
-}
-
-.brand-block {
-  height: 46px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #2563eb;
-  font-size: 34px;
-  font-weight: 700;
-}
-
-.brand-logo {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, #2563eb, #60a5fa);
-}
-
-.section-title {
-  margin: 20px 10px 8px;
-  color: #9ca3af;
-  font-size: 12px;
-}
-
-.menu-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.menu-item {
-  border-radius: 10px;
-  min-height: 42px;
-  display: flex;
-  align-items: center;
-  padding: 0 12px;
-}
-
-.menu-link {
-  width: 100%;
-  text-decoration: none;
-  color: #334155;
-}
-
-.menu-item:first-child {
-  background: #eff6ff;
-}
-
-.menu-item:first-child .menu-link {
-  color: #2563eb;
-  font-weight: 600;
-}
-
-.menu-disabled-text {
-  color: #94a3b8;
-}
-
-.main-panel {
-  min-width: 0;
-}
-
-.top-bar {
-  height: 70px;
-  border-bottom: 1px solid #e5e7eb;
-  background: #fff;
-  padding: 0 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.search-wrap {
-  width: min(360px, 45%);
-}
-
-.user-wrap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.notify-badge {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #ef4444;
-  color: #fff;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 12px;
-}
-
-.user-avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #bfdbfe, #dbeafe);
-  color: #1e40af;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 700;
-}
-
-.user-meta {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
-}
-
-.user-meta strong {
-  font-size: 14px;
-}
-
-.user-meta span {
-  margin-top: 4px;
-  color: #64748b;
-  font-size: 12px;
-}
-
-.content-area {
+.system-role-page {
   padding: 22px;
 }
 
@@ -516,7 +328,7 @@ function getRoleStatusTag(status: string) {
 
 .page-head h1 {
   margin: 0;
-  font-size: 36px;
+  font-size: 34px;
   line-height: 1.15;
   color: #1f2937;
 }
@@ -543,30 +355,10 @@ function getRoleStatusTag(status: string) {
   border: 1px solid #edf0f6;
 }
 
-.stat-card h4 {
-  margin: 0;
-  font-size: 14px;
-  color: #64748b;
-}
-
-.stat-card p {
-  margin: 10px 0 8px;
-  font-size: 46px;
-  line-height: 1;
-  color: #111827;
-  font-weight: 700;
-}
-
-.stat-card small {
-  color: #16a34a;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.stat-card-alert p,
-.stat-card-alert small {
-  color: #ef4444;
-}
+.stat-card h4 { margin: 0; font-size: 14px; color: #64748b; }
+.stat-card p { margin: 10px 0 8px; font-size: 46px; line-height: 1; color: #111827; font-weight: 700; }
+.stat-card small { color: #16a34a; font-size: 13px; font-weight: 600; }
+.stat-card-alert p, .stat-card-alert small { color: #ef4444; }
 
 .role-table-card {
   margin-top: 16px;
@@ -580,54 +372,20 @@ function getRoleStatusTag(status: string) {
   align-items: center;
 }
 
-.card-title-row h3 {
-  margin: 0;
-  font-size: 18px;
-}
+.card-title-row h3 { margin: 0; font-size: 18px; }
 
-.card-title-row span {
-  color: #64748b;
-  font-size: 13px;
+.header-tools {
+  display: flex;
+  gap: 10px;
 }
 
 @media (max-width: 1180px) {
-  .system-role-shell {
-    grid-template-columns: 1fr;
-  }
-
-  .side-nav {
-    border-right: 0;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 720px) {
-  .page-head {
-    flex-direction: column;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .top-bar {
-    height: auto;
-    padding: 12px;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-  }
-
-  .search-wrap {
-    width: 100%;
-  }
-
-  .user-wrap {
-    justify-content: flex-end;
-  }
+  .system-role-page { padding: 14px; }
+  .page-head { flex-direction: column; }
+  .stats-grid { grid-template-columns: 1fr; }
 }
 </style>

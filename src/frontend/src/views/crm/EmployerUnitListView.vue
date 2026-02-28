@@ -322,9 +322,7 @@ function deleteUnit(unitCode: string) {
 
 <style scoped>
 .employer-unit-page {
-  min-height: 100vh;
   padding: 22px;
-  background: #f3f5f9;
 }
 
 .page-head {

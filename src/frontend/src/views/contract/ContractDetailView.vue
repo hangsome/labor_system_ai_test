@@ -283,9 +283,7 @@ function goBack() {
 
 <style scoped>
 .contract-detail-page {
-  min-height: 100vh;
   padding: 18px;
-  background: #f3f5f9;
 }
 
 .back-header {

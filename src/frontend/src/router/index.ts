@@ -10,71 +10,59 @@ const routes = [
   },
   {
     path: '/',
-    redirect: '/dashboard',
+    component: () => import('../components/AppLayout.vue'),
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        redirect: '/dashboard',
+      },
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: () => import('../views/DashboardView.vue'),
+      },
+      {
+        path: 'crm/leads',
+        name: 'crm-leads',
+        component: () => import('../views/crm/LeadListView.vue'),
+      },
+      {
+        path: 'crm/leads/:leadId',
+        name: 'crm-lead-detail',
+        component: () => import('../views/crm/LeadDetailView.vue'),
+      },
+      {
+        path: 'crm/employer-units',
+        name: 'crm-employer-units',
+        component: () => import('../views/crm/EmployerUnitListView.vue'),
+      },
+      {
+        path: 'contracts/labor-contracts',
+        name: 'contract-labor-list',
+        component: () => import('../views/contract/ContractListView.vue'),
+      },
+      {
+        path: 'contracts/labor-contracts/:contractId',
+        name: 'contract-labor-detail',
+        component: () => import('../views/contract/ContractDetailView.vue'),
+      },
+      {
+        path: 'system/roles',
+        name: 'system-roles',
+        component: () => import('../views/system/SystemRoleShellView.vue'),
+      },
+      {
+        path: 'system/audit-logs',
+        name: 'system-audit-logs',
+        component: () => import('../views/system/AuditLogView.vue'),
+      },
+    ],
   },
   {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: () => import('../views/DashboardView.vue'),
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: '/crm/leads',
-    name: 'crm-leads',
-    component: () => import('../views/crm/LeadListView.vue'),
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: '/crm/leads/:leadId',
-    name: 'crm-lead-detail',
-    component: () => import('../views/crm/LeadDetailView.vue'),
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: '/crm/employer-units',
-    name: 'crm-employer-units',
-    component: () => import('../views/crm/EmployerUnitListView.vue'),
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: '/contracts/labor-contracts',
-    name: 'contract-labor-list',
-    component: () => import('../views/contract/ContractListView.vue'),
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: '/contracts/labor-contracts/:contractId',
-    name: 'contract-labor-detail',
-    component: () => import('../views/contract/ContractDetailView.vue'),
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: '/system/roles',
-    name: 'system-roles',
-    component: () => import('../views/system/SystemRoleShellView.vue'),
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: '/system/audit-logs',
-    name: 'system-audit-logs',
-    component: () => import('../views/system/AuditLogView.vue'),
-    meta: {
-      requiresAuth: true,
-    },
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: () => import('../views/NotFoundView.vue'),
   },
 ]
 

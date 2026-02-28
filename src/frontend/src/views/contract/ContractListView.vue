@@ -361,12 +361,10 @@ function deleteContract(contractNo: string) {
 
 <style scoped>
 .contract-list-page {
-  min-height: 100vh;
   display: grid;
   grid-template-columns: 300px 1fr;
   gap: 14px;
   padding: 20px;
-  background: #f3f5f9;
 }
 
 .filter-side,
