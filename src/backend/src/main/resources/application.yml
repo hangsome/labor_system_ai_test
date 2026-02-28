@@ -3,8 +3,8 @@ spring:
     name: labor-system-backend
   datasource:
     url: jdbc:mysql://localhost:3306/labor_system?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-    username: labor
-    password: labor123
+    username: root
+    password: xu@736107#MH
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
