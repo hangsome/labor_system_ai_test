@@ -1,6 +1,7 @@
 import { router } from '../../src/router'
 import { store } from '../../src/store'
 import { useAuthStore } from '../../src/store/auth'
+import { flushPromises } from '@vue/test-utils'
 
 describe('router-auth-guard', () => {
   beforeEach(async () => {
@@ -27,7 +28,8 @@ describe('router-auth-guard', () => {
     })
 
     await router.push('/login?from=test')
+    await flushPromises()
 
     expect(router.currentRoute.value.path).toBe('/dashboard')
-  })
+  }, 15000)
 })

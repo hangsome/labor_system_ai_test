@@ -34,6 +34,6 @@ describe('system-menu', () => {
 
     const disabledItems = wrapper.findAll('[data-testid=\"system-menu-disabled\"]')
     expect(disabledItems).toHaveLength(1)
-    expect(disabledItems[0].text()).toContain('Data Scope Policy')
+    expect(disabledItems[0].text()).toContain('数据权限策略')
   })
 })

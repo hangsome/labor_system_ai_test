@@ -41,20 +41,20 @@ describe('contract-rule', () => {
 
     expect(wrapper.find('[data-testid=\"contract-rule-table\"]').exists()).toBe(true)
     expect(wrapper.text()).toContain('RV-2026-01')
-    expect(wrapper.text()).toContain('ACTIVE')
+    expect(wrapper.text()).toContain('生效中')
 
     await wrapper.find('[data-testid=\"contract-sign-button\"]').trigger('click')
     await flushPromises()
-    expect(wrapper.find('[data-testid=\"contract-status\"]').text()).toContain('ACTIVE')
+    expect(wrapper.find('[data-testid=\"contract-status\"]').text()).toContain('进行中')
 
     await wrapper.find('[data-testid=\"contract-renew-button\"]').trigger('click')
     await flushPromises()
     expect(wrapper.find('[data-testid=\"contract-action-feedback\"]').text()).toContain(
-      'Contract renewed successfully.'
+      '合同续签成功'
     )
 
     await wrapper.find('[data-testid=\"contract-terminate-button\"]').trigger('click')
     await flushPromises()
-    expect(wrapper.find('[data-testid=\"contract-status\"]').text()).toContain('TERMINATED')
+    expect(wrapper.find('[data-testid=\"contract-status\"]').text()).toContain('已终止')
   })
 })

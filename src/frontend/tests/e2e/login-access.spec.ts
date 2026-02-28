@@ -31,13 +31,13 @@ test('logs in and reaches protected dashboard menu', async ({ page }) => {
   await page.goto('/dashboard')
 
   await expect(page).toHaveURL(/\/login\?redirect=\/dashboard/)
-  await page.getByPlaceholder('Enter username').fill('admin')
-  await page.getByPlaceholder('Enter password').fill('123456')
+  await page.getByPlaceholder('请输入用户名').fill('admin')
+  await page.getByPlaceholder('请输入密码').fill('123456')
   await page.getByTestId('login-submit').click()
 
   await expect(page).toHaveURL(/\/dashboard$/)
   await expect(page.getByTestId('dashboard-shell')).toBeVisible()
-  await expect(page.getByTestId('dashboard-card')).toHaveCount(3)
+  await expect(page.getByTestId('dashboard-card')).toHaveCount(4)
 
   const persisted = await page.evaluate(() => localStorage.getItem('labor-system.auth.session'))
   expect(persisted).not.toBeNull()

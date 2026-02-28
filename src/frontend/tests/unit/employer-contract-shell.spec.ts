@@ -43,7 +43,7 @@ describe('employer-contract-shell', () => {
     expect(wrapper.find('[data-testid=\"employer-unit-view\"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid=\"employer-unit-filter-form\"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid=\"employer-unit-table\"]').exists()).toBe(true)
-    expect(wrapper.text()).toContain('Employer Unit List')
+    expect(wrapper.text()).toContain('用工单位管理')
     expect(wrapper.text()).toContain('EMP-001')
 
     await router.push('/contracts/labor-contracts')
@@ -53,7 +53,7 @@ describe('employer-contract-shell', () => {
     expect(wrapper.find('[data-testid=\"contract-list-view\"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid=\"contract-filter-form\"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid=\"contract-table\"]').exists()).toBe(true)
-    expect(wrapper.text()).toContain('Labor Contract List')
+    expect(wrapper.text()).toContain('合同管理')
     expect(wrapper.text()).toContain('LC-2026-001')
   })
 })

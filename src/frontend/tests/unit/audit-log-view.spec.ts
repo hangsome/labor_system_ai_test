@@ -43,6 +43,6 @@ describe('audit-log-view', () => {
     expect(wrapper.find('[data-testid=\"audit-log-view\"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid=\"audit-filter-form\"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid=\"audit-log-table\"]').exists()).toBe(true)
-    expect(wrapper.text()).toContain('Audit Log Center')
+    expect(wrapper.text()).toContain('审计日志中心')
   })
 })

@@ -37,7 +37,7 @@ describe('login-view', () => {
 
     expect(loginByPassword).not.toHaveBeenCalled()
     expect(pushMock).not.toHaveBeenCalled()
-    expect(wrapper.text()).toContain('Please enter username and password')
+    expect(wrapper.text()).toContain('请输入用户名和密码')
   })
 
   it('should submit and navigate when login succeeded', async () => {

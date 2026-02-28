@@ -42,6 +42,6 @@ describe('system-role-shell', () => {
     expect(router.currentRoute.value.path).toBe('/system/roles')
     expect(wrapper.find('[data-testid=\"system-role-shell\"]').exists()).toBe(true)
     expect(wrapper.findAll('[data-testid=\"system-menu-item\"]')).toHaveLength(3)
-    expect(wrapper.text()).toContain('Role Management')
+    expect(wrapper.text()).toContain('角色权限管理')
   })
 })

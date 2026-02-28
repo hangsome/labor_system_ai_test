@@ -31,8 +31,8 @@ test('completes lead flow from list to follow-up submission after login', async 
   await page.goto('/crm/leads')
   await expect(page).toHaveURL(/\/login\?redirect=\/crm\/leads/)
 
-  await page.getByPlaceholder('Enter username').fill('admin')
-  await page.getByPlaceholder('Enter password').fill('123456')
+  await page.getByPlaceholder('请输入用户名').fill('admin')
+  await page.getByPlaceholder('请输入密码').fill('123456')
   await page.getByTestId('login-submit').click()
 
   await expect(page).toHaveURL(/\/crm\/leads$/)

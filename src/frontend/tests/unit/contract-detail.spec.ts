@@ -43,27 +43,27 @@ describe('contract-detail', () => {
     expect(wrapper.find('[data-testid=\"contract-detail-view\"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid=\"contract-history-list\"]').exists()).toBe(true)
     expect(wrapper.findAll('.el-timeline-item')).toHaveLength(1)
-    expect(wrapper.find('[data-testid=\"contract-status\"]').text()).toContain('DRAFT')
+    expect(wrapper.find('[data-testid=\"contract-status\"]').text()).toContain('草稿')
     expect(wrapper.find('[data-testid=\"contract-renew-button\"]').attributes('disabled')).toBeDefined()
 
     await wrapper.find('[data-testid=\"contract-sign-button\"]').trigger('click')
     await flushPromises()
-    expect(wrapper.find('[data-testid=\"contract-status\"]').text()).toContain('ACTIVE')
+    expect(wrapper.find('[data-testid=\"contract-status\"]').text()).toContain('进行中')
     expect(wrapper.find('[data-testid=\"contract-action-feedback\"]').text()).toContain(
-      'Contract signed successfully.'
+      '合同签署成功'
     )
 
     await wrapper.find('[data-testid=\"contract-renew-button\"]').trigger('click')
     await flushPromises()
     expect(wrapper.find('[data-testid=\"contract-action-feedback\"]').text()).toContain(
-      'Contract renewed successfully.'
+      '合同续签成功'
     )
 
     await wrapper.find('[data-testid=\"contract-terminate-button\"]').trigger('click')
     await flushPromises()
-    expect(wrapper.find('[data-testid=\"contract-status\"]').text()).toContain('TERMINATED')
+    expect(wrapper.find('[data-testid=\"contract-status\"]').text()).toContain('已终止')
     expect(wrapper.find('[data-testid=\"contract-action-feedback\"]').text()).toContain(
-      'Contract terminated successfully.'
+      '合同终止成功'
     )
     expect(wrapper.findAll('.el-timeline-item').length).toBeGreaterThanOrEqual(4)
   })
