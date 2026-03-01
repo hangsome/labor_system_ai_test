@@ -1,86 +1,112 @@
-﻿# Phase 01 进度跟踪
+﻿# Phase 01 Progress
 
-> 生成时间: 2026-02-26T17:30:00+08:00
-> 阶段名称: Phase 01 - 基础底座与安全基线
-> CSV 路径: phases/phase-01-foundation/todolist.csv
-> Plan 来源: phases/phase-01-foundation/plan.md
+> updated_at: 2026-02-26T20:29:33+08:00
+> phase: Phase 01 - Foundation
+> csv_path: phases/phase-01-foundation/todolist.csv
+> plan_source: phases/phase-01-foundation/plan.md
 
 ---
 
-## Stage 完成标记
+## Stage Status
 
-| Stage | 状态 | 完成时间 |
-|-------|------|----------|
-| Stage 0: 项目初始化 | 已完成 | 2026-02-26T17:03:00+08:00 |
-| Stage 1: 架构设计 | 已完成 | 2026-02-26T17:05:00+08:00 |
-| Stage 2: 阶段规划 | 已完成 | 2026-02-26T17:12:00+08:00 |
-| Stage 3: 任务分解 | 已完成 | 2026-02-26T17:30:00+08:00 |
-| Stage 4: 阶段执行 | 未完成 | — |
-| Stage 5: 审查交接 | 未完成 | — |
+| Stage | Status | Completed At |
+|---|---|---|
+| Stage 0: Project Init | Completed | 2026-02-26T17:03:00+08:00 |
+| Stage 1: Architecture Design | Completed | 2026-02-26T17:05:00+08:00 |
+| Stage 2: Phase Planning | Completed | 2026-02-26T17:12:00+08:00 |
+| Stage 3: Task Decomposition | Completed | 2026-02-26T17:30:00+08:00 |
+| Stage 4: Execution | In Progress | - |
+| Stage 5: Review Handoff | Not Started | - |
 
-## 当前状态
+## Metrics
 
-| 指标 | 数值 |
-|------|------|
-| 总任务数 | 24 |
-| 已完成 | 0 |
-| 进行中 | 0 |
-| 未开始 | 24 |
-| 阻塞 | 0 |
-| 完成率 | 0% |
-| compaction_count | 0 |
+| Metric | Value |
+|---|---|
+| total_tasks | 24 |
+| done | 18 |
+| in_progress | 0 |
+| pending | 6 |
+| blocked | 0 |
+| completion_rate | 75.00% |
+| compaction_count | 18 |
 | compaction_threshold | 10 |
 
-## 当前执行
+## Current Focus
 
-- **当前任务**: PH01-010（待 Stage 4 启动）
-- **当前 Agent**: codex
-- **开始时间**: —
-- **最后更新**: 2026-02-26T17:30:00+08:00
-
----
-
-## 已完成任务
-
-| 序号 | 任务 ID | 标题 | Agent | 完成时间 | Commit |
-|------|---------|------|-------|---------|--------|
-| — | — | — | — | — | — |
-
-## 进行中任务
-
-| 任务 ID | 标题 | Agent | 开始时间 | 备注 |
-|---------|------|-------|---------|------|
-| — | — | — | — | — |
-
-## 阻塞任务
-
-| 任务 ID | 标题 | 阻塞原因 | 需要的操作 |
-|---------|------|---------|-----------|
-| — | — | — | — |
+- Current task: PH01-080
+- Current agent: codex
+- Last update: 2026-02-26T20:29:33+08:00
 
 ---
 
-## 执行日志
+## Completed Tasks
+
+| No. | Task ID | Title | Agent | Completed At | Commit |
+|---|---|---|---|---|---|
+| 1 | PH01-010 | IAM/Platform baseline migration | codex | 2026-02-26T17:50:46+08:00 | 3be8414 |
+| 2 | PH01-020 | Sync DB schema doc for IAM/Platform | codex | 2026-02-26T18:02:27+08:00 | 7ea9928 |
+| 3 | PH01-030 | Implement auth core APIs | codex | 2026-02-26T18:20:17+08:00 | a4f856e |
+| 4 | PH01-040 | Implement JWT refresh/invalidation controls | codex | 2026-02-26T18:26:57+08:00 | 2a95545 |
+| 5 | PH01-050 | Add auth service unit tests | codex | 2026-02-26T19:05:33+08:00 | cbfa0a5 |
+| 6 | PH01-060 | Implement login page and interaction | gemini->codex | 2026-02-26T19:16:42+08:00 | fe4ab3b |
+| 7 | PH01-070 | Implement authStore and router guard | gemini->codex | 2026-02-26T19:22:44+08:00 | 4b729b9 |
+| 8 | PH01-090 | Add auth API integration tests | codex | 2026-02-26T19:38:08+08:00 | pending-commit |
+| 9 | PH01-120 | Implement role permission and data scope APIs | codex | 2026-02-26T19:45:31+08:00 | pending-commit |
+| 10 | PH01-130 | Implement data scope injection mechanism | codex | 2026-02-26T19:54:27+08:00 | pending-commit |
+| 11 | PH01-190 | Implement audit log aspect and query APIs | codex | 2026-02-26T20:00:14+08:00 | pending-commit |
+| 12 | PH01-140 | Add data scope unit tests | codex | 2026-02-26T20:03:16+08:00 | pending-commit |
+| 13 | PH01-200 | Add audit aspect unit tests | codex | 2026-02-26T20:07:05+08:00 | pending-commit |
+| 14 | PH01-170 | Add RBAC API integration tests | codex | 2026-02-26T20:10:10+08:00 | pending-commit |
+| 15 | PH01-180 | Update RBAC API contract docs | codex | 2026-02-26T20:13:15+08:00 | pending-commit |
+| 16 | PH01-220 | Add audit API integration tests | codex | 2026-02-26T20:23:52+08:00 | pending-commit |
+| 17 | PH01-230 | Update architecture security boundary docs | codex | 2026-02-26T20:26:31+08:00 | pending-commit |
+| 18 | PH01-110 | Update auth API contract docs | codex | 2026-02-26T20:29:33+08:00 | pending-commit |
+
+## In Progress Tasks
+
+| Task ID | Title | Agent | Started At | Notes |
+|---|---|---|---|---|
+| - | - | - | - | - |
+
+## Blocked Tasks
+
+| Task ID | Title | Reason | Required Action |
+|---|---|---|---|
+| - | - | - | - |
+
+---
+
+## Execution Log
 
 ### 2026-02-26
 
 ```text
-17:30 [codex] 完成 Stage 3 任务分解，生成 Feature Tasks 与 phase todolist.csv
+17:30 [codex] Completed Stage 3 task decomposition and generated phase trackers.
+17:50 [codex] Completed PH01-010 migration and validation script.
+18:02 [codex] Completed PH01-020 docs sync and local DB validation.
+18:20 [codex] Completed PH01-030 auth core APIs and passed AuthControllerTest.
+18:26 [codex] Completed PH01-040 JWT refresh/invalidation controls and passed JwtTokenServiceTest.
+19:05 [codex] Completed PH01-050 auth service unit tests and passed AuthServiceTest.
+19:16 [codex] Completed PH01-060 login page task; Gemini bridge timed out and fallback to codex.
+19:22 [codex] Completed PH01-070 auth store + route guard; Gemini fallback remained in effect.
+19:38 [codex] Completed PH01-090 auth API integration tests and passed verify command.
+19:45 [codex] Completed PH01-120 role permission/data-scope APIs and passed RolePermissionControllerTest.
+19:54 [codex] Completed PH01-130 data-scope injection and passed DataScopeInterceptorTest.
+20:00 [codex] Completed PH01-190 audit log aspect/query API and passed AuditLogControllerTest.
+20:03 [codex] Completed PH01-140 data-scope unit tests and passed DataScopeServiceTest.
+20:07 [codex] Completed PH01-200 audit aspect unit tests and passed AuditAspectTest.
+20:10 [codex] Completed PH01-170 RBAC API integration tests and passed RbacApiIntegrationTest.
+20:13 [codex] Completed PH01-180 RBAC API contract docs update and passed rg validation.
+20:23 [codex] Completed PH01-220 audit API integration tests and passed AuditApiIntegrationTest.
+20:26 [codex] Completed PH01-230 architecture security boundary docs update and passed rg validation.
+20:29 [codex] Completed PH01-110 auth API contract docs update and passed rg validation.
 ```
 
 ---
 
-## 覆盖率追踪
+## Notes
 
-| Phase | 后端覆盖率 | 前端覆盖率 | 变化趋势 |
-|-------|-----------|-----------|---------|
-| 01 | — | — | — |
-
----
-
-## 阶段总结
-
-- 阶段状态: Stage 3 已完成，待用户确认后进入 Stage 4。
-- 验收结果: 待执行。
-- 验收时间: —
-- 备注: CSV 为唯一状态源。
+- Stage 4 is active. CSV remains the single source of task truth.
+- Local MySQL validation uses provided root credential in this session.
+- Gemini CLI bridge timed out in this shell; fallback rule applied to codex for frontend delivery.
+- Claude Opus CLI invocation in this shell can hang; manual fallback applied when needed.
