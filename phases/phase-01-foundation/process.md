@@ -1,6 +1,6 @@
 ﻿# Phase 01 Progress
 
-> updated_at: 2026-02-26T20:29:33+08:00
+> updated_at: 2026-02-26T21:07:52+08:00
 > phase: Phase 01 - Foundation
 > csv_path: phases/phase-01-foundation/todolist.csv
 > plan_source: phases/phase-01-foundation/plan.md
@@ -23,19 +23,19 @@
 | Metric | Value |
 |---|---|
 | total_tasks | 24 |
-| done | 18 |
+| done | 23 |
 | in_progress | 0 |
-| pending | 6 |
+| pending | 1 |
 | blocked | 0 |
-| completion_rate | 75.00% |
-| compaction_count | 18 |
+| completion_rate | 95.83% |
+| compaction_count | 23 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: PH01-080
+- Current task: PH01-240
 - Current agent: codex
-- Last update: 2026-02-26T20:29:33+08:00
+- Last update: 2026-02-26T21:07:52+08:00
 
 ---
 
@@ -61,6 +61,11 @@
 | 16 | PH01-220 | Add audit API integration tests | codex | 2026-02-26T20:23:52+08:00 | pending-commit |
 | 17 | PH01-230 | Update architecture security boundary docs | codex | 2026-02-26T20:26:31+08:00 | pending-commit |
 | 18 | PH01-110 | Update auth API contract docs | codex | 2026-02-26T20:29:33+08:00 | pending-commit |
+| 19 | PH01-080 | Add login component coverage tests | gemini->codex | 2026-02-26T20:40:52+08:00 | pending-commit |
+| 20 | PH01-100 | Add login to protected menu E2E tests | gemini->codex | 2026-02-26T20:54:29+08:00 | pending-commit |
+| 21 | PH01-150 | Implement system menu and role shell page | gemini->codex | 2026-02-26T20:59:58+08:00 | pending-commit |
+| 22 | PH01-210 | Implement audit log shell page | gemini->codex | 2026-02-26T21:04:12+08:00 | pending-commit |
+| 23 | PH01-160 | Add system menu unit tests with coverage | gemini->codex | 2026-02-26T21:07:52+08:00 | pending-commit |
 
 ## In Progress Tasks
 
@@ -100,6 +105,15 @@
 20:23 [codex] Completed PH01-220 audit API integration tests and passed AuditApiIntegrationTest.
 20:26 [codex] Completed PH01-230 architecture security boundary docs update and passed rg validation.
 20:29 [codex] Completed PH01-110 auth API contract docs update and passed rg validation.
+20:40 [codex] Completed PH01-080 login component coverage tests; gemini no-output timeout fallback to codex; coverage validation passed.
+20:45 [codex] Claimed PH01-100 e2e task with started_at_commit f18d4ac.
+20:54 [codex] Completed PH01-100 login-to-protected-menu e2e tests; gemini no-output timeout fallback to codex; playwright validation passed.
+20:55 [codex] Claimed PH01-150 frontend shell task with started_at_commit 90a815d.
+20:59 [codex] Completed PH01-150 system menu + role shell page and passed system-role-shell unit tests.
+21:01 [codex] Claimed PH01-210 audit log shell task with started_at_commit 12f71eb.
+21:03 [codex] Completed PH01-210 audit log page skeleton and passed audit-log-view unit tests.
+21:05 [codex] Claimed PH01-160 system menu test task with started_at_commit 9e1deb0.
+21:07 [codex] Completed PH01-160 system menu coverage tests; gemini returned capacity 429 and fallback to codex.
 ```
 
 ---
