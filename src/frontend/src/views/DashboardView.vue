@@ -13,6 +13,10 @@
           <el-card shadow="hover" data-testid="dashboard-card">
             <template #header>客户线索</template>
             <p>支持多维筛选、跟进记录、转化分析。</p>
+            <router-link class="quick-link" to="/crm/leads" data-testid="go-crm-leads">
+              Open lead list
+            </router-link>
+            <br />
             <router-link class="quick-link" to="/system/roles" data-testid="go-system-roles">
               Open role console
             </router-link>
@@ -22,6 +26,21 @@
           <el-card shadow="hover" data-testid="dashboard-card">
             <template #header>合同结算</template>
             <p>支持计时/按天/计件/按月等结算模型。</p>
+            <router-link
+              class="quick-link"
+              to="/crm/employer-units"
+              data-testid="go-employer-units"
+            >
+              Open employer units
+            </router-link>
+            <br />
+            <router-link
+              class="quick-link"
+              to="/contracts/labor-contracts"
+              data-testid="go-contract-list"
+            >
+              Open contract list
+            </router-link>
           </el-card>
         </el-col>
         <el-col :xs="24" :md="8">

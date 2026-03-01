@@ -1,6 +1,6 @@
 ﻿# Phase 02 Progress
 
-> updated_at: 2026-02-27T06:35:08+08:00
+> updated_at: 2026-02-27T07:51:08+08:00
 > phase: Phase 02 - CRM Contract
 > csv_path: phases/phase-02-crm-contract/todolist.csv
 > plan_source: phases/phase-02-crm-contract/plan.md
@@ -23,19 +23,19 @@
 | Metric | Value |
 |---|---|
 | total_tasks | 24 |
-| done | 15 |
+| done | 23 |
 | in_progress | 0 |
-| pending | 9 |
+| pending | 1 |
 | blocked | 0 |
-| completion_rate | 62.50% |
-| compaction_count | 15 |
+| completion_rate | 95.83% |
+| compaction_count | 23 |
 | compaction_threshold | 10 |
 
 ## Current Focus
 
-- Current task: PH02-060 lead list frontend implementation
+- Current task: PH02-240 phase review gate
 - Current agent: codex
-- Last update: 2026-02-27T06:35:08+08:00
+- Last update: 2026-02-27T07:51:08+08:00
 
 ---
 
@@ -58,6 +58,14 @@
 | 13 | PH02-210 | 更新合同与结算规则 API 合约文档 | codex | 2026-02-27T06:34:12+08:00 | pending-commit |
 | 14 | PH02-220 | 更新 CRM/合同模块架构文档 | codex | 2026-02-27T06:34:12+08:00 | pending-commit |
 | 15 | PH02-110 | 更新线索 API 合约文档 | codex | 2026-02-27T06:35:08+08:00 | pending-commit |
+| 16 | PH02-060 | 实现线索列表与筛选页面 | codex | 2026-02-27T06:46:05+08:00 | pending-commit |
+| 17 | PH02-070 | 实现线索详情与跟进时间线页面 | codex | 2026-02-27T07:20:46+08:00 | pending-commit |
+| 18 | PH02-080 | 补充线索前端单元测试 | codex | 2026-02-27T07:29:12+08:00 | pending-commit |
+| 19 | PH02-100 | 线索流转端到端测试 | codex | 2026-02-27T07:34:07+08:00 | pending-commit |
+| 20 | PH02-150 | 实现用工单位与合同列表页面骨架 | codex | 2026-02-27T07:39:27+08:00 | pending-commit |
+| 21 | PH02-160 | 实现合同详情与生命周期操作页面 | codex | 2026-02-27T07:44:04+08:00 | pending-commit |
+| 22 | PH02-180 | 补充合同与规则前端单元测试 | codex | 2026-02-27T07:48:56+08:00 | pending-commit |
+| 23 | PH02-230 | 线索到合同主链路 E2E | codex | 2026-02-27T07:51:08+08:00 | pending-commit |
 
 ## In Progress Tasks
 
@@ -95,6 +103,14 @@
 06:33 [codex] Completed PH02-200: added SettlementRuleApiIntegrationTest for publish/deactivate/version-query flow, passed (2 tests).
 06:34 [codex] Completed PH02-210/220: synced contract-settlement API routes and CRM-contract architecture boundaries, rg validations passed.
 06:35 [codex] Completed PH02-110: synced lead status/follow-up routes in API contracts and passed rg validation.
+06:46 [codex] Completed PH02-060: gemini route no-output timeout then codex fallback, delivered lead list/filter/pagination page and lead-list unit test (2 tests) passed.
+07:20 [codex] Completed PH02-070: implemented lead detail timeline page, route `/crm/leads/:leadId`, and lead-detail unit test (2 tests) passed.
+07:29 [codex] Completed PH02-080: executed lead frontend unit coverage command, all lead-list/lead-detail tests passed (4 tests), and gemini review returned BLOCKERS=NONE.
+07:34 [codex] Completed PH02-100: added lead-flow e2e for unauth redirect + login list/detail follow-up chain and passed playwright (2 tests).
+07:39 [codex] Completed PH02-150: added employer-unit and contract-list shell pages/routes/dashboard entries, unit tests passed (2 tests), and gemini review returned BLOCKERS=NONE.
+07:44 [codex] Completed PH02-160: added contract detail lifecycle page and route (`sign/renew/terminate`), unit tests passed (2 tests), and gemini review returned BLOCKERS=NONE.
+07:48 [codex] Completed PH02-180: added contract-rule frontend unit coverage and settlement-rule version rendering assertions, coverage command passed (2 tests), gemini review returned BLOCKERS=NONE.
+07:51 [codex] Completed PH02-230: added lead-to-contract e2e and passed playwright main flow (1 test).
 ```
 
 ---
@@ -104,4 +120,4 @@
 - Phase 02 Stage 3 artifacts are ready.
 - CSV remains the single source of Phase 02 task truth.
 - Frontend tasks are assigned to gemini route with codex fallback when unavailable.
-- Stage 4 has started; PH02-010, PH02-020, PH02-030, PH02-040, PH02-050, PH02-090, PH02-110, PH02-120, PH02-130, PH02-140, PH02-170, PH02-190, PH02-200, PH02-210, and PH02-220 are settled.
+- Stage 4 has started; PH02-010, PH02-020, PH02-030, PH02-040, PH02-050, PH02-060, PH02-070, PH02-080, PH02-090, PH02-100, PH02-110, PH02-120, PH02-130, PH02-140, PH02-150, PH02-160, PH02-170, PH02-180, PH02-190, PH02-200, PH02-210, PH02-220, and PH02-230 are settled.
