@@ -1,156 +1,174 @@
----
-description: 多 Agent 路由规则与降级策略
-version: "1.0"
----
-
-# 多 Agent 路由规则
-
-本文件定义了 AI 大型系统开发工作流中多 Agent 的分工、路由和降级策略。
-
+﻿---
+description: 澶?Agent 璺敱瑙勫垯涓庨檷绾х瓥鐣?
+version: "2.0"
 ---
 
-## 一、Agent 角色定义
+# 澶?Agent 璺敱瑙勫垯
 
-### Codex（主编排 + 后端开发）
+鏈枃浠跺畾涔変簡 AI 澶у瀷绯荤粺寮€鍙戝伐浣滄祦涓 Agent 鐨勫垎宸ャ€佽矾鐢卞拰闄嶇骇绛栫暐銆傛敮鎸併€屽崟 Agent 涓茶銆嶅拰銆屽 Agent 骞惰銆嶄袱绉嶆ā寮忋€?
 
-**职责**：
-- 工作流全局编排（Stage 流转、进度管理）
-- 后端代码开发（Java / Python / Node.js）
-- 数据库设计与迁移脚本
-- API 开发与联调
-- 集成测试与 E2E 测试协调
-- CSV 状态管理与 process.md 更新
+---
 
-**身份**：主 Agent，所有工作流控制权归 Codex。
+## 涓€銆丄gent 瑙掕壊瀹氫箟
 
-### Gemini（前端开发）
+### Codex锛堜富缂栨帓 + 鍚庣寮€鍙戯級
 
-**职责**：
-- React / Vue 组件开发
-- UI/UX 实现（页面布局、样式、动画）
-- CSS / Sass / Less 编写
-- 前端路由和状态管理
-- 前端组件测试
+**鑱岃矗**锛?
+- 宸ヤ綔娴佸叏灞€缂栨帓锛圫tage 娴佽浆銆佽繘搴︾鐞嗭級
+- 鍚庣浠ｇ爜寮€鍙戯紙Java / Python / Node.js锛?
+- 鏁版嵁搴撹璁′笌杩佺Щ鑴氭湰
+- API 寮€鍙戜笌鑱旇皟
+- 闆嗘垚娴嬭瘯涓?E2E 娴嬭瘯鍗忚皟
+- CSV 鐘舵€佺鐞嗕笌 process.md 鏇存柊
 
-**调用方式**：直接通过本地 Gemini CLI 调用（不依赖 API，使用本地 `gemini` 命令行工具）：
+**韬唤**锛氫富 Agent锛屾墍鏈夊伐浣滄祦鎺у埗鏉冨綊 Codex銆?
+
+### Gemini锛堝墠绔紑鍙戯級
+
+**鑱岃矗**锛?
+- React / Vue 缁勪欢寮€鍙?
+- UI/UX 瀹炵幇锛堥〉闈㈠竷灞€銆佹牱寮忋€佸姩鐢伙級
+- CSS / Sass / Less 缂栧啓
+- 鍓嶇璺敱鍜岀姸鎬佺鐞?
+- 鍓嶇缁勪欢娴嬭瘯
+
+**璋冪敤鏂瑰紡**锛氱洿鎺ラ€氳繃鏈湴 Gemini CLI 璋冪敤锛堜笉渚濊禆 API锛屼娇鐢ㄦ湰鍦?`gemini` 鍛戒护琛屽伐鍏凤級锛?
 ```bash
 gemini -p "<task-description>" \
   --sandbox none
 ```
-或以交互模式在项目目录下启动：
+鎴栦互浜や簰妯″紡鍦ㄩ」鐩洰褰曚笅鍚姩锛?
 ```bash
 cd <project-root>
 gemini
 ```
-> 注意：不使用 `collaborating-with-gemini-cli` skill（它需要 API 接入），而是直接拉起本地已安装的 Gemini CLI。
+> 娉ㄦ剰锛氫笉浣跨敤 `collaborating-with-gemini-cli` skill锛堝畠闇€瑕?API 鎺ュ叆锛夛紝鑰屾槸鐩存帴鎷夎捣鏈湴宸插畨瑁呯殑 Gemini CLI銆?
 
-**降级条件**：Gemini 返回 429 / 限流 / 任意非成功状态码 时，立即降级。
+**闄嶇骇鏉′欢**锛欸emini 杩斿洖 429 / 闄愭祦 / 浠绘剰闈炴垚鍔熺姸鎬佺爜 鏃讹紝绔嬪嵆闄嶇骇銆?
 
-### Claude（审计 + 评审）
+### Claude锛堝璁?+ 璇勫锛?
 
-**职责**：
-- Plan 评审（阻断门 — Stage 1 架构评审必经）
-- 代码安全审计（每个 Phase 完成后）
-- Code Review（review 类型任务）
-- 回归测试审查
-- 风险评估与缓解建议
+**鑱岃矗**锛?
+- Plan 璇勫锛堥樆鏂棬 鈥?Stage 1 鏋舵瀯璇勫蹇呯粡锛?
+- 浠ｇ爜瀹夊叏瀹¤锛堟瘡涓?Phase 瀹屾垚鍚庯級
+- Code Review锛坮eview 绫诲瀷浠诲姟锛?
+- 鍥炲綊娴嬭瘯瀹℃煡
+- 椋庨櫓璇勪及涓庣紦瑙ｅ缓璁?
 
-**调用方式**：通过 Claude 子代理（终端或 API）。
+**璋冪敤鏂瑰紡**锛氶€氳繃 Claude 瀛愪唬鐞嗭紙缁堢鎴?API锛夈€?
 
-**要求**：每次调用 Claude 前，确认其处于 Opus 模式。
+**瑕佹眰**锛氭瘡娆¤皟鐢?Claude 鍓嶏紝纭鍏跺浜?Opus 妯″紡銆?
 
 ---
 
-## 二、路由决策矩阵
+## 浜屻€佽矾鐢卞喅绛栫煩闃?
 
-### 按任务类型路由
+### 鎸変换鍔＄被鍨嬭矾鐢?
 
-| area | task_type | 主 Agent | 降级 Agent | 备注 |
+| area | task_type | 涓?Agent | 闄嶇骇 Agent | 澶囨敞 |
 |------|-----------|---------|-----------|------|
-| `backend` | `backend` | Codex | — | 不降级 |
-| `backend` | `database` | Codex | — | DDL/迁移 |
-| `backend` | `api` | Codex | — | API 开发 |
-| `backend` | `config` | Codex | — | 配置文件 |
-| `frontend` | `frontend` | Gemini | Claude → Codex | 429 降级链 |
-| `frontend` | `test-unit` | Gemini | Claude → Codex | 前端测试 |
-| `both` | `test-integration` | Codex | — | 集成测试 |
-| `both` | `test-e2e` | Codex | — | E2E 测试 |
-| `*` | `review` | Claude | — | 代码审查 |
-| `*` | `docs` | Codex | — | 文档更新 |
+| `backend` | `backend` | Codex | 鈥?| 涓嶉檷绾?|
+| `backend` | `database` | Codex | 鈥?| DDL/杩佺Щ |
+| `backend` | `api` | Codex | 鈥?| API 寮€鍙?|
+| `backend` | `config` | Codex | 鈥?| 閰嶇疆鏂囦欢 |
+| `frontend` | `frontend` | Gemini | Claude 鈫?Codex | 429 闄嶇骇閾?|
+| `frontend` | `test-unit` | Gemini | Claude 鈫?Codex | 鍓嶇娴嬭瘯 |
+| `both` | `test-integration` | Codex | 鈥?| 闆嗘垚娴嬭瘯 |
+| `both` | `test-e2e` | Codex | 鈥?| E2E 娴嬭瘯 |
+| `*` | `review` | Claude | 鈥?| 浠ｇ爜瀹℃煡 |
+| `*` | `docs` | Codex | 鈥?| 鏂囨。鏇存柊 |
 
-### 按 Stage 路由
+### 鎸?Stage 璺敱
 
-| Stage | 主 Agent | 辅助 Agent |
+| Stage | 涓?Agent | 杈呭姪 Agent |
 |-------|---------|-----------|
-| Stage 0: 项目初始化 | Codex | — |
-| Stage 1: 架构设计 | Codex + sequential-thinking | Claude（评审门） |
-| Stage 2: 阶段规划 | Codex | — |
-| Stage 3: 任务分解 | Codex | — |
-| Stage 4: 执行（后端） | Codex | — |
-| Stage 4: 执行（前端） | Gemini | Claude（降级） |
-| Stage 4: 执行（审查） | Claude | — |
-| Stage 5: 审查交接 | Claude（审计） | Codex（报告） |
+| Stage 0: 椤圭洰鍒濆鍖?| Codex | 鈥?|
+| Stage 1: 鏋舵瀯璁捐 | Codex + sequential-thinking | Claude锛堣瘎瀹￠棬锛?|
+| Stage 2: 闃舵瑙勫垝 | Codex | 鈥?|
+| Stage 3: 浠诲姟鍒嗚В | Codex | 鈥?|
+| Stage 4: 鎵ц锛堝悗绔級 | Codex | 鈥?|
+| Stage 4: 鎵ц锛堝墠绔級 | Gemini | Claude锛堥檷绾э級 |
+| Stage 4: 鎵ц锛堝鏌ワ級 | Claude | 鈥?|
+| Stage 5: 瀹℃煡浜ゆ帴 | Claude锛堝璁★級 | Codex锛堟姤鍛婏級 |
+
+### 澶?Agent 骞惰妯″紡锛堟寜鐙珛浼氳瘽璺敱锛?
+
+> 褰撶敤鎴蜂互瑙掕壊鍏抽敭璇嶈繘鍏ユ椂鐢熸晥銆傝缁嗗崗璁 `multi-agent-protocol.md`銆?
+
+| 瑙掕壊 | 鐙珛浼氳瘽 | 璐熻矗 Stage | Git 鍒嗘敮 | 鍙搷浣滅洰褰?|
+|------|---------|-----------|---------|----------|
+| Orchestrator | Codex / Antigravity | 0/1/2/3 + 5 鍐崇瓥 + 6 | `main` | `docs/`銆乣phases/`銆侀厤缃?|
+| Backend Engineer | Codex / Antigravity | 4锛坅rea=backend锛?| `feature/phase-XX-<slug>` | `backend/`銆乣database/` |
+| Frontend Engineer | Gemini / Antigravity | 4锛坅rea=frontend锛?| `feature/phase-XX-<slug>-fe` | `frontend/` |
+| Audit Engineer | Claude Opus | 5锛堝璁★級 | 鍙鎵€鏈夊垎鏀?| 鍙啓 `review/` |
+
+**骞惰绐楀彛瑙勫垯**锛欱ackend 濮嬬粓棰嗗厛 Frontend **1 涓?Phase**锛岀‘淇?Frontend 鎬绘湁绋冲畾鐨?API 鍙鎺ャ€?
+
+**浼氳瘽鍚姩鎸囦护**锛?
+- Backend锛氥€屼綘鏄悗绔伐绋嬪笀璇风户缁伐浣溿€?
+- Frontend锛氥€屼綘鏄墠绔伐绋嬪笀璇风户缁伐浣溿€?
+- Audit锛氥€屼綘鏄璁″伐绋嬪笀璇峰紑濮嬪鏌ャ€?
 
 ---
 
-## 三、降级策略
+## 涓夈€侀檷绾х瓥鐣?
 
-### Gemini 降级链
+### Gemini 闄嶇骇閾?
 
 ```
-Gemini (主) 
-  ↓ 429/限流/非成功返回码
-Claude (第一降级)
-  ↓ 不可用
-Codex (最终降级，由当前 Agent 直接执行)
+Gemini (涓? 
+  鈫?429/闄愭祦/闈炴垚鍔熻繑鍥炵爜
+Claude (绗竴闄嶇骇)
+  鈫?涓嶅彲鐢?
+Codex (鏈€缁堥檷绾э紝鐢卞綋鍓?Agent 鐩存帴鎵ц)
 ```
 
-**降级触发条件**：
-- HTTP 状态码 429 (Too Many Requests)
-- HTTP 状态码 439 或任何 4xx/5xx
-- 超时（默认 1800 秒）
-- 网络连接失败
+**闄嶇骇瑙﹀彂鏉′欢**锛?
+- HTTP 鐘舵€佺爜 429 (Too Many Requests)
+- HTTP 鐘舵€佺爜 439 鎴栦换浣?4xx/5xx
+- 瓒呮椂锛堥粯璁?1800 绉掞級
+- 缃戠粶杩炴帴澶辫触
 
-**降级后行为**：
-1. 在 CSV 的 `notes` 字段记录：`gemini_fallback:<原因>`
-2. 将 `assigned_agent` 更新为实际执行的 Agent
-3. **不等待 Gemini 恢复**，立即使用降级 Agent 继续执行
-4. 后续同类任务也使用降级 Agent（直到下一次会话开始时重试 Gemini）
+**闄嶇骇鍚庤涓?*锛?
+1. 鍦?CSV 鐨?`notes` 瀛楁璁板綍锛歚gemini_fallback:<鍘熷洜>`
+2. 灏?`assigned_agent` 鏇存柊涓哄疄闄呮墽琛岀殑 Agent
+3. **涓嶇瓑寰?Gemini 鎭㈠**锛岀珛鍗充娇鐢ㄩ檷绾?Agent 缁х画鎵ц
+4. 鍚庣画鍚岀被浠诲姟涔熶娇鐢ㄩ檷绾?Agent锛堢洿鍒颁笅涓€娆′細璇濆紑濮嬫椂閲嶈瘯 Gemini锛?
 
-### Claude 不可用处理
+### Claude 涓嶅彲鐢ㄥ鐞?
 
-如果 Claude 不可用，按任务类型分流：
+濡傛灉 Claude 涓嶅彲鐢紝鎸変换鍔＄被鍨嬪垎娴侊細
 
-1. **阻断门任务（不可降级）**  
-   - 包括：Stage 1 架构评审、Stage 5 发布前审计、所有标记为 `review_gate=blocking` 的任务。  
-   - 处理：立即挂起，记录 `claude_unavailable:blocked`，并通知用户转人工审查。  
-   - 规则：**禁止**用 Codex 自审代替阻断门。
+1. **闃绘柇闂ㄤ换鍔★紙涓嶅彲闄嶇骇锛?*  
+   - 鍖呮嫭锛歋tage 1 鏋舵瀯璇勫銆丼tage 5 鍙戝竷鍓嶅璁°€佹墍鏈夋爣璁颁负 `review_gate=blocking` 鐨勪换鍔°€? 
+   - 澶勭悊锛氱珛鍗虫寕璧凤紝璁板綍 `claude_unavailable:blocked`锛屽苟閫氱煡鐢ㄦ埛杞汉宸ュ鏌ャ€? 
+   - 瑙勫垯锛?*绂佹**鐢?Codex 鑷浠ｆ浛闃绘柇闂ㄣ€?
 
-2. **非阻断审查任务（可降级）**  
-   - 可由 Codex 执行临时自审，记录 `claude_unavailable:self_review_non_blocking`。  
-   - 后续必须在 Claude 恢复后补一次正式审计并更新结论。
+2. **闈為樆鏂鏌ヤ换鍔★紙鍙檷绾э級**  
+   - 鍙敱 Codex 鎵ц涓存椂鑷锛岃褰?`claude_unavailable:self_review_non_blocking`銆? 
+   - 鍚庣画蹇呴』鍦?Claude 鎭㈠鍚庤ˉ涓€娆℃寮忓璁″苟鏇存柊缁撹銆?
 
-3. **前端任务**  
-   - Gemini 不可用且 Claude 也不可用时，允许由 Codex 兜底执行。  
-   - 但若该任务属于发布阻断门，仍需等待人工或 Claude 审计通过。
+3. **鍓嶇浠诲姟**  
+   - Gemini 涓嶅彲鐢ㄤ笖 Claude 涔熶笉鍙敤鏃讹紝鍏佽鐢?Codex 鍏滃簳鎵ц銆? 
+   - 浣嗚嫢璇ヤ换鍔″睘浜庡彂甯冮樆鏂棬锛屼粛闇€绛夊緟浜哄伐鎴?Claude 瀹¤閫氳繃銆?
 
 ---
 
-## 四、调用记录要求
+## 鍥涖€佽皟鐢ㄨ褰曡姹?
 
-每次 Agent 调用必须在 `process.md` 的执行日志中记录：
-
-```
-<时间> [gemini] 开始执行 PH01-040: 登录页面组件
-<时间> [gemini] 返回 429, 降级为 claude
-<时间> [claude] 完成 PH01-040, commit: abc1234
-```
-
-每次会话结束时，在 `process.md` 底部汇总各 Agent 使用情况：
+姣忔 Agent 璋冪敤蹇呴』鍦?`process.md` 鐨勬墽琛屾棩蹇椾腑璁板綍锛?
 
 ```
-## Agent 使用统计
-| Agent | 任务数 | 成功 | 降级 |
+<鏃堕棿> [gemini] 寮€濮嬫墽琛?PH01-040: 鐧诲綍椤甸潰缁勪欢
+<鏃堕棿> [gemini] 杩斿洖 429, 闄嶇骇涓?claude
+<鏃堕棿> [claude] 瀹屾垚 PH01-040, commit: abc1234
+```
+
+姣忔浼氳瘽缁撴潫鏃讹紝鍦?`process.md` 搴曢儴姹囨€诲悇 Agent 浣跨敤鎯呭喌锛?
+
+```
+## Agent 浣跨敤缁熻
+| Agent | 浠诲姟鏁?| 鎴愬姛 | 闄嶇骇 |
 |-------|-------|------|------|
 | codex | 15 | 15 | 0 |
 | gemini | 8 | 6 | 2 |
@@ -159,31 +177,32 @@ Codex (最终降级，由当前 Agent 直接执行)
 
 ---
 
-## 五、Codex 特有规则
+## 浜斻€丆odex 鐗规湁瑙勫垯
 
-作为主编排 Agent，Codex 负责：
+浣滀负涓荤紪鎺?Agent锛孋odex 璐熻矗锛?
 
-1. **流程控制**：决定当前处于哪个 Stage，何时进入 Stage 转换
-2. **任务调度**：决定 CSV 中任务的执行顺序
-3. **状态管理**：更新 CSV 和 process.md
-4. **Agent 调度**：调用 Gemini 和 Claude
-5. **异常处理**：处理 Agent 降级、阻塞、失败等异常情况
+1. **娴佺▼鎺у埗**锛氬喅瀹氬綋鍓嶅浜庡摢涓?Stage锛屼綍鏃惰繘鍏?Stage 杞崲
+2. **浠诲姟璋冨害**锛氬喅瀹?CSV 涓换鍔＄殑鎵ц椤哄簭
+3. **鐘舵€佺鐞?*锛氭洿鏂?CSV 鍜?process.md
+4. **Agent 璋冨害**锛氳皟鐢?Gemini 鍜?Claude
+5. **寮傚父澶勭悊**锛氬鐞?Agent 闄嶇骇銆侀樆濉炪€佸け璐ョ瓑寮傚父鎯呭喌
 
-Codex 不应将以上职责委托给其他 Agent。
+Codex 涓嶅簲灏嗕互涓婅亴璐ｅ鎵樼粰鍏朵粬 Agent銆?
 
 ---
 
-## 六、跨平台兼容说明
+## 鍏€佽法骞冲彴鍏煎璇存槑
 
-### 在 Antigravity 中
+### 鍦?Antigravity 涓?
 
-- Antigravity 自身承担 Codex 的角色
-- 通过 `browser_subagent` 工具测试前端
-- Claude 通过系统内置能力调用
-- Gemini 通过本地 Gemini CLI 直接调用
+- Antigravity 鑷韩鎵挎媴 Codex 鐨勮鑹?
+- 閫氳繃 `browser_subagent` 宸ュ叿娴嬭瘯鍓嶇
+- Claude 閫氳繃绯荤粺鍐呯疆鑳藉姏璋冪敤
+- Gemini 閫氳繃鏈湴 Gemini CLI 鐩存帴璋冪敤
 
-### 在 Claude 中
+### 鍦?Claude 涓?
 
-- Claude 自身承担 Codex + Claude 的角色（自编排 + 自审查）
-- Gemini 通过本地 Gemini CLI 直接调用
-- 自审查时需在 `notes` 标注 `self_review:true`
+- Claude 鑷韩鎵挎媴 Codex + Claude 鐨勮鑹诧紙鑷紪鎺?+ 鑷鏌ワ級
+- Gemini 閫氳繃鏈湴 Gemini CLI 鐩存帴璋冪敤
+- 鑷鏌ユ椂闇€鍦?`notes` 鏍囨敞 `self_review:true`
+

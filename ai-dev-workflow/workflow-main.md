@@ -1,7 +1,7 @@
 ﻿---
 description: AI 大型系统开发工作流 - 主编排文件（从零到一，分阶段执行）
-version: "1.2"
-updated_at: "2026-02-26"
+version: "2.0"
+updated_at: "2026-03-01"
 compatible: codex, claude, antigravity
 ---
 
@@ -16,7 +16,7 @@ compatible: codex, claude, antigravity
 > **核心原则**：
 > - 以内置 Plan 为主，外置 Skill 与全局提示词为辅
 > - 按需调用 MCP（`sequential-thinking` + `context7` + `web-search`）
-> - 多 Agent 协作：Codex 主编排 + Gemini 前端 + Claude 审计
+> - 多 Agent 协作：支持单 Agent 串行与多 Agent 并行（Orchestrator + Backend + Frontend + Audit 四角色独立会话）
 > - 每阶段人工验收通过后再进入下一阶段
 > - 结构化持久与断点续传：使用 `todolist.csv` + `process.md`
 > - 安全回滚优先：默认定向恢复（`git restore`），谨慎使用破坏性命令
@@ -61,6 +61,13 @@ compatible: codex, claude, antigravity
     - 表单提交后必须有明确的结果反馈和后续导航路径（如返回列表、跳转详情页）
     - 错误页面（404/403/500）必须提供回到首页或上一页的导航入口
     - Stage 1 架构设计时须输出**导航闭环矩阵**，Stage 3 任务分解时须包含闭环验收项，Stage 4 执行时须校验闭环，Stage 5 审查时须进行全路由闭环审计
+13. **多 Agent 协作原则**（多 Agent 并行模式下生效，详见 `multi-agent-protocol.md`）：
+    - **目录隔离**：Backend Agent 仅操作 `backend/`，Frontend Agent 仅操作 `frontend/`，禁止交叉修改
+    - **共享边界**：仅 `docs/api-contracts/` 为共享区域，由 Orchestrator 创建、Backend 更新 CHANGELOG、Frontend 读取
+    - **合约驱动同步**：前后端通过 API 合约 (OpenAPI YAML) 同步接口定义，Breaking Change 必须通过 CHANGELOG 追踪
+    - **分支隔离**：后端 `feature/phase-XX-<slug>`，前端 `feature/phase-XX-<slug>-fe`，禁止在同一分支混合开发
+    - **文件驱动协调**：Agent 间通过 `SYNC.md` + `process.md` + `todolist.csv` 进行状态同步，不依赖实时通信
+    - **跨角色状态检查**：每个角色在任务批次完成后检查其他角色状态，提示用户启动未开始的角色
 
 ---
 
@@ -160,12 +167,21 @@ Stage 0 -> Stage 1 -> Stage 2 -> [Stage 3 -> Stage 4 -> Stage 5] -> 循环 -> St
 
 ## 七、MCP 服务与工具建议
 
-| MCP / Tool | 用途 | 使用时机 |
-|------------|------|----------|
-| `sequential-thinking` | 分解、架构、任务拆分 | Stage 0/1/2/3 |
-| `context7` | 官方文档查询 | Stage 0/1/4 |
-| `web-search` | 最佳实践与风险调研 | Stage 0/1/4 |
-| `browser` | 前端效果验证 | Stage 4/5 |
+| MCP / Tool | 用途 | 使用时机 | 上下文控制 |
+|------------|------|----------|-----------|
+| `sequential-thinking` | 分解、架构、任务拆分 | Stage 0/1/2/3 | 低风险 |
+| `context7` | 官方文档查询 | Stage 0/1/4 | 低风险 |
+| `web-search` | 最佳实践与风险调研 | Stage 0/1/4 | 低风险 |
+| `figma` | 产品原型设计数据提取（替代手动截图对比） | Stage 1/4/5 前端任务 | ⚠️ 高风险——见调用纪律 |
+| `playwright` | 前端效果验证 + E2E 测试 + 导航闭环校验（替代 `browser`） | Stage 4/5 | ⚠️ 中风险——见调用纪律 |
+
+**MCP 调用纪律（防上下文污染）**：
+
+1. **按需调用**：仅在当前任务需要时调用对应 MCP，禁止"预加载"或"探索性"调用。
+2. **结果落盘**：MCP 返回的大数据（Figma 设计规范 / 页面截图 / 测试报告）必须写入文件（如 `docs/prototypes/page-spec.md`、`.tmp/screenshots/`），后续从文件读取，禁止重复调用同一数据。
+3. **粒度最小化**：请求最小范围的数据（单页面/单组件），禁止一次性 dump 全量设计文件或完整 DOM 快照。
+4. **Figma 专项**：仅提取当前任务对应页面的布局结构、组件规范、颜色/间距数值，禁止拉取整个 Figma 项目的图层树。
+5. **Playwright 专项**：截图保存到 `.tmp/screenshots/` 目录并以路径引用，禁止将 base64 截图或完整 DOM 内联到上下文中；E2E 测试结果仅返回 pass/fail + 失败截图路径。
 
 ---
 
@@ -181,3 +197,7 @@ Stage 0 -> Stage 1 -> Stage 2 -> [Stage 3 -> Stage 4 -> Stage 5] -> 循环 -> St
 - `templates/plan.md`
 - `templates/todolist.csv`
 - `templates/process.md`
+- `multi-agent-protocol.md`
+- `templates/sync.md`
+- `templates/api-changelog.md`
+

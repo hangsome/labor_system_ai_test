@@ -180,6 +180,11 @@ thought 8: 验证任务完整性（无遗漏）
    - 涉及错误页面（404/403/500）的任务，`acceptance_criteria` 必须包含「提供回到首页的导航入口」
    - 涉及表单/弹窗/抽屉的任务，`acceptance_criteria` 必须包含「提供关闭/取消操作」
    - 若 `docs/architecture.md` 中存在导航闭环矩阵，任务拆分须逐条对照，确保每个路由均有对应前端任务覆盖其闭环要求
+6. **API 合约生成门禁**（多 Agent 并行模式下必须执行，单 Agent 模式可选）：
+   - 当项目为前后端分离架构时，必须为每个 Phase 生成 API 合约 YAML（OpenAPI 3.0）到 `docs/api-contracts/phase-XX-<slug>.yaml`
+   - 初始化 `docs/api-contracts/CHANGELOG.md`（使用 `templates/api-changelog.md` 模板）
+   - 前端任务的 `contract_version` 字段必须填写当前合约版本
+   - 后端任务与前端任务之间的依赖关系必须通过 API 合约解耦，而非直接代码依赖
 
 ### Step 4：生成 todolist.csv
 
@@ -214,6 +219,8 @@ thought 8: 验证任务完整性（无遗漏）
 | `git_state` | 提交状态 | `未提交` / `已提交` |
 | `refs` | 引用文件 | `src/auth/login.py:1` |
 | `notes` | 备注 | 空 |
+| `role` | （多 Agent 可选）角色归属 | `backend` / `frontend` / `audit` |
+| `contract_version` | （多 Agent 可选）API 合约版本 | `v1.0.0` |
 
 **默认值**：生成时 `attempts` = `0`，`started_at_commit` = 空，`dev_state`/`test_state`/`review_state` = `未开始`，`git_state` = `未提交`。
 
@@ -251,6 +258,9 @@ Import-Csv "phases/phase-XX/todolist.csv" | Format-Table id, title, area, assign
 - [ ] CSV 长文本已外置到 Feature Task，CSV 字段无多行内容
 - [ ] （若有原型）所有前端任务 `refs` 已关联对应原型文件
 - [ ] （若有原型）Feature Task 已包含原型参考章节
+- [ ] （多 Agent 模式）API 合约 YAML 已生成且 `CHANGELOG.md` 已初始化
+- [ ] （多 Agent 模式）前端任务已填写 `contract_version` 字段
+- [ ] （多 Agent 模式）后端与前端任务通过 API 合约解耦，无直接代码依赖
 
 ## 五、完成条件
 

@@ -29,6 +29,26 @@ output: 代码 + 测试 + 更新后的 CSV/process
    - 禁止在共享分支（`main` / `feature/*`）使用全局 `git reset --hard`、`git clean -fd`。
    - 如需清理未跟踪文件，必须基于 before/after 差集并使用**路径限定**命令：`git clean -fd -- <paths>`。
 
+### 多 Agent 并行模式补充约定
+
+当以角色身份（Backend / Frontend / Audit Engineer）进入时，以下规则生效：
+
+9. **角色作用域执行**：仅执行 CSV 中 `area` 或 `role` 匹配本角色的任务，不触碰其他角色的任务。
+10. **分支自动检测**（Boot Protocol Step 4）：
+    - 会话启动时执行 `git branch --show-current` 检测当前分支
+    - 后端期望分支：`feature/phase-XX-<slug>`，前端期望分支：`feature/phase-XX-<slug>-fe`
+    - 若不匹配则自动 checkout 或 create，前端分支从后端已合并的 `main` 切出
+    - 对任意项目自动适配：扫描目录结构检测前后端分离特征
+11. **目录隔离**：Backend 仅操作 `backend/`，Frontend 仅操作 `frontend/`，禁止交叉修改。
+12. **API 合约监控**（仅 Frontend 角色）：
+    - 每轮任务前检查 `docs/api-contracts/CHANGELOG.md`
+    - 若发现 Breaking Change 且当前任务的 `contract_version` 与最新版本不一致，自动创建 REWORK 任务并标记 `notes=contract_rework:v<old>→v<new>`
+    - 前端可基于合约 YAML Mock 数据开发，后端就绪后切换 `baseURL`
+13. **会话结束协议**：任务批次完成后必须：
+    - 更新 `SYNC.md`（使用 `templates/sync.md` 格式）
+    - 执行跨角色状态检查（见 `multi-agent-protocol.md` §8）
+    - 若其他角色有未开始任务，提示用户启动对应角色
+
 ## 三、执行流程
 
 ### 整体循环 (Infinite Loop Protocol)
@@ -101,7 +121,7 @@ $tasks = Import-Csv "phases/phase-XX/todolist.csv"
    - 组件选型（按钮样式、表单元素、卡片组件等）
    - 视觉细节（边距、圆角、阴影、颜色值）
    - 交互行为（悬停效果、动画、加载状态）
-3. **编码后**：使用 `browser` 工具打开前端页面并截图，与原型进行逐区域对比，确认视觉一致性。
+3. **编码后**：使用 `playwright` MCP 打开前端页面并截图（保存到 `.tmp/screenshots/`），与原型进行逐区域对比，确认视觉一致性。若项目使用 Figma，可通过 `figma` MCP 直接拉取设计规范（间距/颜色/字号）对比。
 
 #### 3.3 机械校验 (Validate)
 - 运行任务 `val_command`（可为测试命令或校验脚本入口）；若无则必须运行最相关测试。
@@ -111,7 +131,7 @@ $tasks = Import-Csv "phases/phase-XX/todolist.csv"
 
 #### 3.3.0 视觉对齐校验 (Visual Alignment Check)
 当任务为前端任务且 `docs/prototype-map.md` 存在时，在机械校验后额外执行：
-1. 使用 `browser` 工具打开对应前端页面并截图。
+1. 使用 `playwright` MCP 打开对应前端页面并截图（保存到 `.tmp/screenshots/`）。
 2. 将截图与 `refs` 中引用的原型文件进行逐区域对比：
    - 布局结构是否一致
    - 组件类型与位置是否一致
@@ -124,7 +144,7 @@ $tasks = Import-Csv "phases/phase-XX/todolist.csv"
 
 #### 3.3.1 导航闭环校验 (Navigation Closed-Loop Check)
 当任务为前端任务且涉及路由/页面/弹窗时，在机械校验后额外执行：
-1. 使用 `browser` 工具导航到该页面，验证以下闭环要素：
+1. 使用 `playwright` MCP 导航到该页面，验证以下闭环要素：
    - 页面是否有明确的返回/回退入口（返回按钮、面包屑或侧边栏）
    - 从该页面能否通过 UI 操作回到上级页面或首页
    - 模态弹窗/抽屉/表单是否有关闭/取消操作
@@ -200,3 +220,6 @@ $tasks = Import-Csv "phases/phase-XX/todolist.csv"
 - 更新后的 `todolist.csv`
 - 更新后的 `process.md`
 - Git 提交历史
+- （多 Agent 模式）更新后的 `SYNC.md`
+- （多 Agent 模式）跨角色状态检查报告
+

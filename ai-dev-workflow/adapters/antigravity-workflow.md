@@ -1,11 +1,11 @@
 ﻿---
-description: Antigravity 适配指南 — 在 Antigravity 中正确运行 AI Dev Workflow v1.2（7 Stage）
+description: Antigravity 适配指南 — 在 Antigravity 中正确运行 AI Dev Workflow v2.0（7 Stage）
 ---
 
 # Antigravity 使用指南
 
 适配版本：
-- Workflow: `v1.2`
+- Workflow: `v2.0`
 - Stage: `7 Stage (0-6)`
 
 ## 1. 快速接入
@@ -16,7 +16,7 @@ description: Antigravity 适配指南 — 在 Antigravity 中正确运行 AI Dev
 
 ```markdown
 ---
-description: AI Dev Workflow v1.2 (7 Stage)
+description: AI Dev Workflow v2.0 (7 Stage)
 ---
 
 1. 先读取 `ai-dev-workflow/workflow-main.md`
@@ -43,7 +43,8 @@ description: AI Dev Workflow v1.2 (7 Stage)
 | 读写工作流文件 | `read_file` / `write_to_file` / `replace_file_content` |
 | 执行测试与命令 | `run_command` |
 | 搜索定位 | `find_by_name` / `grep_search` |
-| 前端验证 | `browser_subagent` |
+| 前端验证 | `playwright` MCP（截图保存到 `.tmp/screenshots/`） |
+| 原型对齐 | `figma` MCP（拉取设计规范，结果落盘到 `docs/prototypes/`） |
 | 人工验收通知 | `notify_user` |
 
 ## 4. 正确执行要点

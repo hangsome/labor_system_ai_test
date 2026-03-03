@@ -1,28 +1,35 @@
+﻿param(
+  [string]$Container = 'labor-system-mysql-1',
+  [string]$Db = 'continew_admin',
+  [string]$User = 'ubuntu',
+  [string]$Password = '',
+  [string]$SqlPath = 'backend/continew-server/src/main/resources/db/changelog/mysql/plugin/labor_table.sql'
+)
+
 $ErrorActionPreference = 'Stop'
+if (-not (Test-Path $SqlPath)) {
+  throw "SQL file not found: $SqlPath"
+}
+if (-not (docker ps --format '{{.Names}}' | Select-String -SimpleMatch $Container)) {
+  throw "MySQL container '$Container' is not running"
+}
+if ([string]::IsNullOrWhiteSpace($Password)) {
+  throw 'Password is required. Example: -Password "xu@736107#MH"'
+}
 
-$migrationPath = 'src/backend/src/main/resources/db/migration/V3__phase02_crm_contract_baseline.sql'
-$migrationSql = Get-Content $migrationPath -Raw
+$env:MYSQL_PWD = $Password
+try {
+  Get-Content $SqlPath -Raw | docker exec -i $Container mysql -u$User $Db
+  Get-Content $SqlPath -Raw | docker exec -i $Container mysql -u$User $Db
 
-# Run twice to verify idempotency.
-$migrationSql | docker exec -i labor-system-mysql-1 mysql -ulabor -plabor123 labor_system
-$migrationSql | docker exec -i labor-system-mysql-1 mysql -ulabor -plabor123 labor_system
-
-docker exec labor-system-mysql-1 mysql -ulabor -plabor123 -D labor_system -e "
-SHOW TABLES LIKE 'customer_lead';
-SHOW TABLES LIKE 'employer_unit';
+  docker exec $Container mysql -u$User -D $Db -e "
+SHOW TABLES LIKE 'labor_lead';
+SHOW TABLES LIKE 'labor_employer';
 SHOW TABLES LIKE 'labor_contract';
-SHOW TABLES LIKE 'settlement_rule';
-SHOW INDEX FROM settlement_rule WHERE Key_name = 'uk_rule_contract_version';
-SELECT CONSTRAINT_NAME FROM information_schema.TABLE_CONSTRAINTS
-WHERE TABLE_SCHEMA = DATABASE()
-  AND TABLE_NAME = 'employer_unit'
-  AND CONSTRAINT_NAME = 'fk_employer_unit_lead';
-SELECT CONSTRAINT_NAME FROM information_schema.TABLE_CONSTRAINTS
-WHERE TABLE_SCHEMA = DATABASE()
-  AND TABLE_NAME = 'labor_contract'
-  AND CONSTRAINT_NAME = 'fk_labor_contract_employer_unit';
-SELECT CONSTRAINT_NAME FROM information_schema.TABLE_CONSTRAINTS
-WHERE TABLE_SCHEMA = DATABASE()
-  AND TABLE_NAME = 'settlement_rule'
-  AND CONSTRAINT_NAME = 'fk_settlement_rule_contract';
+SHOW TABLES LIKE 'labor_settlement_rule';
+SHOW TABLES LIKE 'labor_lead_follow_up';
 "
+}
+finally {
+  Remove-Item Env:MYSQL_PWD -ErrorAction SilentlyContinue
+}

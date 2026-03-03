@@ -1,12 +1,29 @@
-﻿$ErrorActionPreference = 'Stop'
+﻿param(
+  [string]$Container = 'labor-system-mysql-1',
+  [string]$Db = 'continew_admin',
+  [string]$User = 'ubuntu',
+  [string]$Password = ''
+)
 
-Get-Content 'src/backend/src/main/resources/db/migration/V2__phase01_iam_platform_baseline.sql' -Raw |
-  docker exec -i labor-system-mysql-1 mysql -ulabor -plabor123 labor_system
+$ErrorActionPreference = 'Stop'
+if (-not (docker ps --format '{{.Names}}' | Select-String -SimpleMatch $Container)) {
+  throw "MySQL container '$Container' is not running"
+}
+if ([string]::IsNullOrWhiteSpace($Password)) {
+  throw 'Password is required. Example: -Password "xu@736107#MH"'
+}
 
-docker exec labor-system-mysql-1 mysql -ulabor -plabor123 -D labor_system -e "
-SHOW TABLES LIKE 'user_account';
-SHOW TABLES LIKE 'role';
-SHOW TABLES LIKE 'permission';
-SHOW TABLES LIKE 'data_scope_policy';
-SHOW TABLES LIKE 'audit_log';
+$env:MYSQL_PWD = $Password
+try {
+  docker exec $Container mysql -u$User -D $Db -e "
+SHOW TABLES LIKE 'sys_user';
+SHOW TABLES LIKE 'sys_role';
+SHOW TABLES LIKE 'sys_menu';
+SHOW TABLES LIKE 'sys_user_role';
+SHOW TABLES LIKE 'sys_role_menu';
+SHOW TABLES LIKE 'sys_log';
 "
+}
+finally {
+  Remove-Item Env:MYSQL_PWD -ErrorAction SilentlyContinue
+}

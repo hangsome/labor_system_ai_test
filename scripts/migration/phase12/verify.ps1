@@ -1,0 +1,24 @@
+﻿param(
+  [string]$DbHost = '127.0.0.1',
+  [int]$DbPort = 3306,
+  [string]$User = 'ubuntu',
+  [Parameter(Mandatory = $true)]
+  [string]$Password,
+  [string]$SqlFile = "$PSScriptRoot/verify.sql"
+)
+
+if (-not (Test-Path $SqlFile)) {
+  throw "SQL file not found: $SqlFile"
+}
+
+$env:MYSQL_PWD = $Password
+try {
+  Get-Content -Raw -Path $SqlFile | & mysql --default-character-set=utf8mb4 -h $DbHost -P $DbPort -u $User -t
+  if ($LASTEXITCODE -ne 0) {
+    throw "mysql execution failed with exit code $LASTEXITCODE"
+  }
+  Write-Host "Phase12 verification finished."
+}
+finally {
+  Remove-Item Env:MYSQL_PWD -ErrorAction SilentlyContinue
+}

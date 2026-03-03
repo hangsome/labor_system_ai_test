@@ -1,262 +1,263 @@
----
+﻿---
 stage: 0
-name: 项目初始化
-description: 输入物料校验 → 需求分析 → 技术栈选型 → 项目脚手架生成 → Git 初始化
-input: 产品原型图 和/或 需求文档（至少提供一项）
-output: 项目骨架 + docs/tech-stack.md
+name: 椤圭洰鍒濆鍖?
+description: 杈撳叆鐗╂枡鏍￠獙 鈫?闇€姹傚垎鏋?鈫?鎶€鏈爤閫夊瀷 鈫?椤圭洰鑴氭墜鏋剁敓鎴?鈫?Git 鍒濆鍖?
+input: 浜у搧鍘熷瀷鍥?鍜?鎴?闇€姹傛枃妗ｏ紙鑷冲皯鎻愪緵涓€椤癸級
+output: 椤圭洰楠ㄦ灦 + docs/tech-stack.md
 ---
 
-# Stage 0：项目初始化
+# Stage 0锛氶」鐩垵濮嬪寲
 
-## 一、目标
+## 涓€銆佺洰鏍?
 
-根据用户需求，选择合适的技术栈，生成项目脚手架，为后续开发奠定基础。
+鏍规嵁鐢ㄦ埛闇€姹傦紝閫夋嫨鍚堥€傜殑鎶€鏈爤锛岀敓鎴愰」鐩剼鎵嬫灦锛屼负鍚庣画寮€鍙戝瀹氬熀纭€銆?
 
-## 二、AI 行为约定
+## 浜屻€丄I 琛屼负绾﹀畾
 
-1. **不直接写业务代码**，只生成项目骨架和配置。
-2. **遵守主干分支保护隔离**：AI 不得在 `main`（或 `master`）分支上直接执行阶段性任务的原子提交。除了最初始化的脚手架（Skeleton）创建，禁止一切直接 PUSH 主分支的行为。
-3. **必须使用 `sequential-thinking` MCP** 进行技术栈分析与选型推理。
-4. 使用 `context7` 查询框架/库的官方文档，确保选型基于准确的 API 信息；并利用 `web-search` 调研技术方案。
-5. 技术栈偏好遵循用户设定（前端 React/Vue、后端 Java/Python/Node.js、数据库 MySQL），但可根据实际需求推荐其他方案（需说明理由）。
+1. **涓嶇洿鎺ュ啓涓氬姟浠ｇ爜**锛屽彧鐢熸垚椤圭洰楠ㄦ灦鍜岄厤缃€?
+2. **閬靛畧涓诲共鍒嗘敮淇濇姢闅旂**锛欰I 涓嶅緱鍦?`main`锛堟垨 `master`锛夊垎鏀笂鐩存帴鎵ц闃舵鎬т换鍔＄殑鍘熷瓙鎻愪氦銆傞櫎浜嗘渶鍒濆鍖栫殑鑴氭墜鏋讹紙Skeleton锛夊垱寤猴紝绂佹涓€鍒囩洿鎺?PUSH 涓诲垎鏀殑琛屼负銆?
+3. **蹇呴』浣跨敤 `sequential-thinking` MCP** 杩涜鎶€鏈爤鍒嗘瀽涓庨€夊瀷鎺ㄧ悊銆?
+4. 浣跨敤 `context7` 鏌ヨ妗嗘灦/搴撶殑瀹樻柟鏂囨。锛岀‘淇濋€夊瀷鍩轰簬鍑嗙‘鐨?API 淇℃伅锛涘苟鍒╃敤 `web-search` 璋冪爺鎶€鏈柟妗堛€?
+5. 鎶€鏈爤鍋忓ソ閬靛惊鐢ㄦ埛璁惧畾锛堝墠绔?React/Vue銆佸悗绔?Java/Python/Node.js銆佹暟鎹簱 MySQL锛夛紝浣嗗彲鏍规嵁瀹為檯闇€姹傛帹鑽愬叾浠栨柟妗堬紙闇€璇存槑鐞嗙敱锛夈€?
 
-## 三、执行步骤
+## 涓夈€佹墽琛屾楠?
 
-### Step 0：Plan 文件消化与输入物料校验
+### Step 0锛歅lan 鏂囦欢娑堝寲涓庤緭鍏ョ墿鏂欐牎楠?
 
-工作流启动时，必须确认用户提供了 **Plan 文件**（使用 `templates/plan.md` 模板）或自然语言描述：
+宸ヤ綔娴佸惎鍔ㄦ椂锛屽繀椤荤‘璁ょ敤鎴锋彁渚涗簡 **Plan 鏂囦欢**锛堜娇鐢?`templates/plan.md` 妯℃澘锛夋垨鑷劧璇█鎻忚堪锛?
 
-| 物料 | 状态 | 格式说明 |
+| 鐗╂枡 | 鐘舵€?| 鏍煎紡璇存槑 |
 |------|------|----------|
-| **Plan 文件** | ✅/❌ | 填写完成的 `plan.md`，包含系统定位 / 模块列表 / 阶段划分 / 技术偏好 |
-| 产品原型图 | ✅/❌ | Figma 链接 / Axure 导出 / 截图附件 |
-| 需求文档 | ✅/❌ | PRD / 功能列表 / 用户故事 / Markdown |
+| **Plan 鏂囦欢** | 鉁?鉂?| 濉啓瀹屾垚鐨?`plan.md`锛屽寘鍚郴缁熷畾浣?/ 妯″潡鍒楄〃 / 闃舵鍒掑垎 / 鎶€鏈亸濂?|
+| 浜у搧鍘熷瀷鍥?| 鉁?鉂?| Figma 閾炬帴 / Axure 瀵煎嚭 / 鎴浘闄勪欢 |
+| 闇€姹傛枃妗?| 鉁?鉂?| PRD / 鍔熻兘鍒楄〃 / 鐢ㄦ埛鏁呬簨 / Markdown |
 
-**处理规则**：
-- 如果提供了 Plan 文件 → 解析其中的功能模块和阶段划分，作为后续 Stage 1/2 的事实基础。
-- 如果只有自然语言描述 → AI 自动生成 Plan 文件，写入 `docs/plan.md` 并要求用户确认后再继续。
-- AI 应主动使用 `web-search` 和 `context7` 補充调研，補全用户未提供的技术细节。
+**澶勭悊瑙勫垯**锛?
+- 濡傛灉鎻愪緵浜?Plan 鏂囦欢 鈫?瑙ｆ瀽鍏朵腑鐨勫姛鑳芥ā鍧楀拰闃舵鍒掑垎锛屼綔涓哄悗缁?Stage 1/2 鐨勪簨瀹炲熀纭€銆?
+- 濡傛灉鍙湁鑷劧璇█鎻忚堪 鈫?AI 鑷姩鐢熸垚 Plan 鏂囦欢锛屽啓鍏?`docs/plan.md` 骞惰姹傜敤鎴风‘璁ゅ悗鍐嶇户缁€?
+- AI 搴斾富鍔ㄤ娇鐢?`web-search` 鍜?`context7` 瑁滃厖璋冪爺锛岃鍏ㄧ敤鎴锋湭鎻愪緵鐨勬妧鏈粏鑺傘€?
 
-**原型基线建立（自动扫描 + 产品对齐度保障）**：
+**鍘熷瀷鍩虹嚎寤虹珛锛堣嚜鍔ㄦ壂鎻?+ 浜у搧瀵归綈搴︿繚闅滐級**锛?
 
-AI 必须**主动扫描**项目目录，检测是否存在产品原型或 UI 相关需求文档：
+AI 蹇呴』**涓诲姩鎵弿**椤圭洰鐩綍锛屾娴嬫槸鍚﹀瓨鍦ㄤ骇鍝佸師鍨嬫垨 UI 鐩稿叧闇€姹傛枃妗ｏ細
 
-**扫描范围**（按优先级）：
-- `docs/prototypes/`、`docs/design/`、`design/`、`mockups/`、`ui/` 等常见原型目录
-- `docs/` 下的 PRD、需求文档（`*.md`/`*.pdf`/`*.docx` 中含页面描述或 UI 规格的文件）
-- 项目根目录下的原型图片（`*.png`/`*.jpg`/`*.svg`/`*.fig`/`*.sketch`/`*.xd`）
-- 用户在 Plan 文件或自然语言中提供的 Figma 链接、截图附件等
+**鎵弿鑼冨洿**锛堟寜浼樺厛绾э級锛?
+- `docs/prototypes/`銆乣docs/design/`銆乣design/`銆乣mockups/`銆乣ui/` 绛夊父瑙佸師鍨嬬洰褰?
+- `docs/` 涓嬬殑 PRD銆侀渶姹傛枃妗ｏ紙`*.md`/`*.pdf`/`*.docx` 涓惈椤甸潰鎻忚堪鎴?UI 瑙勬牸鐨勬枃浠讹級
+- 椤圭洰鏍圭洰褰曚笅鐨勫師鍨嬪浘鐗囷紙`*.png`/`*.jpg`/`*.svg`/`*.fig`/`*.sketch`/`*.xd`锛?
+- 鐢ㄦ埛鍦?Plan 鏂囦欢鎴栬嚜鐒惰瑷€涓彁渚涚殑 Figma 閾炬帴銆佹埅鍥鹃檮浠剁瓑
 
-**发现原型后，自动执行以下步骤**：
+**鍙戠幇鍘熷瀷鍚庯紝鑷姩鎵ц浠ヤ笅姝ラ**锛?
 
-1. 将散落的原型文件统一归档到 `docs/prototypes/` 目录（按页面/模块命名）
-2. 生成 `docs/prototype-map.md`——原型页面清单与功能模块映射表：
+1. 灏嗘暎钀界殑鍘熷瀷鏂囦欢缁熶竴褰掓。鍒?`docs/prototypes/` 鐩綍锛堟寜椤甸潰/妯″潡鍛藉悕锛?
+2. 鐢熸垚 `docs/prototype-map.md`鈥斺€斿師鍨嬮〉闈㈡竻鍗曚笌鍔熻兘妯″潡鏄犲皠琛細
    ```markdown
-   # 产品原型映射表
+   # 浜у搧鍘熷瀷鏄犲皠琛?
 
-   | 原型文件 | 页面/视图 | 对应模块 | 关键 UI 要素 |
+   | 鍘熷瀷鏂囦欢 | 椤甸潰/瑙嗗浘 | 瀵瑰簲妯″潡 | 鍏抽敭 UI 瑕佺礌 |
    |---------|----------|---------|-------------|
-   | prototypes/login.png | 登录页 | auth | 表单布局、品牌 Logo、第三方登录按钮 |
-   | prototypes/dashboard.png | 仪表盘 | dashboard | 统计卡片、图表区域、侧边栏 |
+   | prototypes/login.png | 鐧诲綍椤?| auth | 琛ㄥ崟甯冨眬銆佸搧鐗?Logo銆佺涓夋柟鐧诲綍鎸夐挳 |
+   | prototypes/dashboard.png | 浠〃鐩?| dashboard | 缁熻鍗＄墖銆佸浘琛ㄥ尯鍩熴€佷晶杈规爮 |
    ```
-3. 标注每个原型页面的 **关键 UI 要素**（布局结构、配色方案、交互行为）
-4. 要求用户确认映射关系的准确性
+3. 鏍囨敞姣忎釜鍘熷瀷椤甸潰鐨?**鍏抽敭 UI 瑕佺礌**锛堝竷灞€缁撴瀯銆侀厤鑹叉柟妗堛€佷氦浜掕涓猴級
+4. 瑕佹眰鐢ㄦ埛纭鏄犲皠鍏崇郴鐨勫噯纭€?
 
-> 📌 原型基线是后续 Stage 3/4/5 产品对齐度校验的事实基础。AI 必须主动发现原型，而非等待用户显式提供。
+> 馃搶 鍘熷瀷鍩虹嚎鏄悗缁?Stage 3/4/5 浜у搧瀵归綈搴︽牎楠岀殑浜嬪疄鍩虹銆侫I 蹇呴』涓诲姩鍙戠幇鍘熷瀷锛岃€岄潪绛夊緟鐢ㄦ埛鏄惧紡鎻愪緵銆?
 
-**Pattern Library 查询（知识复用）**：
+**Pattern Library 鏌ヨ锛堢煡璇嗗鐢級**锛?
 
-在消化 Plan 后、进入 Specification 之前，AI 必须检查 `patterns/` 目录：
+鍦ㄦ秷鍖?Plan 鍚庛€佽繘鍏?Specification 涔嬪墠锛孉I 蹇呴』妫€鏌?`patterns/` 鐩綍锛?
 
-1. 扫描 `patterns/` 目录是否存在（首个项目可能为空）
-2. 如果存在，遍历各分类目录，匹配与当前系统相关的 Pattern：
-   - 按系统类型匹配（如 Web 应用 → 查找 RBAC、JWT、CRUD 等 Pattern）
-   - 按业务领域匹配（如电商 → 查找购物车、支付等 Pattern）
-3. 将匹配到的 Pattern 列表输出给用户确认是否采用
-4. 被采用的 Pattern 在后续 Stage 1 架构设计时作为参考输入
+1. 鎵弿 `patterns/` 鐩綍鏄惁瀛樺湪锛堥涓」鐩彲鑳戒负绌猴級
+2. 濡傛灉瀛樺湪锛岄亶鍘嗗悇鍒嗙被鐩綍锛屽尮閰嶄笌褰撳墠绯荤粺鐩稿叧鐨?Pattern锛?
+   - 鎸夌郴缁熺被鍨嬪尮閰嶏紙濡?Web 搴旂敤 鈫?鏌ユ壘 RBAC銆丣WT銆丆RUD 绛?Pattern锛?
+   - 鎸変笟鍔￠鍩熷尮閰嶏紙濡傜數鍟?鈫?鏌ユ壘璐墿杞︺€佹敮浠樼瓑 Pattern锛?
+3. 灏嗗尮閰嶅埌鐨?Pattern 鍒楄〃杈撳嚭缁欑敤鎴风‘璁ゆ槸鍚﹂噰鐢?
+4. 琚噰鐢ㄧ殑 Pattern 鍦ㄥ悗缁?Stage 1 鏋舵瀯璁捐鏃朵綔涓哄弬鑰冭緭鍏?
 
-> 📌 Pattern Library 是跨项目的知识资产。首个项目不会有 Pattern，但从第二个项目开始就能受益。
+> 馃搶 Pattern Library 鏄法椤圭洰鐨勭煡璇嗚祫浜с€傞涓」鐩笉浼氭湁 Pattern锛屼絾浠庣浜屼釜椤圭洰寮€濮嬪氨鑳藉彈鐩娿€?
 
-### Step 0.5：需求规格化 (Specification)
+### Step 0.5锛氶渶姹傝鏍煎寲 (Specification)
 
-> 此步骤是 SDD (Specification-Driven Development) 的核心。
-> Spec 越精确，后续 AI 生成的代码质量越高。
+> 姝ゆ楠ゆ槸 SDD (Specification-Driven Development) 鐨勬牳蹇冦€?
+> Spec 瓒婄簿纭紝鍚庣画 AI 鐢熸垚鐨勪唬鐮佽川閲忚秺楂樸€?
 
-**目的**：将粗粒度的功能描述细化为可机械验证的规格。
+**鐩殑**锛氬皢绮楃矑搴︾殑鍔熻兘鎻忚堪缁嗗寲涓哄彲鏈烘楠岃瘉鐨勮鏍笺€?
 
-**执行动作**：
+**鎵ц鍔ㄤ綔**锛?
 
-1. **用户故事提取**：
-   - 从 Plan 文件的每个模块中提取用户故事
-   - 每个故事必须有 GIVEN-WHEN-THEN 格式的验收标准
-   - 调用 `sequential-thinking`（totalThoughts: 4-6）辅助提取
+1. **鐢ㄦ埛鏁呬簨鎻愬彇**锛?
+   - 浠?Plan 鏂囦欢鐨勬瘡涓ā鍧椾腑鎻愬彇鐢ㄦ埛鏁呬簨
+   - 姣忎釜鏁呬簨蹇呴』鏈?GIVEN-WHEN-THEN 鏍煎紡鐨勯獙鏀舵爣鍑?
+   - 璋冪敤 `sequential-thinking`锛坱otalThoughts: 4-6锛夎緟鍔╂彁鍙?
 
-2. **业务规则提炼**：
-   - 识别隐含的业务规则（如权限控制、数据校验、状态流转）
-   - 将口语化描述转换为 IF-THEN 结构化规则
+2. **涓氬姟瑙勫垯鎻愮偧**锛?
+   - 璇嗗埆闅愬惈鐨勪笟鍔¤鍒欙紙濡傛潈闄愭帶鍒躲€佹暟鎹牎楠屻€佺姸鎬佹祦杞級
+   - 灏嗗彛璇寲鎻忚堪杞崲涓?IF-THEN 缁撴瀯鍖栬鍒?
 
-3. **NFR 量化**：
-   - 如 Plan 文件中未填写 NFR Matrix，AI 应根据系统类型和规模推荐合理默认值
-   - 必须确认性能、安全、兼容性三个维度
+3. **NFR 閲忓寲**锛?
+   - 濡?Plan 鏂囦欢涓湭濉啓 NFR Matrix锛孉I 搴旀牴鎹郴缁熺被鍨嬪拰瑙勬ā鎺ㄨ崘鍚堢悊榛樿鍊?
+   - 蹇呴』纭鎬ц兘銆佸畨鍏ㄣ€佸吋瀹规€т笁涓淮搴?
 
-4. **数据词典建立**：
-   - 提取核心业务实体的名称和定义
-   - 确保术语在前后端、数据库中保持一致（如中文术语对应英文字段名）
+4. **鏁版嵁璇嶅吀寤虹珛**锛?
+   - 鎻愬彇鏍稿績涓氬姟瀹炰綋鐨勫悕绉板拰瀹氫箟
+   - 纭繚鏈鍦ㄥ墠鍚庣銆佹暟鎹簱涓繚鎸佷竴鑷达紙濡備腑鏂囨湳璇搴旇嫳鏂囧瓧娈靛悕锛?
 
-5. **输出**：`docs/specification.md`（如 Plan 中已内联 Spec 内容，则从 Plan 提取生成独立文件）
+5. **杈撳嚭**锛歚docs/specification.md`锛堝 Plan 涓凡鍐呰仈 Spec 鍐呭锛屽垯浠?Plan 鎻愬彇鐢熸垚鐙珛鏂囦欢锛?
 
-**完成条件**：
-- [ ] 每个功能模块至少 2 个用户故事
-- [ ] 每个用户故事至少 1 条 GIVEN-WHEN-THEN 验收标准
-- [ ] NFR Matrix 已量化关键指标
-- [ ] 业务规则已结构化
-- [ ] 用户确认 Specification
+**瀹屾垚鏉′欢**锛?
+- [ ] 姣忎釜鍔熻兘妯″潡鑷冲皯 2 涓敤鎴锋晠浜?
+- [ ] 姣忎釜鐢ㄦ埛鏁呬簨鑷冲皯 1 鏉?GIVEN-WHEN-THEN 楠屾敹鏍囧噯
+- [ ] NFR Matrix 宸查噺鍖栧叧閿寚鏍?
+- [ ] 涓氬姟瑙勫垯宸茬粨鏋勫寲
+- [ ] 鐢ㄦ埛纭 Specification
 
-### Step 1：需求分析
+### Step 1锛氶渶姹傚垎鏋?
 
-1. 解析用户需求描述，提取以下信息：
-   - 系统类型（Web 应用 / 管理平台 / API 服务 / 微服务等）
-   - 核心业务领域（电商 / 企业管理 / 社交 / 内容管理等）
-   - 用户规模预估（小型 / 中型 / 大型）
-   - 特殊需求（实时通讯 / 文件上传 / 支付 / 地图等）
+1. 瑙ｆ瀽鐢ㄦ埛闇€姹傛弿杩帮紝鎻愬彇浠ヤ笅淇℃伅锛?
+   - 绯荤粺绫诲瀷锛圵eb 搴旂敤 / 绠＄悊骞冲彴 / API 鏈嶅姟 / 寰湇鍔＄瓑锛?
+   - 鏍稿績涓氬姟棰嗗煙锛堢數鍟?/ 浼佷笟绠＄悊 / 绀句氦 / 鍐呭绠＄悊绛夛級
+   - 鐢ㄦ埛瑙勬ā棰勪及锛堝皬鍨?/ 涓瀷 / 澶у瀷锛?
+   - 鐗规畩闇€姹傦紙瀹炴椂閫氳 / 鏂囦欢涓婁紶 / 鏀粯 / 鍦板浘绛夛級
 
-2. 调用 `sequential-thinking`（totalThoughts: 4-6）分析需求复杂度：
-   - `thought 1`：需求归纳与系统定位
-   - `thought 2`：技术约束识别（性能 / 安全 / 扩展性）
-   - `thought 3`：技术栈推荐与理由
-   - `thought 4`：项目结构设计
+2. 璋冪敤 `sequential-thinking`锛坱otalThoughts: 4-6锛夊垎鏋愰渶姹傚鏉傚害锛?
+   - `thought 1`锛氶渶姹傚綊绾充笌绯荤粺瀹氫綅
+   - `thought 2`锛氭妧鏈害鏉熻瘑鍒紙鎬ц兘 / 瀹夊叏 / 鎵╁睍鎬э級
+   - `thought 3`锛氭妧鏈爤鎺ㄨ崘涓庣悊鐢?
+   - `thought 4`锛氶」鐩粨鏋勮璁?
 
-### Step 2：技术栈选型
+### Step 2锛氭妧鏈爤閫夊瀷
 
-根据需求分析结果，从以下矩阵中选择技术栈：
+鏍规嵁闇€姹傚垎鏋愮粨鏋滐紝浠庝互涓嬬煩闃典腑閫夋嫨鎶€鏈爤锛?
 
-**前端选型**：
+**鍓嶇閫夊瀷**锛?
 
-| 场景 | 推荐框架 | 理由 |
+| 鍦烘櫙 | 鎺ㄨ崘妗嗘灦 | 鐞嗙敱 |
 |------|---------|------|
-| 中后台管理系统 | Vue 3 + Element Plus / Ant Design Vue | 组件库丰富、上手快 |
-| 复杂交互 SPA | React + Ant Design / Material UI | 生态丰富、灵活度高 |
-| 全栈同构 | Next.js (React) / Nuxt.js (Vue) | SSR/SSG 支持 |
-| 简单展示站 | Vue 3 | 轻量级、学习曲线低 |
+| 涓悗鍙扮鐞嗙郴缁?| Vue 3 + Element Plus / Ant Design Vue | 缁勪欢搴撲赴瀵屻€佷笂鎵嬪揩 |
+| 澶嶆潅浜や簰 SPA | React + Ant Design / Material UI | 鐢熸€佷赴瀵屻€佺伒娲诲害楂?|
+| 鍏ㄦ爤鍚屾瀯 | Next.js (React) / Nuxt.js (Vue) | SSR/SSG 鏀寔 |
+| 绠€鍗曞睍绀虹珯 | Vue 3 | 杞婚噺绾с€佸涔犳洸绾夸綆 |
 
-**后端选型**：
+**鍚庣閫夊瀷**锛?
 
-| 场景 | 推荐技术 | 理由 |
+| 鍦烘櫙 | 鎺ㄨ崘鎶€鏈?| 鐞嗙敱 |
 |------|---------|------|
-| 企业级应用 | Java (Spring Boot) | 稳定、生态完善、适合大团队 |
-| 快速原型 / API 服务 | Node.js (Express/NestJS) | 开发速度快、前后端统一 |
-| 数据密集型 / AI 集成 | Python (FastAPI/Django) | 数据处理能力强 |
-| 微服务架构 | Java + Spring Cloud | 成熟的微服务生态 |
+| 浼佷笟绾у簲鐢?| Java (Spring Boot) | 绋冲畾銆佺敓鎬佸畬鍠勩€侀€傚悎澶у洟闃?|
+| 蹇€熷師鍨?/ API 鏈嶅姟 | Node.js (Express/NestJS) | 寮€鍙戦€熷害蹇€佸墠鍚庣缁熶竴 |
+| 鏁版嵁瀵嗛泦鍨?/ AI 闆嗘垚 | Python (FastAPI/Django) | 鏁版嵁澶勭悊鑳藉姏寮?|
+| 寰湇鍔℃灦鏋?| Java + Spring Cloud | 鎴愮啛鐨勫井鏈嶅姟鐢熸€?|
 
-**数据库**：MySQL（用户指定），辅以 Redis（缓存，按需）。
+**鏁版嵁搴?*锛歁ySQL锛堢敤鎴锋寚瀹氾級锛岃緟浠?Redis锛堢紦瀛橈紝鎸夐渶锛夈€?
 
-### Step 3：项目脚手架生成
+### Step 3锛氶」鐩剼鎵嬫灦鐢熸垚
 
-根据选定技术栈，生成项目目录结构：
+鏍规嵁閫夊畾鎶€鏈爤锛岀敓鎴愰」鐩洰褰曠粨鏋勶細
 
 ```
 <project-root>/
-├── docs/                       # 文档目录
-│   └── tech-stack.md           # 技术栈说明（本 Stage 输出）
-├── src/
-│   ├── frontend/               # 前端项目
-│   │   ├── package.json
-│   │   ├── src/
-│   │   └── ...
-│   └── backend/                # 后端项目
-│       ├── pom.xml / package.json / requirements.txt
-│       ├── src/
-│       └── ...
-├── database/                   # 数据库脚本
-│   └── init.sql
-├── tests/                      # 测试目录
-├── phases/                     # 阶段文件夹（后续 Stage 生成）
-├── .gitignore
-└── README.md
+鈹溾攢鈹€ docs/                       # 鏂囨。鐩綍
+鈹?  鈹斺攢鈹€ tech-stack.md           # 鎶€鏈爤璇存槑锛堟湰 Stage 杈撳嚭锛?
+鈹溾攢鈹€ src/
+鈹?  鈹溾攢鈹€ frontend/               # 鍓嶇椤圭洰
+鈹?  鈹?  鈹溾攢鈹€ package.json
+鈹?  鈹?  鈹溾攢鈹€ src/
+鈹?  鈹?  鈹斺攢鈹€ ...
+鈹?  鈹斺攢鈹€ backend/                # 鍚庣椤圭洰
+鈹?      鈹溾攢鈹€ pom.xml / package.json / requirements.txt
+鈹?      鈹溾攢鈹€ src/
+鈹?      鈹斺攢鈹€ ...
+鈹溾攢鈹€ database/                   # 鏁版嵁搴撹剼鏈?
+鈹?  鈹斺攢鈹€ init.sql
+鈹溾攢鈹€ tests/                      # 娴嬭瘯鐩綍
+鈹溾攢鈹€ phases/                     # 闃舵鏂囦欢澶癸紙鍚庣画 Stage 鐢熸垚锛?
+鈹溾攢鈹€ .gitignore
+鈹斺攢鈹€ README.md
 ```
 
-**使用框架脚手架命令**（按技术栈选择）：
+**浣跨敤妗嗘灦鑴氭墜鏋跺懡浠?*锛堟寜鎶€鏈爤閫夋嫨锛夛細
 
-- React: `npx -y create-react-app ./src/frontend` 或 `npx -y create-vite@latest ./src/frontend -- --template react-ts`
-- Vue: `npx -y create-vue@latest ./src/frontend`
-- Spring Boot: 使用 Spring Initializr 或手动创建 Maven/Gradle 项目
-- Node.js: `npx -y express-generator ./src/backend` 或 `npx -y @nestjs/cli new ./src/backend`
-- Python: 创建 `requirements.txt` + FastAPI/Django 项目结构
+- React: `npx -y create-react-app ./frontend` 鎴?`npx -y create-vite@latest ./frontend -- --template react-ts`
+- Vue: `npx -y create-vue@latest ./frontend`
+- Spring Boot: 浣跨敤 Spring Initializr 鎴栨墜鍔ㄥ垱寤?Maven/Gradle 椤圭洰
+- Node.js: `npx -y express-generator ./backend` 鎴?`npx -y @nestjs/cli new ./backend`
+- Python: 鍒涘缓 `requirements.txt` + FastAPI/Django 椤圭洰缁撴瀯
 
-### Step 4：初始化配置与首个 Baseline
+### Step 4锛氬垵濮嬪寲閰嶇疆涓庨涓?Baseline
 
-1. 初始化 Git 仓库：`git init` 并建立 `main` 分支（`git checkout -b main`）。
-2. 生成 `.gitignore`（根据技术栈）。
-3. 配置数据库连接模板。
-4. 生成 `docs/tech-stack.md`。
-5. 创建本地开发依赖基线：生成 `docker-compose.dev.yml`（至少含 MySQL/Redis 等集成测试依赖）。
-6. 启动并验证本地依赖服务：
+1. 鍒濆鍖?Git 浠撳簱锛歚git init` 骞跺缓绔?`main` 鍒嗘敮锛坄git checkout -b main`锛夈€?
+2. 鐢熸垚 `.gitignore`锛堟牴鎹妧鏈爤锛夈€?
+3. 閰嶇疆鏁版嵁搴撹繛鎺ユā鏉裤€?
+4. 鐢熸垚 `docs/tech-stack.md`銆?
+5. 鍒涘缓鏈湴寮€鍙戜緷璧栧熀绾匡細鐢熸垚 `docker-compose.dev.yml`锛堣嚦灏戝惈 MySQL/Redis 绛夐泦鎴愭祴璇曚緷璧栵級銆?
+6. 鍚姩骞堕獙璇佹湰鍦颁緷璧栨湇鍔★細
    - `docker compose -f docker-compose.dev.yml up -d`
-   - `docker compose -f docker-compose.dev.yml ps` 确认服务为 `running/healthy`
-7. **Shift-Left 基线**：创建最小 CI 骨架（建议 `.github/workflows/ci-baseline.yml`），至少包含：
+   - `docker compose -f docker-compose.dev.yml ps` 纭鏈嶅姟涓?`running/healthy`
+7. **Shift-Left 鍩虹嚎**锛氬垱寤烘渶灏?CI 楠ㄦ灦锛堝缓璁?`.github/workflows/ci-baseline.yml`锛夛紝鑷冲皯鍖呭惈锛?
    - lint
    - unit test
-   - secrets scan（如 gitleaks/trufflehog）
-8. 提交基础框架脚手架（Initial skeleton commit）：
+   - secrets scan锛堝 gitleaks/trufflehog锛?
+8. 鎻愪氦鍩虹妗嗘灦鑴氭墜鏋讹紙Initial skeleton commit锛夛細
    ```bash
    git add .
    git commit -m "chore: Initialize project skeleton, tech stack docs and ci baseline"
    ```
 
-> 说明：`docker-compose.dev.yml` 是可演进基线。后续 Phase 如引入新中间件，必须在 Stage 3 先创建 `config` 任务更新并验证该文件，再进入业务开发任务。
+> 璇存槑锛歚docker-compose.dev.yml` 鏄彲婕旇繘鍩虹嚎銆傚悗缁?Phase 濡傚紩鍏ユ柊涓棿浠讹紝蹇呴』鍦?Stage 3 鍏堝垱寤?`config` 浠诲姟鏇存柊骞堕獙璇佽鏂囦欢锛屽啀杩涘叆涓氬姟寮€鍙戜换鍔°€?
 
-### Step 5：输出 tech-stack.md
+### Step 5锛氳緭鍑?tech-stack.md
 
-文件内容模板：
+鏂囦欢鍐呭妯℃澘锛?
 
 ```markdown
-# 技术栈说明
+# 鎶€鏈爤璇存槑
 
-## 系统概述
-<一句话描述系统定位>
+## 绯荤粺姒傝堪
+<涓€鍙ヨ瘽鎻忚堪绯荤粺瀹氫綅>
 
-## 技术选型
+## 鎶€鏈€夊瀷
 
-### 前端
-- 框架：<React/Vue + 版本>
-- UI 库：<Element Plus / Ant Design 等>
-- 构建工具：<Vite / Webpack>
+### 鍓嶇
+- 妗嗘灦锛?React/Vue + 鐗堟湰>
+- UI 搴擄細<Element Plus / Ant Design 绛?
+- 鏋勫缓宸ュ叿锛?Vite / Webpack>
 
-### 后端
-- 语言：<Java/Python/Node.js + 版本>
-- 框架：<Spring Boot / FastAPI / NestJS>
-- ORM：<MyBatis / Sequelize / SQLAlchemy>
+### 鍚庣
+- 璇█锛?Java/Python/Node.js + 鐗堟湰>
+- 妗嗘灦锛?Spring Boot / FastAPI / NestJS>
+- ORM锛?MyBatis / Sequelize / SQLAlchemy>
 
-### 数据库
-- 主库：MySQL 8.x
-- 缓存：Redis（按需）
+### 鏁版嵁搴?
+- 涓诲簱锛歁ySQL 8.x
+- 缂撳瓨锛歊edis锛堟寜闇€锛?
 
-### 开发工具
-- 版本管理：Git
-- 包管理：<npm/yarn / Maven/Gradle / pip>
+### 寮€鍙戝伐鍏?
+- 鐗堟湰绠＄悊锛欸it
+- 鍖呯鐞嗭細<npm/yarn / Maven/Gradle / pip>
 
-## 目录结构
-<项目目录树>
+## 鐩綍缁撴瀯
+<椤圭洰鐩綍鏍?
 
-## 开发环境要求
-<Node.js / JDK / Python 版本要求>
+## 寮€鍙戠幆澧冭姹?
+<Node.js / JDK / Python 鐗堟湰瑕佹眰>
 ```
 
-## 四、完成条件
+## 鍥涖€佸畬鎴愭潯浠?
 
-- [ ] 项目目录结构已生成
-- [ ] 前端项目可启动（`npm run dev` 或等效命令）
-- [ ] 后端项目可编译/启动
-- [ ] `docs/tech-stack.md` 已生成
-- [ ] `docker-compose.dev.yml` 已创建，且本地依赖服务可正常启动
-- [ ] 最小 CI 基线已创建并可运行
-- [ ] Git 仓库已初始化
-- [ ] 用户确认技术栈选型
-- [ ] （若提供原型）`docs/prototypes/` 已归档原型文件
-- [ ] （若提供原型）`docs/prototype-map.md` 已生成且用户确认映射关系
+- [ ] 椤圭洰鐩綍缁撴瀯宸茬敓鎴?
+- [ ] 鍓嶇椤圭洰鍙惎鍔紙`npm run dev` 鎴栫瓑鏁堝懡浠わ級
+- [ ] 鍚庣椤圭洰鍙紪璇?鍚姩
+- [ ] `docs/tech-stack.md` 宸茬敓鎴?
+- [ ] `docker-compose.dev.yml` 宸插垱寤猴紝涓旀湰鍦颁緷璧栨湇鍔″彲姝ｅ父鍚姩
+- [ ] 鏈€灏?CI 鍩虹嚎宸插垱寤哄苟鍙繍琛?
+- [ ] Git 浠撳簱宸插垵濮嬪寲
+- [ ] 鐢ㄦ埛纭鎶€鏈爤閫夊瀷
+- [ ] 锛堣嫢鎻愪緵鍘熷瀷锛塦docs/prototypes/` 宸插綊妗ｅ師鍨嬫枃浠?
+- [ ] 锛堣嫢鎻愪緵鍘熷瀷锛塦docs/prototype-map.md` 宸茬敓鎴愪笖鐢ㄦ埛纭鏄犲皠鍏崇郴
 
-## 五、输出到下一 Stage
+## 浜斻€佽緭鍑哄埌涓嬩竴 Stage
 
 - `docs/tech-stack.md`
-- 项目目录骨架
-- 确认的技术栈信息
+- 椤圭洰鐩綍楠ㄦ灦
+- 纭鐨勬妧鏈爤淇℃伅
+

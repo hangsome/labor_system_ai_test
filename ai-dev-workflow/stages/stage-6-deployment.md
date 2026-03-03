@@ -69,6 +69,21 @@ CI 规则：
    - SAST 中低风险 -> 告警并跟踪
 4. 禁止使用全局 `continue-on-error: true` 规避安全阻断。
 
+**多 Agent 分支 CI 适配**（多 Agent 并行模式下生效）：
+- 后端分支 (`feature/phase-XX-*` 不含 `-fe`) 仅触发 `backend-test` + `security-scan`
+- 前端分支 (`feature/phase-XX-*-fe`) 仅触发 `frontend-test` + `security-scan`
+- `main` 分支触发全量 CI（前后端 + 构建 + 部署）
+- 实现方式：使用 `paths` 过滤或 `if` 条件判断分支名
+
+```yaml
+# 示例：路径过滤
+on:
+  push:
+    paths:
+      - 'backend/**'    # 触发 backend-test
+      - 'frontend/**'   # 触发 frontend-test
+```
+
 ### Step 4：环境管理
 
 生成：
@@ -145,3 +160,4 @@ git commit -m "chore: harden deployment infrastructure and production readiness"
 - 可一键启动的开发环境
 - 自动化 CI/CD 流水线
 - 安全合规基线
+

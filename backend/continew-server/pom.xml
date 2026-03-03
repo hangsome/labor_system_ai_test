@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>top.continew.admin</groupId>
+        <artifactId>continew-admin</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>continew-server</artifactId>
+    <packaging>jar</packaging>
+
+    <name>${project.artifactId}</name>
+    <description>API and packaging deployment module</description>
+
+    <properties>
+        <!-- ### 鎵撳寘閰嶇疆鐩稿叧 ### -->
+        <!-- 鍚姩绫?-->
+        <main-class>top.continew.admin.ContiNewAdminApplication</main-class>
+        <!-- 绋嬪簭 jar 杈撳嚭鐩綍 -->
+        <bin-path>bin/</bin-path>
+        <!-- 閰嶇疆鏂囦欢杈撳嚭鐩綍 -->
+        <config-path>config/</config-path>
+        <!-- 渚濊禆 jar 杈撳嚭鐩綍 -->
+        <lib-path>lib/</lib-path>
+    </properties>
+
+    <dependencies>
+        <!-- 绯荤粺绠＄悊妯″潡 -->
+        <dependency>
+            <groupId>top.continew.admin</groupId>
+            <artifactId>continew-system</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>top.continew.admin</groupId>
+            <artifactId>continew-extension-labor</artifactId>
+        </dependency>
+
+        <!-- 鑳藉姏寮€鏀炬彃浠?-->
+        <dependency>
+            <groupId>top.continew.admin</groupId>
+            <artifactId>continew-plugin-open</artifactId>
+        </dependency>
+
+        <!-- 绉熸埛鎻掍欢 -->
+        <dependency>
+            <groupId>top.continew.admin</groupId>
+            <artifactId>continew-plugin-tenant</artifactId>
+        </dependency>
+
+        <!-- 浠诲姟璋冨害鎻掍欢 -->
+        <dependency>
+            <groupId>top.continew.admin</groupId>
+            <artifactId>continew-plugin-schedule</artifactId>
+        </dependency>
+
+        <!-- 浠ｇ爜鐢熸垚鍣ㄦ彃浠?-->
+        <dependency>
+            <groupId>top.continew.admin</groupId>
+            <artifactId>continew-plugin-generator</artifactId>
+        </dependency>
+
+        <!-- ContiNew Starter 閾捐矾杩借釜妯″潡 -->
+        <dependency>
+            <groupId>top.continew.starter</groupId>
+            <artifactId>continew-starter-trace</artifactId>
+        </dependency>
+
+        <!-- Liquibase锛堢敤浜庣鐞嗘暟鎹簱鐗堟湰锛岃窡韪€佺鐞嗗拰搴旂敤鏁版嵁搴撳彉鍖栵級 -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- 璁剧疆鏋勫缓鐨?jar 鍖呭悕 -->
+        <finalName>${project.parent.name}</finalName>
+        <plugins>
+            <!-- Spring Boot 鍙墽琛?JAR 鎵撳寘鎻掍欢 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                    <skip>${skip.boot.repackage}</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <!-- 榛樿 Spring Boot 鑳栧寘 妯″紡 -->
+        <profile>
+            <id>fat_jar</id>
+            <properties>
+                <skip.boot.repackage>false</skip.boot.repackage>
+            </properties>
+        </profile>
+
+        <!-- 鐦﹀寘 妯″紡锛堝彲鎵ц JAR + lib + config锛?-->
+        <profile>
+            <id>slim_jar</id>
+            <!--榛樿-->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <skip.boot.repackage>true</skip.boot.repackage>
+
+                <!-- 璺緞鍙橀噺 -->
+                <lib-path>lib/</lib-path>
+                <config-path>config/</config-path>
+                <bin-path>bin/</bin-path>
+                <!-- 鍚姩绫?-->
+                <main-class>top.continew.admin.ContiNewAdminApplication</main-class>
+            </properties>
+            <build>
+                <plugins>
+                    <!-- 鍒嗙鎵撳寘 JAR锛堜笉鍖呭惈渚濊禆锛?-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <configuration>
+                            <!-- 鎺掗櫎閰嶇疆鏂囦欢 -->
+                            <excludes>
+                                <exclude>${config-path}</exclude>
+                                <exclude>db/</exclude>
+                                <exclude>templates/</exclude>
+                                <exclude>logback-spring.xml</exclude>
+                            </excludes>
+                            <archive>
+                                <manifest>
+                                    <mainClass>${main-class}</mainClass>
+                                    <!-- 涓?MANIFEST.MF 涓殑 Class-Path 鍔犲叆渚濊禆 jar 鐩綍鍓嶇紑 -->
+                                    <classpathPrefix>../${lib-path}</classpathPrefix>
+                                    <addClasspath>true</addClasspath>
+                                    <!-- jar 鍖呬笉鍖呭惈鍞竴鐗堟湰鏍囪瘑 -->
+                                    <useUniqueVersions>false</useUniqueVersions>
+                                </manifest>
+                                <manifestEntries>
+                                    <!--涓?MANIFEST.MF 涓殑 Class-Path 鍔犲叆閰嶇疆鏂囦欢鐩綍鍓嶇紑 -->
+                                    <Class-Path>../${config-path}</Class-Path>
+                                </manifestEntries>
+                            </archive>
+                            <outputDirectory>${project.build.directory}/app/${bin-path}</outputDirectory>
+                        </configuration>
+                    </plugin>
+
+                    <!-- 鎷疯礉渚濊禆 jar -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-dependencies</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/app/${lib-path}</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- 鎷疯礉閰嶇疆鏂囦欢 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-resources</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <resources>
+                                        <resource>
+                                            <directory>src/main/resources/${config-path}</directory>
+                                        </resource>
+                                        <resource>
+                                            <directory>src/main/resources</directory>
+                                            <includes>
+                                                <include>db/</include>
+                                                <include>templates/</include>
+                                                <include>logback-spring.xml</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                    <outputDirectory>${project.build.directory}/app/${config-path}</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
+

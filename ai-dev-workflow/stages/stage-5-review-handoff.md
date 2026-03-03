@@ -19,6 +19,16 @@ output: 审查报告 + 验收确认
 3. **诚实报告**：如实描述完成情况，不掩盖 `validation_limited` 或阻塞项。
 4. **阻断门原则**：若 Claude 不可用，Stage 5 必须挂起并转人工审查，禁止放行。
 
+### 多 Agent 模式补充约定
+
+当以审计工程师（Audit Engineer）角色进入时，以下规则生效：
+
+5. **Boot Protocol 入口**：执行 `multi-agent-protocol.md` §3 的 Boot Protocol，自动检测待审计的 Phase。
+6. **多分支审查**：需同时审查后端分支 (`feature/phase-XX-<slug>`) 和前端分支 (`feature/phase-XX-<slug>-fe`) 的代码。
+7. **交接文档消费**：读取执行 Agent 生成的 `phases/phase-XX/handoff.md`，了解本 Phase 的变更概况。
+8. **API 合约一致性审查**：验证后端实现与 `docs/api-contracts/` 中合约定义的一致性。
+9. **审查完成后**：更新 `SYNC.md`，执行跨角色状态检查并提示用户下一步操作。
+
 ## 三、执行步骤
 
 ### Step 1：收集阶段数据
@@ -58,7 +68,7 @@ AI 必须主动扫描项目目录，检测是否存在产品原型文件（`docs
 
 1. **逐页面截图对比**：
    - 打开前端应用，遍历 `docs/prototype-map.md` 中所有页面
-   - 使用 `browser` 工具对每个页面截图
+   - 使用 `playwright` MCP 对每个页面截图（保存到 `.tmp/screenshots/`）\n   - 若项目使用 Figma，可通过 `figma` MCP 直接拉取设计规范进行数值级对比
    - 将实际截图与原型图放在一起进行逐区域对比
 
 2. **生成对齐度报告** `phases/phase-XX/review/alignment-report.md`：
