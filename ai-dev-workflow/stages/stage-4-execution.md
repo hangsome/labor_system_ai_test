@@ -26,7 +26,7 @@ output: 代码 + 测试 + 更新后的 CSV/process
 6. **状态驱动**：仅使用枚举值更新状态字段。
 7. **KISS / YAGNI**：不做无关重构，不引入新架构，优先修根因。
 8. **安全边界**：
-   - 禁止在共享分支（`main` / `feature/*`）使用全局 `git reset --hard`、`git clean -fd`。
+   - 禁止在共享分支（`dev` / `prod` / `feature/*`）使用全局 `git reset --hard`、`git clean -fd`。
    - 如需清理未跟踪文件，必须基于 before/after 差集并使用**路径限定**命令：`git clean -fd -- <paths>`。
 
 ### 多 Agent 并行模式补充约定
@@ -37,9 +37,9 @@ output: 代码 + 测试 + 更新后的 CSV/process
 10. **分支自动检测**（Boot Protocol Step 4）：
     - 会话启动时执行 `git branch --show-current` 检测当前分支
     - 后端期望分支：`feature/phase-XX-<slug>`，前端期望分支：`feature/phase-XX-<slug>-fe`
-    - 若不匹配则自动 checkout 或 create，前端分支从后端已合并的 `main` 切出
+    - 若不匹配则自动 checkout 或 create，前端分支从后端已合并的 `dev` 切出
     - 对任意项目自动适配：扫描目录结构检测前后端分离特征
-11. **目录隔离**：Backend 仅操作 `backend/`，Frontend 仅操作 `frontend/`，禁止交叉修改。
+11. **目录隔离**：Backend 仅操作 `src/backend/`，Frontend 仅操作 `src/frontend/`，禁止交叉修改。
 12. **API 合约监控**（仅 Frontend 角色）：
     - 每轮任务前检查 `docs/api-contracts/CHANGELOG.md`
     - 若发现 Breaking Change 且当前任务的 `contract_version` 与最新版本不一致，自动创建 REWORK 任务并标记 `notes=contract_rework:v<old>→v<new>`
@@ -222,4 +222,3 @@ $tasks = Import-Csv "phases/phase-XX/todolist.csv"
 - Git 提交历史
 - （多 Agent 模式）更新后的 `SYNC.md`
 - （多 Agent 模式）跨角色状态检查报告
-

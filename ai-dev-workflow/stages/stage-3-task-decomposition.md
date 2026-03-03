@@ -111,9 +111,9 @@ output: todolist.csv + process.md + feature-tasks/
 在做任何任务分解之前，**必须先为当前 Phase 创建独立的特性分支**，将后续所有开发工作隔离在该分支上：
 
 ```bash
-# 确保在 main 分支上且状态干净
-git checkout main
-git pull origin main  # 如有远程仓库
+# 确保在 dev 分支上且状态干净
+git checkout dev
+git pull origin dev  # 如有远程仓库
 
 # 创建并切换到阶段特性分支
 git checkout -b feature/phase-XX-<slug>

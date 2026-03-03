@@ -1,0 +1,76 @@
+// [MermaidChart: dedac2b7-4d4b-4328-9456-858dfec67073]
+%% ─────────────────────────────────────────────
+%% 图 2: 多 Agent 角色架构与路由
+%% ─────────────────────────────────────────────
+---
+config:
+  theme: dark
+---
+flowchart TB
+    USER([👤 项目负责人<br/>唯一调度者])
+
+    USER --> ORCH
+    USER --> BE
+    USER --> FE
+    USER --> AUDIT
+
+    subgraph ORCH_BOX ["Orchestrator · 编排者"]
+        ORCH["Codex / Antigravity<br/>─────────<br/>Stage 0/1/2/3 + 5决策 + 6<br/>需求分析 · 架构设计<br/>任务分解 · 进度管控"]
+    end
+
+    subgraph BE_BOX ["Backend Engineer · 后端工程师"]
+        BE["Codex / Antigravity<br/>─────────<br/>Stage 4 (area=backend)<br/>API 开发 · Service 层<br/>DB 迁移 · 集成测试"]
+    end
+
+    subgraph FE_BOX ["Frontend Engineer · 前端工程师"]
+        FE["Gemini CLI<br/>─────────<br/>Stage 4 (area=frontend)<br/>组件开发 · 路由管理<br/>API 对接 · 视觉对齐"]
+    end
+
+    subgraph AUDIT_BOX ["Audit Engineer · 审计工程师"]
+        AUDIT["Claude Opus<br/>─────────<br/>Stage 5 审计<br/>安全审计 · 架构合规<br/>回归审查 · 导航闭环"]
+    end
+
+    subgraph FS ["📁 本地文件系统 — 消息总线"]
+        CSV["todolist.csv<br/>任务状态"]
+        PROC["process.md<br/>全局进度"]
+        SYNC["SYNC.md<br/>跨 Agent 日志"]
+        API_CONTRACT["api-contracts/*.yaml<br/>API 合约"]
+        CHANGELOG["CHANGELOG.md<br/>Breaking Change"]
+        HANDOFF["handoff.md<br/>阶段交接"]
+    end
+
+    ORCH -->|"创建/读写"| CSV
+    ORCH -->|"创建/读写"| PROC
+    ORCH -->|"生成"| API_CONTRACT
+
+    BE -->|"更新 dev_state"| CSV
+    BE -->|"追加日志"| SYNC
+    BE -->|"更新变更"| CHANGELOG
+
+    FE -->|"更新 dev_state"| CSV
+    FE -->|"追加日志"| SYNC
+    FE -->|"读取合约"| API_CONTRACT
+
+    AUDIT -->|"只读全部"| CSV
+    AUDIT -->|"只读全部"| PROC
+    AUDIT -->|"写入审查报告"| HANDOFF
+
+    subgraph GIT ["🌿 Git 分支隔离"]
+        MAIN["main（稳定主干）"]
+        BR_BE["feature/phase-XX-slug<br/>后端分支"]
+        BR_FE["feature/phase-XX-slug-fe<br/>前端分支"]
+    end
+
+    BE -->|"开发于"| BR_BE
+    FE -->|"开发于"| BR_FE
+    BR_BE -->|"完成 → merge"| MAIN
+    MAIN -->|"FE checkout"| BR_FE
+    BR_FE -->|"完成 → merge"| MAIN
+    AUDIT -->|"审查 main"| MAIN
+
+    style ORCH_BOX fill:#1b4332,stroke:#2d6a4f,color:#d8f3dc
+    style BE_BOX fill:#003049,stroke:#023e8a,color:#caf0f8
+    style FE_BOX fill:#3c1642,stroke:#7b2cbf,color:#e0aaff
+    style AUDIT_BOX fill:#6a040f,stroke:#9d0208,color:#ffccd5
+    style FS fill:#212529,stroke:#495057,color:#dee2e6
+    style GIT fill:#1a1a2e,stroke:#16213e,color:#e0e0e0

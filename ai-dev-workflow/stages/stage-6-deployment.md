@@ -57,9 +57,9 @@ Compose 要求：
 | backend-test | push / PR | lint + unit + coverage | - |
 | frontend-test | push / PR | lint + component test + coverage | - |
 | security-scan | push / PR | 依赖漏洞 + secrets + SAST | - |
-| build | push to main | 构建镜像 | tests + security |
-| deploy-staging | push to main | 自动部署到 staging | build |
-| deploy-production | release tag | 人工批准后部署 | build |
+| build | push to dev | 构建镜像 | tests + security |
+| deploy-staging | push to dev | 自动部署到 staging | build |
+| deploy-production | merge to prod + tag | 人工批准后部署 | build |
 
 CI 规则：
 1. `actions/cache` 缓存依赖。
@@ -72,7 +72,8 @@ CI 规则：
 **多 Agent 分支 CI 适配**（多 Agent 并行模式下生效）：
 - 后端分支 (`feature/phase-XX-*` 不含 `-fe`) 仅触发 `backend-test` + `security-scan`
 - 前端分支 (`feature/phase-XX-*-fe`) 仅触发 `frontend-test` + `security-scan`
-- `main` 分支触发全量 CI（前后端 + 构建 + 部署）
+- `dev` 分支触发全量 CI（前后端 + 构建 + staging 部署）
+- `prod` 分支触发生产部署流水线
 - 实现方式：使用 `paths` 过滤或 `if` 条件判断分支名
 
 ```yaml
@@ -80,8 +81,8 @@ CI 规则：
 on:
   push:
     paths:
-      - 'backend/**'    # 触发 backend-test
-      - 'frontend/**'   # 触发 frontend-test
+      - 'src/backend/**'    # 触发 backend-test
+      - 'src/frontend/**'   # 触发 frontend-test
 ```
 
 ### Step 4：环境管理
@@ -125,11 +126,18 @@ on:
 - CI/CD 说明
 - 回滚方案
 
-### Step 9：最终提交
+### Step 9：合并发布与最终提交
 
 ```bash
+# 在 dev 分支提交部署配置
 git add .
 git commit -m "chore: harden deployment infrastructure and production readiness"
+
+# 合并到 prod 并打 Release Tag
+git checkout prod
+git merge dev
+git tag -a v1.0.0 -m "Release v1.0.0"
+git checkout dev
 ```
 
 ## 四、完成条件
@@ -160,4 +168,3 @@ git commit -m "chore: harden deployment infrastructure and production readiness"
 - 可一键启动的开发环境
 - 自动化 CI/CD 流水线
 - 安全合规基线
-

@@ -130,7 +130,46 @@ const storeSetup = () => {
   }
 
   // 初始化
+  const normalizeTabListByRoutes = () => {
+    const routeStore = useRouteStore()
+    const routeMap = new Map<string, RouteLocationNormalized>()
+    _XEUtils_.eachTree(routeStore.routes, (item) => {
+      item.path && routeMap.set(item.path, item as unknown as RouteLocationNormalized)
+    })
+
+    const mergedTabList = tabList.value
+      .map((item) => {
+        const route = routeMap.get(item.path)
+        if (!route) return item
+        return {
+          ...item,
+          meta: {
+            ...item.meta,
+            ...route.meta,
+          },
+        } as RouteLocationNormalized
+      })
+      .filter((item) => {
+        if (item.meta?.affix) return true
+        return (item.meta?.showInTabs ?? true) && item.meta?.hidden !== true
+      })
+
+    const deduped = new Map<string, RouteLocationNormalized>()
+    mergedTabList.forEach((item) => {
+      deduped.set(item.path, item)
+    })
+    tabList.value = [...deduped.values()]
+
+    const keepAliveNames = new Set(
+      tabList.value
+        .filter((item) => item.meta?.keepAlive && item.name)
+        .map((item) => item.name as RouteRecordName),
+    )
+    cacheList.value = cacheList.value.filter((name) => keepAliveNames.has(name))
+  }
+
   const init = () => {
+    normalizeTabListByRoutes()
     if (tabList.value.some((i) => !i?.meta.affix)) return
     reset()
   }

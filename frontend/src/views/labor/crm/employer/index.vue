@@ -20,7 +20,7 @@
         />
         <a-select
           v-model="queryForm.customerLevel"
-          :options="customerLevelOptions"
+          :options="EMPLOYER_LEVEL_OPTIONS"
           placeholder="客户等级"
           allow-clear
           style="width: 160px"
@@ -75,8 +75,8 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item field="customerLevel" label="客户等级" :rules="[{ required: true, message: '请输入客户等级' }]">
-              <a-select v-model="formState.customerLevel" :options="customerLevelOptions" />
+            <a-form-item field="customerLevel" label="客户等级" :rules="[{ required: true, message: '请选择客户等级' }]">
+              <a-select v-model="formState.customerLevel" :options="EMPLOYER_LEVEL_OPTIONS" />
             </a-form-item>
           </a-col>
           <a-col :span="24">
@@ -113,17 +113,13 @@ import {
   listEmployer,
   updateEmployer,
 } from '@/apis/labor/employer'
+import { EMPLOYER_LEVEL_LABEL_MAP, EMPLOYER_LEVEL_OPTIONS, toLaborLabel } from '@/constant/labor'
 import { useTable } from '@/hooks'
 import has from '@/utils/has'
 
 defineOptions({ name: 'LaborEmployer' })
 
-const customerLevelOptions = [
-  { label: 'A', value: 'A' },
-  { label: 'B', value: 'B' },
-  { label: 'C', value: 'C' },
-  { label: 'INACTIVE', value: 'INACTIVE' },
-]
+const getEmployerLevelLabel = (value?: string) => toLaborLabel(EMPLOYER_LEVEL_LABEL_MAP, value)
 
 const queryForm = reactive<EmployerQuery>({
   sort: ['updateTime,desc'],
@@ -147,7 +143,12 @@ const columns: TableInstance['columns'] = [
   { title: '单位编号', dataIndex: 'unitCode', width: 160 },
   { title: '单位名称', dataIndex: 'unitName', width: 240, ellipsis: true, tooltip: true },
   { title: '关联线索ID', dataIndex: 'leadId', width: 110 },
-  { title: '客户等级', dataIndex: 'customerLevel', width: 120 },
+  {
+    title: '客户等级',
+    dataIndex: 'customerLevel',
+    width: 120,
+    render: ({ record }) => h('span', {}, getEmployerLevelLabel(record.customerLevel)),
+  },
   { title: '地址', dataIndex: 'address', ellipsis: true, tooltip: true },
   { title: '外包', dataIndex: 'isOutsource', slotName: 'isOutsource', width: 90, align: 'center' },
   { title: '更新时间', dataIndex: 'updateTime', width: 180 },
@@ -215,9 +216,7 @@ const onCancel = () => {
 
 const onSave = async () => {
   const error = await formRef.value?.validate()
-  if (error) {
-    return false
-  }
+  if (error) return false
 
   saveLoading.value = true
   try {

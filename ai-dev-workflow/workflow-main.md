@@ -46,7 +46,7 @@ compatible: codex, claude, antigravity
 3. **人工验收门**：Stage 5 是阻断门，AI 不得自行跳过。
 4. **Agent 路由**：前端优先 Gemini，失败降级 Claude，再失败降级 Codex；后端默认 Codex；审计默认 Claude。
 5. **KISS / YAGNI**：不引入无关复杂度。
-6. **分支隔离**：每个 Phase 在 `feature/phase-XX-xxx` 分支执行，禁止直接在 `main` 开发。
+6. **分支隔离**：每个 Phase 在 `feature/phase-XX-xxx` 分支执行，禁止直接在 `dev` 或 `prod` 开发。`dev` 为开发主干，`prod` 为生产主干，仅 Stage 6 发布时从 `dev` merge 到 `prod`。
 7. **Stage 可重开策略**：Stage 0/1/2 默认一次性执行；若需求发生重大变更，可受控重开（需记录变更原因与影响）。
 8. **知识复用**：每个 Phase 结束后提炼可复用模式写入 `patterns/`。
 9. **Definition of Done（分层）**：
@@ -62,10 +62,10 @@ compatible: codex, claude, antigravity
     - 错误页面（404/403/500）必须提供回到首页或上一页的导航入口
     - Stage 1 架构设计时须输出**导航闭环矩阵**，Stage 3 任务分解时须包含闭环验收项，Stage 4 执行时须校验闭环，Stage 5 审查时须进行全路由闭环审计
 13. **多 Agent 协作原则**（多 Agent 并行模式下生效，详见 `multi-agent-protocol.md`）：
-    - **目录隔离**：Backend Agent 仅操作 `backend/`，Frontend Agent 仅操作 `frontend/`，禁止交叉修改
+    - **目录隔离**：Backend Agent 仅操作 `src/backend/`，Frontend Agent 仅操作 `src/frontend/`，禁止交叉修改
     - **共享边界**：仅 `docs/api-contracts/` 为共享区域，由 Orchestrator 创建、Backend 更新 CHANGELOG、Frontend 读取
     - **合约驱动同步**：前后端通过 API 合约 (OpenAPI YAML) 同步接口定义，Breaking Change 必须通过 CHANGELOG 追踪
-    - **分支隔离**：后端 `feature/phase-XX-<slug>`，前端 `feature/phase-XX-<slug>-fe`，禁止在同一分支混合开发
+    - **分支隔离**：后端 `feature/phase-XX-<slug>`，前端 `feature/phase-XX-<slug>-fe`，均从 `dev` 切出，禁止在同一分支混合开发
     - **文件驱动协调**：Agent 间通过 `SYNC.md` + `process.md` + `todolist.csv` 进行状态同步，不依赖实时通信
     - **跨角色状态检查**：每个角色在任务批次完成后检查其他角色状态，提示用户启动未开始的角色
 
@@ -94,6 +94,7 @@ Stage 0 -> Stage 1 -> Stage 2 -> [Stage 3 -> Stage 4 -> Stage 5] -> 循环 -> St
 ### Stage 0：项目初始化
 - 消化 Plan / 需求并生成 `docs/specification.md`
 - 技术选型与项目脚手架
+- **Git 分支初始化**：创建 `dev`（开发主干）+ `prod`（生产主干），执行 Branch Auto-Adapt Protocol 自动适配已有项目分支结构
 - **Shift-Left 基线**：在 Stage 0 建立最小 CI 骨架（lint + unit + secrets-scan）
 
 ### Stage 1：架构设计
@@ -124,6 +125,7 @@ Stage 0 -> Stage 1 -> Stage 2 -> [Stage 3 -> Stage 4 -> Stage 5] -> 循环 -> St
 - 通过后回到 Stage 3 处理下一 Phase 或进入 Stage 6
 
 ### Stage 6：部署与运维就绪
+- **合并发布**：将 `dev` merge 到 `prod`，打 Release Tag
 - 在已有 CI 基线之上做生产化增强（镜像、环境、发布、回滚、监控）
 - 校验各 Phase 的 migration 连续性与 schema 无漂移
 - 输出最终部署文档与交付报告
@@ -200,4 +202,3 @@ Stage 0 -> Stage 1 -> Stage 2 -> [Stage 3 -> Stage 4 -> Stage 5] -> 循环 -> St
 - `multi-agent-protocol.md`
 - `templates/sync.md`
 - `templates/api-changelog.md`
-

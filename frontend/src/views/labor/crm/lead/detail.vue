@@ -15,9 +15,11 @@
         <a-descriptions-item label="行业类型">{{ leadInfo.industryType || '-' }}</a-descriptions-item>
         <a-descriptions-item label="负责人ID">{{ leadInfo.bizOwnerId || '-' }}</a-descriptions-item>
         <a-descriptions-item label="合作状态">
-          <a-tag :color="statusColorMap[leadInfo.cooperationStatus] ?? 'arcoblue'">{{ leadInfo.cooperationStatus || '-' }}</a-tag>
+          <a-tag :color="LEAD_STATUS_COLOR_MAP[leadInfo.cooperationStatus || ''] ?? 'arcoblue'">
+            {{ getLeadStatusLabel(leadInfo.cooperationStatus) }}
+          </a-tag>
         </a-descriptions-item>
-        <a-descriptions-item label="保证金状态">{{ leadInfo.depositStatus || '-' }}</a-descriptions-item>
+        <a-descriptions-item label="保证金状态">{{ getDepositStatusLabel(leadInfo.depositStatus) }}</a-descriptions-item>
         <a-descriptions-item label="招标日期">{{ leadInfo.tenderAt || '-' }}</a-descriptions-item>
         <a-descriptions-item label="更新时间">{{ leadInfo.updateTime || '-' }}</a-descriptions-item>
       </a-descriptions>
@@ -28,12 +30,12 @@
         <a-card title="状态流转" :bordered="false">
           <a-space wrap>
             <a-button
-              v-for="status in transitionStatusOptions"
+              v-for="status in LEAD_TRANSITION_STATUS_OPTIONS"
               :key="status"
               v-permission="['labor:lead:transition']"
               @click="onTransition(status)"
             >
-              转为 {{ status }}
+              转为 {{ getLeadStatusLabel(status) }}
             </a-button>
           </a-space>
         </a-card>
@@ -68,14 +70,14 @@
         <a-timeline-item v-for="item in followUps" :key="item.id">
           <div class="follow-up-item">
             <div>
-              <strong>{{ item.action }}</strong>
-              <a-tag v-if="item.status" class="ml-2">{{ item.status }}</a-tag>
+              <strong>{{ getFollowActionLabel(item.action) }}</strong>
+              <a-tag v-if="item.status" class="ml-2">{{ getLeadStatusLabel(item.status) }}</a-tag>
             </div>
             <div class="text-secondary">{{ item.content || '-' }}</div>
             <div class="text-secondary">
-              {{ item.statusFrom ? `from: ${item.statusFrom}` : '' }}
-              {{ item.statusTo ? ` to: ${item.statusTo}` : '' }}
-              {{ item.nextContactAt ? ` next: ${item.nextContactAt}` : '' }}
+              <span v-if="item.statusFrom">原状态：{{ getLeadStatusLabel(item.statusFrom) }}</span>
+              <span v-if="item.statusTo"> → 新状态：{{ getLeadStatusLabel(item.statusTo) }}</span>
+              <span v-if="item.nextContactAt">，下次联系：{{ item.nextContactAt }}</span>
             </div>
             <div class="text-secondary">{{ item.createTime || '-' }}</div>
           </div>
@@ -98,6 +100,14 @@ import {
   listLeadFollowUp,
   transitionLeadStatus,
 } from '@/apis/labor/lead'
+import {
+  DEPOSIT_STATUS_LABEL_MAP,
+  LEAD_FOLLOW_UP_ACTION_LABEL_MAP,
+  LEAD_STATUS_COLOR_MAP,
+  LEAD_STATUS_LABEL_MAP,
+  LEAD_TRANSITION_STATUS_OPTIONS,
+  toLaborLabel,
+} from '@/constant/labor'
 
 defineOptions({ name: 'LaborLeadDetail' })
 
@@ -109,13 +119,9 @@ const loading = ref(false)
 const timelineLoading = ref(false)
 const followUpLoading = ref(false)
 
-const transitionStatusOptions = ['FOLLOWING', 'WON', 'LOST']
-const statusColorMap: Record<string, string> = {
-  NEW: 'arcoblue',
-  FOLLOWING: 'orangered',
-  WON: 'green',
-  LOST: 'gray',
-}
+const getLeadStatusLabel = (value?: string) => toLaborLabel(LEAD_STATUS_LABEL_MAP, value)
+const getDepositStatusLabel = (value?: string) => toLaborLabel(DEPOSIT_STATUS_LABEL_MAP, value)
+const getFollowActionLabel = (value?: string) => toLaborLabel(LEAD_FOLLOW_UP_ACTION_LABEL_MAP, value)
 
 const leadInfo = reactive<Partial<LeadResp>>({})
 const followUps = ref<LeadFollowUpResp[]>([])
@@ -155,7 +161,7 @@ const loadFollowUp = async () => {
 const onTransition = async (toStatus: string) => {
   if (!leadId.value) return
   await transitionLeadStatus(leadId.value, { toStatus })
-  Message.success('状态流转成功')
+  Message.success(`状态已流转为「${getLeadStatusLabel(toStatus)}」`)
   await loadLead()
   await loadFollowUp()
 }

@@ -20,7 +20,7 @@
         />
         <a-select
           v-model="queryForm.cooperationStatus"
-          :options="leadStatusOptions"
+          :options="LEAD_STATUS_OPTIONS"
           placeholder="合作状态"
           allow-clear
           style="width: 160px"
@@ -38,7 +38,9 @@
         </a-button>
       </template>
       <template #cooperationStatus="{ record }">
-        <a-tag :color="statusColorMap[record.cooperationStatus] ?? 'arcoblue'">{{ record.cooperationStatus }}</a-tag>
+        <a-tag :color="LEAD_STATUS_COLOR_MAP[record.cooperationStatus] ?? 'arcoblue'">
+          {{ getLeadStatusLabel(record.cooperationStatus) }}
+        </a-tag>
       </template>
       <template #action="{ record }">
         <a-space>
@@ -49,8 +51,12 @@
               <template #icon><icon-swap /></template>
             </a-button>
             <template #content>
-              <a-doption v-for="status in transitionStatusOptions" :key="status" @click="onTransition(record, status)">
-                {{ status }}
+              <a-doption
+                v-for="status in LEAD_TRANSITION_STATUS_OPTIONS"
+                :key="status"
+                @click="onTransition(record, status)"
+              >
+                转为 {{ getLeadStatusLabel(status) }}
               </a-doption>
             </template>
           </a-dropdown>
@@ -101,12 +107,12 @@
           </a-col>
           <a-col :span="12">
             <a-form-item field="cooperationStatus" label="合作状态" :rules="[{ required: true, message: '请选择合作状态' }]">
-              <a-select v-model="formState.cooperationStatus" :options="leadStatusOptions" />
+              <a-select v-model="formState.cooperationStatus" :options="LEAD_STATUS_OPTIONS" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item field="depositStatus" label="保证金状态" :rules="[{ required: true, message: '请输入保证金状态' }]">
-              <a-input v-model="formState.depositStatus" />
+            <a-form-item field="depositStatus" label="保证金状态" :rules="[{ required: true, message: '请选择保证金状态' }]">
+              <a-select v-model="formState.depositStatus" :options="DEPOSIT_STATUS_OPTIONS" />
             </a-form-item>
           </a-col>
           <a-col :span="24">
@@ -133,6 +139,15 @@ import {
   transitionLeadStatus,
   updateLead,
 } from '@/apis/labor/lead'
+import {
+  DEPOSIT_STATUS_LABEL_MAP,
+  DEPOSIT_STATUS_OPTIONS,
+  LEAD_STATUS_COLOR_MAP,
+  LEAD_STATUS_LABEL_MAP,
+  LEAD_STATUS_OPTIONS,
+  LEAD_TRANSITION_STATUS_OPTIONS,
+  toLaborLabel,
+} from '@/constant/labor'
 import { useTable } from '@/hooks'
 import has from '@/utils/has'
 
@@ -140,20 +155,8 @@ defineOptions({ name: 'LaborLead' })
 
 const router = useRouter()
 
-const leadStatusOptions = [
-  { label: 'NEW', value: 'NEW' },
-  { label: 'FOLLOWING', value: 'FOLLOWING' },
-  { label: 'WON', value: 'WON' },
-  { label: 'LOST', value: 'LOST' },
-]
-const transitionStatusOptions = ['FOLLOWING', 'WON', 'LOST']
-
-const statusColorMap: Record<string, string> = {
-  NEW: 'arcoblue',
-  FOLLOWING: 'orangered',
-  WON: 'green',
-  LOST: 'gray',
-}
+const getLeadStatusLabel = (value?: string) => toLaborLabel(LEAD_STATUS_LABEL_MAP, value)
+const getDepositStatusLabel = (value?: string) => toLaborLabel(DEPOSIT_STATUS_LABEL_MAP, value)
 
 const queryForm = reactive<LeadQuery>({
   sort: ['updateTime,desc'],
@@ -181,7 +184,12 @@ const columns: TableInstance['columns'] = [
   { title: '行业', dataIndex: 'industryType', width: 120 },
   { title: '负责人ID', dataIndex: 'bizOwnerId', width: 110 },
   { title: '合作状态', dataIndex: 'cooperationStatus', slotName: 'cooperationStatus', width: 120, align: 'center' },
-  { title: '保证金状态', dataIndex: 'depositStatus', width: 120 },
+  {
+    title: '保证金状态',
+    dataIndex: 'depositStatus',
+    width: 120,
+    render: ({ record }) => h('span', {}, getDepositStatusLabel(record.depositStatus)),
+  },
   { title: '更新时间', dataIndex: 'updateTime', width: 180 },
   {
     title: '操作',
@@ -251,9 +259,7 @@ const onCancel = () => {
 
 const onSave = async () => {
   const error = await formRef.value?.validate()
-  if (error) {
-    return false
-  }
+  if (error) return false
 
   saveLoading.value = true
   try {
@@ -280,7 +286,7 @@ const onDelete = (record: LeadResp) => {
 
 const onTransition = async (record: LeadResp, toStatus: string) => {
   await transitionLeadStatus(record.id, { toStatus })
-  Message.success('状态流转成功')
+  Message.success(`状态已流转为「${getLeadStatusLabel(toStatus)}」`)
   search()
 }
 

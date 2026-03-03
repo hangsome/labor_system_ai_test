@@ -1,0 +1,42 @@
+%% ─────────────────────────────────────────────
+%% 图 3: Agent 降级链与异常处理
+%% ─────────────────────────────────────────────
+---
+config:
+  theme: dark
+---
+flowchart LR
+    subgraph FRONTEND_CHAIN ["前端任务降级链"]
+        direction TB
+        G1["🟢 Gemini CLI<br/>主 Agent"]
+        G2["🟡 Claude CLI<br/>第一降级"]
+        G3["🔴 Codex CLI<br/>最终兜底"]
+
+        G1 -->|"429 / 限流 / 超时<br/>网络失败"| G2
+        G2 -->|"不可用"| G3
+    end
+
+    subgraph CLAUDE_UNAVAIL ["Claude 不可用处理"]
+        direction TB
+        BLOCKING["🚫 阻断门任务<br/>Stage 1 架构评审<br/>Stage 5 发布审计<br/>review_gate=blocking"]
+        NON_BLOCK["⚡ 非阻断审查<br/>常规 Code Review<br/>临时架构讨论"]
+
+        BLOCKING -->|"立即挂起<br/>通知用户转人工"| HUMAN["👤 人工审查"]
+        NON_BLOCK -->|"Codex 临时自审<br/>标记 self_review"| SELF["⏳ 待 Claude 恢复<br/>补正式审计"]
+    end
+
+    subgraph PIPE_REVIEW ["管道快捷审查（新增）"]
+        direction TB
+        DEV["主执行 Agent<br/>编写代码中..."]
+        PIPE["alias audit-security<br/>alias audit-arch<br/>audit-file()"]
+        RESULT["Claude 返回分析<br/>即完即走"]
+
+        DEV -->|"git diff 丨 claude"| PIPE
+        PIPE --> RESULT
+        RESULT -->|"修改建议"| DEV
+    end
+
+    style FRONTEND_CHAIN fill:#0f3460,stroke:#533483,color:#e0e0e0
+    style CLAUDE_UNAVAIL fill:#6a040f,stroke:#9d0208,color:#ffccd5
+    style PIPE_REVIEW fill:#1b4332,stroke:#2d6a4f,color:#d8f3dc
+    style BLOCKING fill:#9d0208,stroke:#e94560,color:#ffffff

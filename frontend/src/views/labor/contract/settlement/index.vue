@@ -21,7 +21,7 @@
         />
         <a-select
           v-model="queryForm.status"
-          :options="statusOptions"
+          :options="SETTLEMENT_STATUS_OPTIONS"
           placeholder="规则状态"
           allow-clear
           style="width: 160px"
@@ -44,8 +44,13 @@
           <a-button v-permission="['labor:settlement:active']" @click="queryActive">有效规则</a-button>
         </a-space>
       </template>
+      <template #ruleType="{ record }">
+        {{ getRuleTypeLabel(record.ruleType) }}
+      </template>
       <template #status="{ record }">
-        <a-tag :color="statusColorMap[record.status] ?? 'arcoblue'">{{ record.status }}</a-tag>
+        <a-tag :color="SETTLEMENT_STATUS_COLOR_MAP[record.status] ?? 'arcoblue'">
+          {{ getSettlementStatusLabel(record.status) }}
+        </a-tag>
       </template>
       <template #action="{ record }">
         <a-space>
@@ -73,8 +78,8 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item field="ruleType" label="规则类型" :rules="[{ required: true, message: '请输入规则类型' }]">
-              <a-input v-model="formState.ruleType" />
+            <a-form-item field="ruleType" label="规则类型" :rules="[{ required: true, message: '请选择规则类型' }]">
+              <a-select v-model="formState.ruleType" :options="SETTLEMENT_RULE_TYPE_OPTIONS" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
@@ -101,9 +106,17 @@
         <template #columns>
           <a-table-column title="ID" data-index="id" :width="90" />
           <a-table-column title="版本号" data-index="versionNo" :width="90" />
-          <a-table-column title="规则类型" data-index="ruleType" :width="120" />
+          <a-table-column title="规则类型" :width="120">
+            <template #cell="{ record }">
+              {{ getRuleTypeLabel(record.ruleType) }}
+            </template>
+          </a-table-column>
           <a-table-column title="生效日期" data-index="effectiveFrom" :width="120" />
-          <a-table-column title="状态" data-index="status" :width="120" />
+          <a-table-column title="状态" :width="120">
+            <template #cell="{ record }">
+              {{ getSettlementStatusLabel(record.status) }}
+            </template>
+          </a-table-column>
           <a-table-column title="发布时间" data-index="publishedAt" :width="180" />
           <a-table-column title="停用时间" data-index="deactivatedAt" :width="180" />
         </template>
@@ -115,9 +128,9 @@
         <a-descriptions-item label="规则ID">{{ activeRule?.id || '-' }}</a-descriptions-item>
         <a-descriptions-item label="合同ID">{{ activeRule?.contractId || '-' }}</a-descriptions-item>
         <a-descriptions-item label="版本号">{{ activeRule?.versionNo || '-' }}</a-descriptions-item>
-        <a-descriptions-item label="规则类型">{{ activeRule?.ruleType || '-' }}</a-descriptions-item>
+        <a-descriptions-item label="规则类型">{{ getRuleTypeLabel(activeRule?.ruleType) }}</a-descriptions-item>
         <a-descriptions-item label="生效日期">{{ activeRule?.effectiveFrom || '-' }}</a-descriptions-item>
-        <a-descriptions-item label="状态">{{ activeRule?.status || '-' }}</a-descriptions-item>
+        <a-descriptions-item label="状态">{{ getSettlementStatusLabel(activeRule?.status) }}</a-descriptions-item>
         <a-descriptions-item label="规则内容">{{ activeRule?.rulePayload || '-' }}</a-descriptions-item>
       </a-descriptions>
     </a-modal>
@@ -140,6 +153,14 @@ import {
   publishSettlementRule,
   updateSettlementRule,
 } from '@/apis/labor/settlement'
+import {
+  SETTLEMENT_RULE_TYPE_LABEL_MAP,
+  SETTLEMENT_RULE_TYPE_OPTIONS,
+  SETTLEMENT_STATUS_COLOR_MAP,
+  SETTLEMENT_STATUS_LABEL_MAP,
+  SETTLEMENT_STATUS_OPTIONS,
+  toLaborLabel,
+} from '@/constant/labor'
 import { useTable } from '@/hooks'
 import has from '@/utils/has'
 
@@ -147,17 +168,8 @@ defineOptions({ name: 'LaborSettlement' })
 
 const route = useRoute()
 
-const statusOptions = [
-  { label: 'DRAFT', value: 'DRAFT' },
-  { label: 'PUBLISHED', value: 'PUBLISHED' },
-  { label: 'DISABLED', value: 'DISABLED' },
-]
-
-const statusColorMap: Record<string, string> = {
-  DRAFT: 'arcoblue',
-  PUBLISHED: 'green',
-  DISABLED: 'gray',
-}
+const getRuleTypeLabel = (value?: string) => toLaborLabel(SETTLEMENT_RULE_TYPE_LABEL_MAP, value)
+const getSettlementStatusLabel = (value?: string) => toLaborLabel(SETTLEMENT_STATUS_LABEL_MAP, value)
 
 const queryForm = reactive<SettlementRuleQuery>({
   contractId: route.query.contractId ? Number(route.query.contractId) : undefined,
@@ -182,7 +194,7 @@ const columns: TableInstance['columns'] = [
   { title: '规则ID', dataIndex: 'id', width: 90 },
   { title: '合同ID', dataIndex: 'contractId', width: 100 },
   { title: '版本号', dataIndex: 'versionNo', width: 90 },
-  { title: '规则类型', dataIndex: 'ruleType', width: 120 },
+  { title: '规则类型', dataIndex: 'ruleType', slotName: 'ruleType', width: 120 },
   { title: '生效日期', dataIndex: 'effectiveFrom', width: 120 },
   { title: '状态', dataIndex: 'status', slotName: 'status', width: 120, align: 'center' },
   { title: '发布时间', dataIndex: 'publishedAt', width: 180 },

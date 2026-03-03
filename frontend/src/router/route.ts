@@ -28,7 +28,7 @@ export const systemRoutes: RouteRecordRaw[] = [
         path: '/dashboard/analysis',
         name: 'Analysis',
         component: () => import('@/views/dashboard/analysis/index.vue'),
-        meta: { title: '分析页', icon: 'insert-chart', hidden: false },
+        meta: { title: '分析页', icon: 'insert-chart', hidden: true, showInTabs: false },
       },
     ],
   },

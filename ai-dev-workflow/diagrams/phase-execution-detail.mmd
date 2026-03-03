@@ -1,0 +1,72 @@
+%% ─────────────────────────────────────────────
+%% 图 5: 单 Phase 执行流（Stage 3→4→5 详细子流程）
+%% ─────────────────────────────────────────────
+---
+config:
+  theme: dark
+---
+flowchart TB
+    PHASE_START([📋 进入 Phase N])
+
+    subgraph S3 ["Stage 3: 任务分解"]
+        S3_1["扫描 Phase 范围<br/>提取 Plan 对应模块"]
+        S3_2["生成 todolist.csv<br/>21 列结构化任务"]
+        S3_3["生成 feature-task/*.md<br/>每条任务详细说明"]
+        S3_4["补齐 migration/docs/infra<br/>演进任务"]
+        S3_5{{"API 合约生成<br/>phase-XX-*.yaml"}}
+
+        S3_1 --> S3_2 --> S3_3 --> S3_4 --> S3_5
+    end
+
+    subgraph S4 ["Stage 4: 阶段执行"]
+        S4_PICK["从 CSV 取下一条<br/>dev_state=未开始 的任务"]
+        S4_ROUTE{"路由决策<br/>area?"}
+        S4_BE["Codex/Antigravity<br/>执行后端任务"]
+        S4_FE["Gemini CLI<br/>执行前端任务"]
+        S4_DEV["编写代码 + 测试"]
+        S4_VAL{"val_command<br/>验证通过?"}
+        S4_OK["更新 CSV:<br/>dev_state=已完成<br/>test_state=已通过"]
+        S4_FAIL["定向回滚<br/>git restore<br/>修复后重试"]
+        S4_AUDIT_PIPE["管道审查（可选）<br/>git diff 丨 claude"]
+        S4_DONE{{"本 Phase 所有任务<br/>dev+test+git 达标?"}}
+
+        S4_PICK --> S4_ROUTE
+        S4_ROUTE -->|"backend"| S4_BE
+        S4_ROUTE -->|"frontend"| S4_FE
+        S4_BE --> S4_DEV
+        S4_FE --> S4_DEV
+        S4_DEV --> S4_VAL
+        S4_VAL -->|"✅ 通过"| S4_OK
+        S4_VAL -->|"❌ 失败"| S4_FAIL
+        S4_FAIL --> S4_DEV
+        S4_OK --> S4_AUDIT_PIPE
+        S4_AUDIT_PIPE --> S4_PICK
+        S4_OK --> S4_DONE
+    end
+
+    subgraph S5 ["Stage 5: 审查交接"]
+        S5_CLEAN["代码清理<br/>dead code / TODO 扫描"]
+        S5_TEST["回归测试<br/>全量 test suite"]
+        S5_CLAUDE["Claude 代码审计<br/>安全 · 架构 · 闭环"]
+        S5_DOC["文档同步校验<br/>Schema/API/迁移一致性"]
+        S5_HUMAN{{"🚫 人工验收<br/>阻断门"}}
+        S5_PASS["✅ 通过<br/>merge → main<br/>更新 process.md"]
+        S5_REJECT["❌ 打回<br/>创建修复任务<br/>回到 Stage 4"]
+
+        S5_CLEAN --> S5_TEST --> S5_CLAUDE --> S5_DOC --> S5_HUMAN
+        S5_HUMAN -->|"验收通过"| S5_PASS
+        S5_HUMAN -->|"验收不通过"| S5_REJECT
+    end
+
+    PHASE_START --> S3_1
+    S3_5 --> S4_PICK
+    S4_DONE -->|"✅ 达标"| S5_CLEAN
+    S5_PASS --> NEXT{{"还有下一 Phase?"}}
+    S5_REJECT --> S4_PICK
+    NEXT -->|"是"| PHASE_NEXT([📋 进入 Phase N+1<br/>回到 Stage 3])
+    NEXT -->|"否"| STAGE6([🚀 进入 Stage 6<br/>部署与运维])
+
+    style S3 fill:#1a1a2e,stroke:#16213e,color:#e0e0e0
+    style S4 fill:#0f3460,stroke:#533483,color:#e0e0e0
+    style S5 fill:#533483,stroke:#e94560,color:#ffffff
+    style S5_HUMAN fill:#e94560,stroke:#ff6b6b,color:#ffffff

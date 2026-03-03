@@ -13,6 +13,38 @@ const layoutComponentMap = {
   ParentView: () => import('@/components/ParentView/index.vue'),
 }
 
+const laborTitleMap: Record<string, string> = {
+  Labor: '劳务管理',
+  Lead: '线索管理',
+  Employer: '雇主管理',
+  Contract: '合同管理',
+  Settlement: '结算管理',
+  List: '列表',
+  Get: '详情',
+  Create: '新增',
+  Update: '修改',
+  Delete: '删除',
+  Transition: '状态流转',
+  FollowUpList: '跟进列表',
+  FollowUpCreate: '新增跟进',
+  LeadDetail: '线索详情',
+  Deactivate: '停用',
+  Sign: '签署',
+  Renew: '续签',
+  Terminate: '终止',
+  ContractDetail: '合同详情',
+  Publish: '发布',
+  Version: '版本',
+  Active: '生效',
+}
+
+const localizeLaborTitle = (item: RouteItem) => {
+  const title = item.title
+  if (!title) return title
+  if (!item.path?.startsWith('/labor') && !item.permission?.startsWith('labor:')) return title
+  return laborTitleMap[title] || title
+}
+
 /** 将component由字符串转成真正的模块 */
 const transformComponentView = (component: string) => {
   return layoutComponentMap[component as keyof typeof layoutComponentMap] || asyncRouteModules[component]
@@ -36,8 +68,11 @@ const formatAsyncRoutes = (menus: RouteItem[]) => {
     }
 
     // 部分子菜单，例如：通知公告新增、查看详情，需要选中其父菜单
-    if (item.parentId && item.type === 2 && item.permission) {
-      item.activeMenu = pathMap.get(item.parentId)
+    if (item.parentId && item.type === 2) {
+      const parentPath = pathMap.get(item.parentId)
+      if ((item.permission || item.isHidden) && !item.activeMenu) {
+        item.activeMenu = parentPath
+      }
     }
 
     return {
@@ -46,11 +81,11 @@ const formatAsyncRoutes = (menus: RouteItem[]) => {
       component: transformComponentView(item.component),
       redirect: item.redirect,
       meta: {
-        title: item.title,
+        title: localizeLaborTitle(item),
         hidden: item.isHidden,
         keepAlive: item.isCache,
         icon: item.icon,
-        showInTabs: item.showInTabs,
+        showInTabs: item.isHidden ? false : item.showInTabs,
         activeMenu: item.activeMenu,
       },
     }
@@ -74,6 +109,23 @@ export const flatMultiLevelRoutes = (routes: RouteRecordRaw[]) => {
   })
 }
 
+/**
+ * 在混合布局下，将 labor 一级菜单挂载到仪表盘左侧菜单层级
+ */
+const mountLaborUnderDashboardMenu = (allRoutes: RouteRecordRaw[]) => {
+  const dashboardRoute = allRoutes.find((item) => item.path === '/' && item.name === 'Dashboard')
+  const laborRouteIndex = allRoutes.findIndex((item) => item.path === '/labor')
+  if (!dashboardRoute || laborRouteIndex < 0) return allRoutes
+
+  const [laborRoute] = allRoutes.splice(laborRouteIndex, 1)
+  dashboardRoute.children = dashboardRoute.children || []
+  if (!dashboardRoute.children.some((item) => item.path === laborRoute.path)) {
+    dashboardRoute.children.push(laborRoute)
+    dashboardRoute.children.sort((a, b) => (a.meta?.sort ?? 0) - (b.meta?.sort ?? 0))
+  }
+  return allRoutes
+}
+
 const storeSetup = () => {
   // 所有路由(常驻路由 + 动态路由)
   const routes = ref<RouteRecordRaw[]>([])
@@ -83,8 +135,11 @@ const storeSetup = () => {
   // 合并路由
   const setRoutes = (data: RouteRecordRaw[]) => {
     // 合并路由并排序
-    routes.value = [...constantRoutes, ...systemRoutes].concat(data)
+    const staticRoutes = cloneDeep([...constantRoutes, ...systemRoutes])
+    const dynamicRoutes = cloneDeep(data)
+    const mergedRoutes = staticRoutes.concat(dynamicRoutes)
       .sort((a, b) => (a.meta?.sort ?? 0) - (b.meta?.sort ?? 0))
+    routes.value = mountLaborUnderDashboardMenu(mergedRoutes)
     asyncRoutes.value = data
   }
 

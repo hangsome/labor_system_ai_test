@@ -1,0 +1,50 @@
+%% ============================================================
+%% AI 大型系统开发工作流 - 完整架构图表
+%% 版本: 2.0 | 更新: 2026-03-02
+%% 包含: Stage 流转、Agent 角色、降级链、并行窗口、文件协调
+%% ============================================================
+
+%% ─────────────────────────────────────────────
+%% 图 1: 7 Stage 主流转（核心编排）
+%% ─────────────────────────────────────────────
+---
+config:
+  theme: dark
+---
+flowchart TB
+    START([🚀 用户提供 Plan / 需求描述]) --> S0
+
+    subgraph INIT ["初始化阶段"]
+        S0["Stage 0<br/>项目初始化<br/>─────────<br/>消化 Plan · 技术选型<br/>项目脚手架 · CI 基线"]
+        S1["Stage 1<br/>架构设计<br/>─────────<br/>系统分解 · DB Schema<br/>API 合约 · 测试策略"]
+        S2["Stage 2<br/>阶段规划<br/>─────────<br/>Phase 划分 (3-6个)<br/>目录结构 · 依赖排序"]
+    end
+
+    subgraph LOOP ["Phase 循环（每个 Phase 重复 3→4→5）"]
+        S3["Stage 3<br/>任务分解<br/>─────────<br/>生成 todolist.csv<br/>feature-task 详细说明<br/>含 migration/docs 任务"]
+        S4["Stage 4<br/>阶段执行<br/>─────────<br/>按 CSV 逐条执行<br/>dev + test + git 达标<br/>失败定向回滚"]
+        S5["Stage 5<br/>审查交接<br/>─────────<br/>Claude 代码审计<br/>人工验收阻断门 🚫<br/>文档同步校验"]
+    end
+
+    subgraph DEPLOY ["交付阶段"]
+        S6["Stage 6<br/>部署与运维就绪<br/>─────────<br/>CI/CD · Docker<br/>监控 · 回滚策略"]
+    end
+
+    S0 --> S1
+    S1 -->|"Claude 架构评审 ✅"| S2
+    S2 --> S3
+    S3 --> S4
+    S4 -->|"DoD: dev/test/git 达标"| S5
+
+    S5 -->|"✅ 人工验收通过<br/>还有下一 Phase"| S3
+    S5 -->|"✅ 所有 Phase 完成"| S6
+    S5 -->|"❌ 审查不通过<br/>打回修复"| S4
+
+    S6 --> DONE([🎉 系统交付])
+
+    S1 -.->|"❌ 评审不通过"| S1
+
+    style INIT fill:#1a1a2e,stroke:#16213e,color:#e0e0e0
+    style LOOP fill:#0f3460,stroke:#533483,color:#e0e0e0
+    style DEPLOY fill:#1a1a2e,stroke:#16213e,color:#e0e0e0
+    style S5 fill:#533483,stroke:#e94560,color:#ffffff

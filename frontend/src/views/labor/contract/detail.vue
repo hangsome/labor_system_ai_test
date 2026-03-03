@@ -12,13 +12,15 @@
         <a-descriptions-item label="合同编号">{{ contractInfo.contractNo || '-' }}</a-descriptions-item>
         <a-descriptions-item label="合同名称">{{ contractInfo.contractName || '-' }}</a-descriptions-item>
         <a-descriptions-item label="单位ID">{{ contractInfo.employerUnitId || '-' }}</a-descriptions-item>
-        <a-descriptions-item label="合同类型">{{ contractInfo.contractType || '-' }}</a-descriptions-item>
+        <a-descriptions-item label="合同类型">{{ getContractTypeLabel(contractInfo.contractType) }}</a-descriptions-item>
         <a-descriptions-item label="开始日期">{{ contractInfo.startDate || '-' }}</a-descriptions-item>
         <a-descriptions-item label="结束日期">{{ contractInfo.endDate || '-' }}</a-descriptions-item>
-        <a-descriptions-item label="结算周期">{{ contractInfo.settlementCycle || '-' }}</a-descriptions-item>
+        <a-descriptions-item label="结算周期">{{ getSettlementCycleLabel(contractInfo.settlementCycle) }}</a-descriptions-item>
         <a-descriptions-item label="税率">{{ contractInfo.taxRate || '-' }}</a-descriptions-item>
         <a-descriptions-item label="状态">
-          <a-tag :color="statusColorMap[contractInfo.status || ''] ?? 'arcoblue'">{{ contractInfo.status || '-' }}</a-tag>
+          <a-tag :color="CONTRACT_STATUS_COLOR_MAP[contractInfo.status || ''] ?? 'arcoblue'">
+            {{ getContractStatusLabel(contractInfo.status) }}
+          </a-tag>
         </a-descriptions-item>
         <a-descriptions-item label="更新时间">{{ contractInfo.updateTime || '-' }}</a-descriptions-item>
       </a-descriptions>
@@ -33,16 +35,24 @@
       </template>
 
       <a-alert v-if="activeRule" type="success" class="mb-3">
-        当前有效规则：version {{ activeRule.versionNo }} / status {{ activeRule.status }} / effective {{ activeRule.effectiveFrom }}
+        当前有效规则：版本 {{ activeRule.versionNo }} / 状态 {{ getSettlementStatusLabel(activeRule.status) }} / 生效日期 {{ activeRule.effectiveFrom }}
       </a-alert>
 
       <a-table :data="versions" :pagination="false" row-key="id" :scroll="{ x: '100%', minWidth: 900 }">
         <template #columns>
           <a-table-column title="版本ID" data-index="id" :width="90" />
           <a-table-column title="版本号" data-index="versionNo" :width="90" />
-          <a-table-column title="规则类型" data-index="ruleType" :width="120" />
+          <a-table-column title="规则类型" :width="120">
+            <template #cell="{ record }">
+              {{ getRuleTypeLabel(record.ruleType) }}
+            </template>
+          </a-table-column>
           <a-table-column title="生效日期" data-index="effectiveFrom" :width="120" />
-          <a-table-column title="状态" data-index="status" :width="120" />
+          <a-table-column title="状态" :width="120">
+            <template #cell="{ record }">
+              {{ getSettlementStatusLabel(record.status) }}
+            </template>
+          </a-table-column>
           <a-table-column title="发布时间" data-index="publishedAt" :width="180" />
           <a-table-column title="停用时间" data-index="deactivatedAt" :width="180" />
           <a-table-column title="规则内容" :width="260">
@@ -67,6 +77,15 @@ import {
   getActiveSettlementRule,
   listSettlementRuleVersion,
 } from '@/apis/labor/settlement'
+import {
+  CONTRACT_STATUS_COLOR_MAP,
+  CONTRACT_STATUS_LABEL_MAP,
+  CONTRACT_TYPE_LABEL_MAP,
+  SETTLEMENT_CYCLE_LABEL_MAP,
+  SETTLEMENT_RULE_TYPE_LABEL_MAP,
+  SETTLEMENT_STATUS_LABEL_MAP,
+  toLaborLabel,
+} from '@/constant/labor'
 
 defineOptions({ name: 'LaborContractDetail' })
 
@@ -77,11 +96,11 @@ const contractId = computed(() => String(route.query.id ?? ''))
 const loading = ref(false)
 const versionLoading = ref(false)
 
-const statusColorMap: Record<string, string> = {
-  DRAFT: 'arcoblue',
-  SIGNED: 'green',
-  TERMINATED: 'gray',
-}
+const getContractStatusLabel = (value?: string) => toLaborLabel(CONTRACT_STATUS_LABEL_MAP, value)
+const getContractTypeLabel = (value?: string) => toLaborLabel(CONTRACT_TYPE_LABEL_MAP, value)
+const getSettlementCycleLabel = (value?: string) => toLaborLabel(SETTLEMENT_CYCLE_LABEL_MAP, value)
+const getSettlementStatusLabel = (value?: string) => toLaborLabel(SETTLEMENT_STATUS_LABEL_MAP, value)
+const getRuleTypeLabel = (value?: string) => toLaborLabel(SETTLEMENT_RULE_TYPE_LABEL_MAP, value)
 
 const contractInfo = reactive<Partial<ContractResp>>({})
 const versions = ref<SettlementRuleResp[]>([])

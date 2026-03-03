@@ -20,7 +20,7 @@
         />
         <a-select
           v-model="queryForm.status"
-          :options="contractStatusOptions"
+          :options="CONTRACT_STATUS_OPTIONS"
           placeholder="合同状态"
           allow-clear
           style="width: 160px"
@@ -38,7 +38,9 @@
         </a-button>
       </template>
       <template #status="{ record }">
-        <a-tag :color="statusColorMap[record.status] ?? 'arcoblue'">{{ record.status }}</a-tag>
+        <a-tag :color="CONTRACT_STATUS_COLOR_MAP[record.status] ?? 'arcoblue'">
+          {{ getContractStatusLabel(record.status) }}
+        </a-tag>
       </template>
       <template #action="{ record }">
         <a-space>
@@ -79,7 +81,7 @@
           </a-col>
           <a-col :span="12">
             <a-form-item field="contractType" label="合同类型" :rules="[{ required: true, message: '请选择合同类型' }]">
-              <a-select v-model="formState.contractType" :options="contractTypeOptions" />
+              <a-select v-model="formState.contractType" :options="CONTRACT_TYPE_OPTIONS" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
@@ -93,8 +95,8 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item field="settlementCycle" label="结算周期" :rules="[{ required: true, message: '请输入结算周期' }]">
-              <a-input v-model="formState.settlementCycle" />
+            <a-form-item field="settlementCycle" label="结算周期" :rules="[{ required: true, message: '请选择结算周期' }]">
+              <a-select v-model="formState.settlementCycle" :options="SETTLEMENT_CYCLE_OPTIONS" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
@@ -154,6 +156,16 @@ import {
   terminateContract,
   updateContract,
 } from '@/apis/labor/contract'
+import {
+  CONTRACT_STATUS_COLOR_MAP,
+  CONTRACT_STATUS_LABEL_MAP,
+  CONTRACT_STATUS_OPTIONS,
+  CONTRACT_TYPE_LABEL_MAP,
+  CONTRACT_TYPE_OPTIONS,
+  SETTLEMENT_CYCLE_LABEL_MAP,
+  SETTLEMENT_CYCLE_OPTIONS,
+  toLaborLabel,
+} from '@/constant/labor'
 import { useTable } from '@/hooks'
 import has from '@/utils/has'
 
@@ -161,22 +173,9 @@ defineOptions({ name: 'LaborContract' })
 
 const router = useRouter()
 
-const contractStatusOptions = [
-  { label: 'DRAFT', value: 'DRAFT' },
-  { label: 'SIGNED', value: 'SIGNED' },
-  { label: 'TERMINATED', value: 'TERMINATED' },
-]
-
-const contractTypeOptions = [
-  { label: 'A', value: 'A' },
-  { label: 'B', value: 'B' },
-]
-
-const statusColorMap: Record<string, string> = {
-  DRAFT: 'arcoblue',
-  SIGNED: 'green',
-  TERMINATED: 'gray',
-}
+const getContractStatusLabel = (value?: string) => toLaborLabel(CONTRACT_STATUS_LABEL_MAP, value)
+const getContractTypeLabel = (value?: string) => toLaborLabel(CONTRACT_TYPE_LABEL_MAP, value)
+const getSettlementCycleLabel = (value?: string) => toLaborLabel(SETTLEMENT_CYCLE_LABEL_MAP, value)
 
 const queryForm = reactive<ContractQuery>({
   sort: ['updateTime,desc'],
@@ -200,10 +199,21 @@ const columns: TableInstance['columns'] = [
   { title: '合同编号', dataIndex: 'contractNo', width: 170, ellipsis: true, tooltip: true },
   { title: '合同名称', dataIndex: 'contractName', width: 220, ellipsis: true, tooltip: true },
   { title: '单位ID', dataIndex: 'employerUnitId', width: 100 },
-  { title: '类型', dataIndex: 'contractType', width: 80, align: 'center' },
+  {
+    title: '类型',
+    dataIndex: 'contractType',
+    width: 90,
+    align: 'center',
+    render: ({ record }) => h('span', {}, getContractTypeLabel(record.contractType)),
+  },
   { title: '开始日期', dataIndex: 'startDate', width: 120 },
   { title: '结束日期', dataIndex: 'endDate', width: 120 },
-  { title: '结算周期', dataIndex: 'settlementCycle', width: 120 },
+  {
+    title: '结算周期',
+    dataIndex: 'settlementCycle',
+    width: 120,
+    render: ({ record }) => h('span', {}, getSettlementCycleLabel(record.settlementCycle)),
+  },
   { title: '状态', dataIndex: 'status', slotName: 'status', width: 120, align: 'center' },
   { title: '税率', dataIndex: 'taxRate', width: 90 },
   { title: '更新时间', dataIndex: 'updateTime', width: 180 },
@@ -297,9 +307,7 @@ const onCancel = () => {
 
 const onSave = async () => {
   const error = await formRef.value?.validate()
-  if (error) {
-    return false
-  }
+  if (error) return false
 
   saveLoading.value = true
   try {

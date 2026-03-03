@@ -1,0 +1,27 @@
+%% ─────────────────────────────────────────────
+%% 图 6: Boot Protocol（会话启动流程）
+%% ─────────────────────────────────────────────
+---
+config:
+  theme: dark
+---
+flowchart TB
+    INPUT([用户输入含角色关键词<br/>如「后端工程师继续工作」])
+
+    STEP1["Step 1: 角色确认<br/>提取关键词 → 确认身份<br/>🎯 Backend / Frontend / Audit"]
+    STEP2["Step 2: 项目状态扫描<br/>读取 process.md → current_phase<br/>读取 SYNC.md → 其他 Agent 动态<br/>读取 todolist.csv → 过滤本角色任务"]
+    STEP3["Step 3: Phase 自动检测<br/>找第一个未完成的本角色 Phase"]
+    STEP4["Step 4: Git 分支切换<br/>检测 → 匹配 → 自动 checkout/create"]
+    STEP5["Step 5: 任务状态摘要<br/>📊 总/完成/进行中/未开始/阻塞"]
+    STEP6{"Step 6: 依赖检查"}
+
+    EXEC([▶️ 进入 Stage 4 执行流])
+    WAIT(["⏳ 等待模式<br/>输出阻塞原因 + 建议操作<br/>直接结束交互"])
+
+    INPUT --> STEP1 --> STEP2 --> STEP3 --> STEP4 --> STEP5 --> STEP6
+    STEP6 -->|"依赖已满足"| EXEC
+    STEP6 -->|"依赖未满足"| WAIT
+
+    style STEP6 fill:#e94560,stroke:#ff6b6b,color:#ffffff
+    style WAIT fill:#6a040f,stroke:#9d0208,color:#ffccd5
+    style EXEC fill:#1b4332,stroke:#2d6a4f,color:#d8f3dc

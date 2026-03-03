@@ -1,0 +1,30 @@
+%% ─────────────────────────────────────────────
+%% 图 4: 多 Agent 并行窗口时间线
+%% ─────────────────────────────────────────────
+gantt
+    title 多 Agent 并行执行时间线（后端领先前端 1 Phase）
+    dateFormat X
+    axisFormat %s
+
+    section Orchestrator
+    Stage 0-2 全局规划          :orch0, 0, 2
+    Stage 3 Phase 1 任务分解     :orch1, 2, 3
+    Stage 3 Phase 2 任务分解     :orch2, 5, 6
+    Stage 3 Phase 3 任务分解     :orch3, 9, 10
+    Stage 5 最终验收决策         :orch4, 14, 15
+    Stage 6 部署               :orch5, 15, 17
+
+    section Backend Engineer
+    Phase 1 后端开发            :be1, 3, 5
+    Phase 2 后端开发            :be2, 6, 9
+    Phase 3 后端开发            :be3, 10, 13
+
+    section Frontend Engineer
+    Phase 1 前端开发 (Mock→Real) :fe1, 4, 7
+    Phase 2 前端开发            :fe2, 8, 11
+    Phase 3 前端开发            :fe3, 11, 14
+
+    section Audit Engineer
+    Phase 1 代码审计            :au1, 7, 8
+    Phase 2 代码审计            :au2, 11, 12
+    Phase 3 代码审计            :au3, 14, 15
