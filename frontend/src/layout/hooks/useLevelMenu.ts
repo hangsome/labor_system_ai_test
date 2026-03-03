@@ -1,5 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
-import { eachTree, searchTree } from 'xe-utils'
+import { eachTree, findTree, searchTree } from 'xe-utils'
 import { useRouteListener } from '@/hooks'
 import { useRouteStore } from '@/stores'
 import { filterTree } from '@/utils'
@@ -16,13 +16,41 @@ export function useLevelMenu() {
   const cloneRoutes = JSON.parse(JSON.stringify(routeStore.routes)) as RouteRecordRaw[]
   const showMenuList = filterTree(cloneRoutes, (i) => i.meta?.hidden === false) as RouteRecordRaw[]
 
+  const findMenuNodeByPath = (path: string) => {
+    return findTree(showMenuList, (item) => item.path === path)?.item || null
+  }
+
   // 一级菜单
   const oneLevelMenus = ref<RouteRecordRaw[]>([])
 
   // 二级菜单
   const twoLevelMenus = computed(() => {
-    const path = route.matched[0].path
-    return showMenuList.find((i) => i.path === path)?.children || []
+    if (route.path.startsWith('/labor')) {
+      const workplaceNode = findMenuNodeByPath('/dashboard/workplace')
+      const laborNode = findMenuNodeByPath('/labor')
+      const menus = [workplaceNode, laborNode]
+        .filter((item): item is RouteRecordRaw => Boolean(item))
+        .filter((item, index, arr) => arr.findIndex((it) => it.path === item.path) === index)
+      if (menus.length) return menus
+    }
+
+    const candidatePaths = [
+      route.matched[0]?.path,
+      route.path,
+      route.meta?.activeMenu as string | undefined,
+    ].filter((item): item is string => Boolean(item))
+
+    for (const path of candidatePaths) {
+      const matchedPathNodes = searchTree(showMenuList, (i) => i.path === path)
+      if (!matchedPathNodes?.length) continue
+
+      const menuNode = matchedPathNodes.find((item) => item.children?.length)
+      if (menuNode?.children?.length) {
+        return menuNode.children
+      }
+    }
+
+    return []
   })
 
   // 一级菜单选中的路由
@@ -34,7 +62,8 @@ export function useLevelMenu() {
   }
 
   listenerRouteChange(({ to }) => {
-    oneLevelMenuActiveRoute.value = getOneLevelMenuActiveRoute(to.path)
+    const activePath = (to.meta?.activeMenu as string | undefined) || to.path
+    oneLevelMenuActiveRoute.value = getOneLevelMenuActiveRoute(activePath)
   })
 
   // 获取一级菜单
