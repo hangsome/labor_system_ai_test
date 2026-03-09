@@ -1,0 +1,21 @@
+[project]
+name = "labor-workflow-crew"
+version = "0.1.0"
+description = "CrewAI orchestration helpers for labor system workflow"
+readme = "README.md"
+requires-python = ">=3.10,<3.14"
+dependencies = [
+  "crewai>=0.165.1",
+  "python-dotenv>=1.0.1",
+  "pyyaml>=6.0.2",
+]
+
+[project.scripts]
+labor-workflow-crew = "labor_workflow_crew.main:run"
+
+[build-system]
+requires = ["setuptools>=69.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

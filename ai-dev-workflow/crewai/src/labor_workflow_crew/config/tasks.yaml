@@ -1,0 +1,42 @@
+diagnose:
+  description: >
+    Read the workflow snapshot below and summarize current delivery state.
+    Snapshot:
+    {workflow_snapshot}
+
+    Return:
+    1) current stage and confidence,
+    2) top 3 bottlenecks,
+    3) whether we should keep current routing or degrade.
+  expected_output: >
+    A markdown section with `Current Stage`, `Bottlenecks`, `Routing Decision`.
+
+backend_execution:
+  description: >
+    Based on diagnosis, execute dependency-ready backend/database tasks in current phase.
+    If no backend task is ready, return a short unblock checklist.
+    For tasks touched, append machine-readable markers on standalone lines:
+    IN_PROGRESS:<task_id>
+    DONE:<task_id>
+    FAILED:<task_id>
+  expected_output: >
+    A markdown execution report with changed files, commands, validation results, and task markers.
+
+frontend_execution:
+  description: >
+    Based on diagnosis and backend execution result, execute dependency-ready frontend tasks.
+    If dependencies are not ready, output an unblock checklist for next frontend task.
+    For tasks touched, append machine-readable markers on standalone lines:
+    IN_PROGRESS:<task_id>
+    DONE:<task_id>
+    FAILED:<task_id>
+  expected_output: >
+    A markdown frontend execution report with changed files, commands, validation results, and task markers.
+
+audit:
+  description: >
+    Review backend and frontend execution outputs.
+    Mark each risk as blocker/non-blocker and give mitigation.
+    If no blocker, explicitly state `BLOCKERS=NONE`.
+  expected_output: >
+    A markdown risk report with `BLOCKERS` summary and mitigation list for the current execution round.

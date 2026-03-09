@@ -1,0 +1,19 @@
+default_mode: cli
+
+providers:
+  openai:
+    base_url_env: OPENAI_API_BASE
+    api_key_env: OPENAI_API_KEY
+  anthropic:
+    base_url_env: ANTHROPIC_API_BASE
+    api_key_env: ANTHROPIC_API_KEY
+  gemini:
+    base_url_env: GEMINI_API_BASE
+    api_key_env: GEMINI_API_KEY
+
+roles:
+  backend: ${MODEL_BACKEND}
+  frontend: ${MODEL_FRONTEND}
+  architect: ${MODEL_ARCHITECT}
+  review: ${MODEL_REVIEW}
+  planning: ${MODEL_PLANNING}

@@ -23,6 +23,7 @@ output: todolist.csv + process.md + feature-tasks/
 7. **文档必须随代码演进**：凡涉及 API/领域模型/架构边界变更，必须生成对应 docs 刷新任务，禁止“最后统一补文档”。
 8. **CSV 保持轻量路由**：长文本验收标准与复杂验证步骤写入 `feature-tasks/*.md`，CSV 仅保留摘要与可执行入口。
 9. **中间件变更必须前置基础设施任务**：凡引入 Redis/MQ/ES 等依赖，先更新 `docker-compose.dev.yml` 并验证启动，再执行业务代码任务。
+10. **任务路径必须绑定真实仓库结构**：生成 `refs` 与目标目录前，必须先扫描当前仓库的真实前后端根路径；禁止把任务指向仓库中不存在的占位路径（如未实际存在的 `backend/src/...`、`frontend/src/views/...`）。
 
 ## 三、任务拆分规则
 
@@ -131,6 +132,14 @@ git checkout -b feature/phase-XX-<slug>
 - 需要创建哪些页面
 - 是否引入新中间件（Redis/MQ/ES/对象存储等）
 - 是否发生架构边界或领域模型变更（需同步文档）
+
+同时必须扫描仓库结构并记录真实落盘根目录：
+- 后端代码根路径（示例：`backend/continew-extension/...`）
+- 前端代码根路径（示例：`frontend/src/...`）
+- 数据库 migration 根路径
+- 文档根路径（`docs/`）
+
+> 若某个目标目录尚不存在，先创建“脚手架/模块初始化”任务，并将 `refs` 指向其父级真实存在目录；禁止直接引用仓库中不存在的深层目标路径。
 
 ### Step 2：功能→Feature Task 分解
 
@@ -252,6 +261,7 @@ Import-Csv "phases/phase-XX/todolist.csv" | Format-Table id, title, area, assign
 - [ ] ID 唯一且递增
 - [ ] Agent 分配合理
 - [ ] `val_command` 满足安全断言（无破坏性命令、无生产环境访问）
+- [ ] `refs` 仅引用仓库中真实存在的路径，或引用真实存在父目录下的计划新文件
 - [ ] 涉及 DB 结构变更时，存在 migration + `docs/database-schema.md` 更新任务
 - [ ] 涉及 API/模型/架构变更时，存在 `docs/api-contracts.md`（及必要时 `docs/architecture.md`）更新任务
 - [ ] 涉及新中间件时，存在 `docker-compose.dev.yml` 更新与启动验证任务，且被相关业务任务依赖
