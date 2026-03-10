@@ -43,3 +43,5 @@ ai-dev-workflow/crewai/src/**/*.egg-info/
 .crewai/flows/*.json
 docs/crewai/
 .serena/
+archive/
+输入框/

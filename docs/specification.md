@@ -1,10 +1,10 @@
-# 劳务系统 Specification（Stage 0）
+﻿# 劳务系统 Specification（Stage 0）
 
 ## 1. 输入物料核验
 
 | 物料 | 状态 | 来源 |
 |---|---|---|
-| Plan 文件 | ✅ | `plan2026-02-26.md` |
+| Plan 文件 | ✅ | 当前以 `phases/` 目录中的阶段计划为准 |
 | 产品原型图 | ✅ | Calicat `file_id=2009807574801920000` |
 | 需求文档 | ✅ | Calicat PRD（见 `docs/calicat-inputs.md`） |
 
@@ -182,4 +182,5 @@
 1. Plan 文件写明目标 Java 21，本地环境当前为 JDK 17，需要在 Stage 1 决定是否统一升级。
 2. Calicat PRD 数量较多且存在重复版本，后续需在 Stage 1 固化“单一事实来源”清单。
 3. 当前仅完成 Stage 0 规格化，尚未进入架构评审与 Phase 划分。
+
 
