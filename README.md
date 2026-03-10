@@ -1,9 +1,10 @@
-﻿# 劳务系统（ContiNew 4.1.x 迁移版）
+# 劳务系统（ContiNew 4.1.x）
 
-本仓库已完成 Phase01 + Phase02 到 ContiNew 4.1.x 的脚手架切换：
+当前仓库只保留正在维护的主代码库、AI 工作流和阶段文档：
 - 后端目录：`backend/`
 - 前端目录：`frontend/`
-- 旧实现归档：`archive/src-legacy-phase12-20260303/`
+- AI 工作流：`ai-dev-workflow/`
+- 阶段文档：`phases/`
 
 ## 技术栈
 - 前端：Vue 3 + Vite + TypeScript + Arco Design（ContiNew UI）
@@ -13,15 +14,20 @@
 
 ## 目录
 ```text
+ai-dev-workflow/
 backend/
-frontend/
-archive/
-  src-legacy-phase12-20260303/
 database/
 docs/
+frontend/
 phases/
 scripts/
+产品原型/
 ```
+
+## 约定
+- 根目录 `process.md` 仅描述仓库主线与状态约定，不再承载阶段执行进度。
+- 各阶段的真实状态以 `phases/phase-xx-*/process.md` 和 `todolist.csv` 为准。
+- 历史归档代码和根目录旧计划文件已从主仓库清理，避免与当前开发主线混淆。
 
 ## 本地启动
 1. 启动依赖服务
@@ -46,7 +52,3 @@ pnpm dev
 ```bash
 docker compose up -d --build
 ```
-
-## 验证
-- 后端健康检查：`http://127.0.0.1:8000/actuator/health`
-- 前端地址：`http://127.0.0.1:${FRONTEND_PORT}`

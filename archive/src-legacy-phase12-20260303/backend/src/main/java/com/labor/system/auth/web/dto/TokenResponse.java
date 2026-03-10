@@ -1,4 +1,0 @@
-package com.labor.system.auth.web.dto;
-
-public record TokenResponse(String accessToken, String refreshToken, long expiresIn) {}
-
