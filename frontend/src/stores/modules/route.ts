@@ -19,6 +19,13 @@ const laborTitleMap: Record<string, string> = {
   Employer: '雇主管理',
   Contract: '合同管理',
   Settlement: '结算管理',
+  Workforce: '员工管理',
+  Employee: '员工档案',
+  Assignment: '派遣关系',
+  Attendance: '考勤管理',
+  Shift: '排班管理',
+  Record: '考勤记录',
+  Correction: '补卡审批',
   List: '列表',
   Get: '详情',
   Create: '新增',
@@ -36,6 +43,9 @@ const laborTitleMap: Record<string, string> = {
   Publish: '发布',
   Version: '版本',
   Active: '生效',
+  Offboard: '离职',
+  Approve: '审批通过',
+  Reject: '审批驳回',
 }
 
 const localizeLaborTitle = (item: RouteItem) => {

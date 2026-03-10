@@ -165,3 +165,175 @@ export interface SettlementRuleReq {
   effectiveFrom: string
   rulePayload: string
 }
+
+export interface EmployeeResp {
+  id: string
+  employeeNo: string
+  name: string
+  idNo?: string
+  phone?: string
+  deptId?: string
+  status: string
+  hiredAt: string
+  offboardAt?: string
+  accountName?: string
+  bankName?: string
+  bankNo?: string
+  createUserString?: string
+  createTime?: string
+  updateUserString?: string
+  updateTime?: string
+}
+
+export interface EmployeeQuery {
+  description?: string
+  status?: string
+  deptId?: number
+  sort: Array<string>
+}
+
+export interface EmployeePageQuery extends EmployeeQuery, PageQuery {}
+
+export interface EmployeeReq {
+  employeeNo: string
+  name: string
+  idNo?: string
+  phone?: string
+  deptId?: number
+  hiredAt: string
+  accountName: string
+  bankName: string
+  bankNo: string
+}
+
+export interface EmployeeOffboardReq {
+  offboardAt: string
+  reason?: string
+}
+
+export interface AssignmentResp {
+  id: string
+  contractId: string
+  employeeId: string
+  positionName?: string
+  levelName?: string
+  assignedAt: string
+  unassignedAt?: string
+  status: string
+  createUserString?: string
+  createTime?: string
+  updateUserString?: string
+  updateTime?: string
+}
+
+export interface AssignmentQuery {
+  description?: string
+  contractId?: number
+  employeeId?: number
+  status?: string
+  sort: Array<string>
+}
+
+export interface AssignmentPageQuery extends AssignmentQuery, PageQuery {}
+
+export interface AssignmentReq {
+  contractId: number
+  employeeId: number
+  positionName?: string
+  levelName?: string
+  assignedAt: string
+  unassignedAt?: string
+}
+
+export interface ShiftResp {
+  id: string
+  contractId: string
+  shiftName: string
+  startTime: string
+  endTime: string
+  createUserString?: string
+  createTime?: string
+  updateUserString?: string
+  updateTime?: string
+}
+
+export interface ShiftQuery {
+  shiftName?: string
+  contractId?: number
+  sort: Array<string>
+}
+
+export interface ShiftPageQuery extends ShiftQuery, PageQuery {}
+
+export interface ShiftReq {
+  contractId: number
+  shiftName: string
+  startTime: string
+  endTime: string
+}
+
+export interface AttendanceResp {
+  id: string
+  contractId: string
+  employeeId: string
+  workDate: string
+  shiftId: string
+  checkInAt?: string
+  checkOutAt?: string
+  workMinutes: number
+  overtimeMinutes: number
+  status: string
+  createUserString?: string
+  createTime?: string
+  updateUserString?: string
+  updateTime?: string
+}
+
+export interface AttendanceQuery {
+  contractId?: number
+  employeeId?: number
+  shiftId?: number
+  workDate?: string
+  status?: string
+  sort: Array<string>
+}
+
+export interface AttendancePageQuery extends AttendanceQuery, PageQuery {}
+
+export interface AttendanceReq {
+  contractId: number
+  employeeId: number
+  workDate: string
+  shiftId: number
+  checkInAt?: string
+  checkOutAt?: string
+}
+
+export interface CorrectionResp {
+  id: string
+  attendanceId: string
+  employeeId: string
+  reason: string
+  status: string
+  reviewedBy?: string
+  reviewedAt?: string
+  createUserString?: string
+  createTime?: string
+  updateUserString?: string
+  updateTime?: string
+}
+
+export interface CorrectionQuery {
+  attendanceId?: number
+  employeeId?: number
+  status?: string
+  sort: Array<string>
+}
+
+export interface CorrectionPageQuery extends CorrectionQuery, PageQuery {}
+
+export interface CorrectionReq {
+  attendanceId: number
+  employeeId: number
+  reason: string
+}
