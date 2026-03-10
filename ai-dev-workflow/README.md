@@ -4,6 +4,11 @@
 
 一套面向大型系统从零到一开发的 AI 工作流。通过分阶段执行、多 Agent 协作、CSV 任务跟踪，实现可追溯的全栈交付。
 
+当前仓库推荐把它拆成两种使用模式：
+
+- 开发期：Codex 单会话主导，ClawAI 只处理低耦合 ready 队列
+- 迭代期：ClawAI 处理小批量增量改动、脚手架和文档同步
+
 ---
 
 ## 核心特性
@@ -13,6 +18,8 @@
 - 任务级状态管理：`todolist.csv` + `process.md`
 - 断点恢复：支持会话中断后继续执行
 - 知识复用：`patterns/` 模式沉淀
+- Profile 化执行：`development` / `maintenance` / `legacy-docs`
+- Phase 局部状态：执行态只写 `phases/phase-XX/`
 
 ## 前置条件
 
@@ -57,6 +64,24 @@ ai-dev-workflow/
 
 ## 快速使用
 
+### 推荐入口
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/ai/run-crewai.ps1 -Profile development -TargetPhase 3
+```
+
+如需低风险增量迭代：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/ai/run-crewai.ps1 -Profile maintenance -TargetPhase 3
+```
+
+仅在需要旧版 docs-only 诊断时才使用：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/ai/run-crewai.ps1 -Profile legacy-docs
+```
+
 ### 在 Codex 中
 
 ```text
@@ -99,3 +124,11 @@ Stage 0: 项目初始化
 | Claude | 审计 + 评审 | 阻断门审查 |
 
 详见 `agent-routing.md`。
+
+## 仓库治理补充
+
+- 根目录 `process.md` 视为项目总览，不作为 Phase 执行状态源
+- 运行时产物位于 `.crewai/flows/` 与 `docs/crewai/`，不进入稳定开发分支
+- 提交前可运行 `scripts/ai/check-duplicate-artifacts.ps1 -FailOnDuplicate`
+- 需要回到干净测试态时可运行 `scripts/ai/cleanup-workflow-runtime.ps1`
+- 协作模式说明见 `../docs/ai-collaboration-playbook.md`

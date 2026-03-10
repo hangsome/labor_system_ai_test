@@ -2,7 +2,7 @@
 description: AI 大型系统开发工作流 - 主编排文件（从零到一，分阶段执行）
 version: "2.0"
 updated_at: "2026-03-01"
-compatible: codex, claude, antigravity
+compatible: codex, claude, antigravity, crewai
 ---
 
 # AI 大型系统开发工作流 - 主编排
@@ -43,25 +43,27 @@ compatible: codex, claude, antigravity
 
 1. **分阶段推进**：不跳跃 Stage，每个 Stage 有清晰输入/输出/完成条件。
 2. **文件即状态**：计划、任务、进度必须落盘（CSV / Markdown）。
-3. **人工验收门**：Stage 5 是阻断门，AI 不得自行跳过。
-4. **Agent 路由**：前端优先 Gemini，失败降级 Claude，再失败降级 Codex；后端默认 Codex；审计默认 Claude。
-5. **KISS / YAGNI**：不引入无关复杂度。
-6. **分支隔离**：每个 Phase 在 `feature/phase-XX-xxx` 分支执行，禁止直接在 `dev` 或 `prod` 开发。`dev` 为开发主干，`prod` 为生产主干，仅 Stage 6 发布时从 `dev` merge 到 `prod`。
-7. **Stage 可重开策略**：Stage 0/1/2 默认一次性执行；若需求发生重大变更，可受控重开（需记录变更原因与影响）。
-8. **知识复用**：每个 Phase 结束后提炼可复用模式写入 `patterns/`。
-9. **Definition of Done（分层）**：
+3. **Phase 局部状态优先**：执行态只写 `phases/phase-XX/process.md` 与 `phases/phase-XX/todolist.csv`，根目录 `process.md` 仅作为总览与交接摘要。
+4. **开发期与迭代期分离**：开发期以单主 agent + 少量受控并行为主；迭代期才放宽到 ClawAI 批量调度。
+5. **人工验收门**：Stage 5 是阻断门，AI 不得自行跳过。
+6. **Agent 路由**：前端优先 Gemini，失败降级 Claude，再失败降级 Codex；后端默认 Codex；审计默认 Claude。
+7. **KISS / YAGNI**：不引入无关复杂度。
+8. **分支隔离**：每个 Phase 在 `feature/phase-XX-xxx` 分支执行，禁止直接在 `dev` 或 `prod` 开发。`dev` 为开发主干，`prod` 为生产主干，仅 Stage 6 发布时从 `dev` merge 到 `prod`。
+9. **Stage 可重开策略**：Stage 0/1/2 默认一次性执行；若需求发生重大变更，可受控重开（需记录变更原因与影响）。
+10. **知识复用**：每个 Phase 结束后提炼可复用模式写入 `patterns/`。
+11. **Definition of Done（分层）**：
    - Stage 4 执行 DoD：`dev_state + test_state + git_state` 达标
    - Stage 5 验收 DoD：`review_state` 达标并通过人工验收
-10. **演进同步原则**：Schema/API/架构文档与本地基础设施必须随每个 Phase 增量更新，禁止集中到项目末尾补写。
-11. **产品对齐原则**：AI 在每个 Stage 开始时必须**主动扫描**项目目录，检测是否存在产品原型（`docs/prototypes/`、`design/`、`mockups/` 等目录中的图片/PDF/Figma 导出文件）或 UI 规格相关的需求文档（`docs/` 下的 PRD、需求文档等）。一旦发现，前端任务必须 **1:1 还原**原型设计，不得自行发挥或简化。对齐粒度包括：布局结构、组件层级、间距配色、字体排版、交互行为。Stage 4 执行时必须逐一对照原型，Stage 5 审查时必须进行视觉对齐度验收。
-12. **前端交互闭环原则**：所有前端页面的路由跳转与交互操作必须形成**操作闭环**，禁止出现"导航死胡同"。具体要求：
+12. **演进同步原则**：Schema/API/架构文档与本地基础设施必须随每个 Phase 增量更新，禁止集中到项目末尾补写。
+13. **产品对齐原则**：AI 在每个 Stage 开始时必须**主动扫描**项目目录，检测是否存在产品原型（`docs/prototypes/`、`design/`、`mockups/` 等目录中的图片/PDF/Figma 导出文件）或 UI 规格相关的需求文档（`docs/` 下的 PRD、需求文档等）。一旦发现，前端任务必须 **1:1 还原**原型设计，不得自行发挥或简化。对齐粒度包括：布局结构、组件层级、间距配色、字体排版、交互行为。Stage 4 执行时必须逐一对照原型，Stage 5 审查时必须进行视觉对齐度验收。
+14. **前端交互闭环原则**：所有前端页面的路由跳转与交互操作必须形成**操作闭环**，禁止出现"导航死胡同"。具体要求：
     - 每个路由页面必须提供明确的**返回/回退入口**（返回按钮、面包屑导航或侧边栏激活态）
     - 用户跳转到任何页面后都必须能通过 UI 元素回到上级页面或主页，禁止出现只能依赖浏览器后退的页面
     - 模态弹窗 / 抽屉 / 多步表单必须有关闭或取消操作，确保用户可随时退出流程
     - 表单提交后必须有明确的结果反馈和后续导航路径（如返回列表、跳转详情页）
     - 错误页面（404/403/500）必须提供回到首页或上一页的导航入口
     - Stage 1 架构设计时须输出**导航闭环矩阵**，Stage 3 任务分解时须包含闭环验收项，Stage 4 执行时须校验闭环，Stage 5 审查时须进行全路由闭环审计
-13. **多 Agent 协作原则**（多 Agent 并行模式下生效，详见 `multi-agent-protocol.md`）：
+15. **多 Agent 协作原则**（多 Agent 并行模式下生效，详见 `multi-agent-protocol.md`）：
     - **目录隔离**：Backend Agent 仅操作 `src/backend/`，Frontend Agent 仅操作 `src/frontend/`，禁止交叉修改
     - **共享边界**：仅 `docs/api-contracts/` 为共享区域，由 Orchestrator 创建、Backend 更新 CHANGELOG、Frontend 读取
     - **合约驱动同步**：前后端通过 API 合约 (OpenAPI YAML) 同步接口定义，Breaking Change 必须通过 CHANGELOG 追踪
@@ -116,6 +118,7 @@ Stage 0 -> Stage 1 -> Stage 2 -> [Stage 3 -> Stage 4 -> Stage 5] -> 循环 -> St
 ### Stage 4：阶段执行
 - 按 CSV 执行任务
 - 失败优先定向回滚，避免共享分支破坏
+- 开发期默认关闭每批 review，改由批次末尾或 Stage 5 统一审查
 - Stage 4 DoD：`dev/test/git` 达标；`review` 留给 Stage 5
 
 ### Stage 5：审查交接

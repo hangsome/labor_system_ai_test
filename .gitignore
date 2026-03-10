@@ -5,22 +5,41 @@ Thumbs.db
 .vscode/
 
 # Node / Frontend
-src/frontend/node_modules/
-src/frontend/dist/
-src/frontend/.cache/
-src/frontend/coverage/
-src/frontend/test-results/
-src/frontend/playwright-report/
+frontend/node_modules/
+frontend/dist/
+frontend/.cache/
+frontend/coverage/
+frontend/test-results/
+frontend/playwright-report/
 
 # Java / Backend
-src/backend/target/
+backend/target/
 *.class
 
 # Build / Temp
 *.log
 *.tmp
 *.swp
+tmp/
+.tmp/
+.tmp-cli-tests/
+logs/
 
 # Env
 .env
 .env.local
+ai-dev-workflow/config/.env
+
+# Python / CrewAI
+ai-dev-workflow/crewai/.venv/
+ai-dev-workflow/crewai/.pytest_cache/
+ai-dev-workflow/crewai/.mypy_cache/
+ai-dev-workflow/crewai/.ruff_cache/
+ai-dev-workflow/**/__pycache__/
+ai-dev-workflow/crewai/src/**/__pycache__/
+ai-dev-workflow/crewai/src/**/*.egg-info/
+
+# CrewAI persisted runtime state
+.crewai/flows/*.json
+docs/crewai/
+.serena/

@@ -82,6 +82,50 @@ export const SETTLEMENT_STATUS_COLOR_MAP: Record<string, string> = {
   DISABLED: 'gray',
 }
 
+export const EMPLOYEE_STATUS_LABEL_MAP: Record<string, string> = {
+  ACTIVE: '在职',
+  OFFBOARDED: '离职',
+}
+export const EMPLOYEE_STATUS_OPTIONS = buildOptions(EMPLOYEE_STATUS_LABEL_MAP)
+export const EMPLOYEE_STATUS_COLOR_MAP: Record<string, string> = {
+  ACTIVE: 'green',
+  OFFBOARDED: 'gray',
+}
+
+export const ASSIGNMENT_STATUS_LABEL_MAP: Record<string, string> = {
+  ACTIVE: '在岗',
+  ENDED: '已结束',
+}
+export const ASSIGNMENT_STATUS_OPTIONS = buildOptions(ASSIGNMENT_STATUS_LABEL_MAP)
+export const ASSIGNMENT_STATUS_COLOR_MAP: Record<string, string> = {
+  ACTIVE: 'arcoblue',
+  ENDED: 'gray',
+}
+
+export const ATTENDANCE_STATUS_LABEL_MAP: Record<string, string> = {
+  NORMAL: '正常',
+  ABNORMAL: '异常',
+  CORRECTED: '已修正',
+}
+export const ATTENDANCE_STATUS_OPTIONS = buildOptions(ATTENDANCE_STATUS_LABEL_MAP)
+export const ATTENDANCE_STATUS_COLOR_MAP: Record<string, string> = {
+  NORMAL: 'green',
+  ABNORMAL: 'orangered',
+  CORRECTED: 'arcoblue',
+}
+
+export const CORRECTION_STATUS_LABEL_MAP: Record<string, string> = {
+  PENDING: '待审批',
+  APPROVED: '已通过',
+  REJECTED: '已驳回',
+}
+export const CORRECTION_STATUS_OPTIONS = buildOptions(CORRECTION_STATUS_LABEL_MAP)
+export const CORRECTION_STATUS_COLOR_MAP: Record<string, string> = {
+  PENDING: 'orange',
+  APPROVED: 'green',
+  REJECTED: 'red',
+}
+
 export const toLaborLabel = (labelMap: Record<string, string>, value?: string | null) => {
   if (!value) return '-'
   return labelMap[value] || value
